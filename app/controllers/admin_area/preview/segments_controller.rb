@@ -8,6 +8,9 @@ module AdminArea
       def show
         @next_segment = next_segment_for(@course, @segment)
         @completions_by_segment_id = {}
+        @segment_completed = false
+        @locked = false
+        @lock_message = nil
         render "segments/show"
       end
 

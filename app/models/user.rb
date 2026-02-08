@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_many :segment_completions, dependent: :destroy
+  has_many :course_progresses, dependent: :destroy
 
   validates :email, presence: true, uniqueness: true
   validates :provider, presence: true

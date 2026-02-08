@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_08_205452) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_08_212757) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -74,6 +74,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_08_205452) do
     t.index ["course_id"], name: "index_chapters_on_course_id"
   end
 
+  create_table "course_progresses", force: :cascade do |t|
+    t.integer "course_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "last_segment_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["course_id"], name: "index_course_progresses_on_course_id"
+    t.index ["last_segment_id"], name: "index_course_progresses_on_last_segment_id"
+    t.index ["user_id", "course_id"], name: "index_course_progresses_on_user_id_and_course_id", unique: true
+    t.index ["user_id"], name: "index_course_progresses_on_user_id"
+  end
+
   create_table "courses", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "currency", default: "CZK", null: false
@@ -125,6 +137,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_08_205452) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "chapters", "courses"
+  add_foreign_key "course_progresses", "courses"
+  add_foreign_key "course_progresses", "segments", column: "last_segment_id"
+  add_foreign_key "course_progresses", "users"
   add_foreign_key "segment_completions", "segments"
   add_foreign_key "segment_completions", "users"
   add_foreign_key "segments", "chapters"

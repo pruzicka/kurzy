@@ -30,7 +30,7 @@
                 <% done = completions_by_segment_id&.key?(segment.id) %>
                 <% active = current_segment&.id == segment.id %>
                 <%= link_to segment_show_path(course, chapter, segment),
-                            data: { turbo_stream: true, turbo_frame: "_top" },
+                            data: { turbo_stream: true },
                             class: "flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-sm #{active ? "bg-gray-900 text-white" : "text-gray-800 hover:bg-gray-50"}" do %>
                   <span class="min-w-0 truncate font-medium"><%= segment.title %></span>
                   <span class="shrink-0 text-xs <%= active ? "text-white/70" : "text-gray-400" %>">

@@ -7,5 +7,7 @@ class CreateCourseProgresses < ActiveRecord::Migration[8.1]
 
       t.timestamps
     end
+
+    add_index :course_progresses, [:user_id, :course_id], unique: true
   end
 end

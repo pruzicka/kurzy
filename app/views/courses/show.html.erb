@@ -1,22 +1,23 @@
 <% content_for :layout_fullscreen, true %>
+<% content_for :title, @course.name %>
 
 <div class="min-h-screen w-full">
   <%= render "shared/navbar", course: @course %>
 
   <div class="flex h-[calc(100vh-57px)] w-full overflow-hidden">
     <div class="flex w-full max-w-[360px] shrink-0 flex-col border-r border-gray-200 bg-white/70 backdrop-blur">
-      <%= turbo_frame_tag "course_sidebar", class: "flex-1 overflow-y-auto" do %>
+      <div id="course_sidebar" class="flex-1 overflow-y-auto">
         <%= render "courses/sidebar", course: @course, current_segment: nil, completions_by_segment_id: @completions_by_segment_id %>
-      <% end %>
+      </div>
       <div class="border-t border-gray-200 bg-white px-5 py-3">
         <%= render "shared/footer_links" %>
       </div>
     </div>
 
     <div class="flex-1 bg-white">
-      <%= turbo_frame_tag "course_main", class: "h-full w-full" do %>
+      <div id="course_main" class="h-full w-full">
         <%= render "courses/main_hero", course: @course %>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>

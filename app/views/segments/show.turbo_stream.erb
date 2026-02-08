@@ -3,5 +3,15 @@
 <% end %>
 
 <%= turbo_stream.update "course_main" do %>
-  <%= render "segments/main_player", course: @course, segment: @segment, next_segment: @next_segment, segment_completed: @segment_completed %>
+  <%= render "segments/main_player",
+             course: @course,
+             segment: @segment,
+             next_segment: @next_segment,
+             segment_completed: @segment_completed,
+             locked: @locked,
+             lock_message: @lock_message %>
+<% end %>
+
+<%= turbo_stream.update "page_title" do %>
+  <%= "#{@course.name} - #{@segment.title}" %>
 <% end %>

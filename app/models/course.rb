@@ -2,6 +2,7 @@ class Course < ApplicationRecord
   STATUSES = %w[draft public archived].freeze
 
   has_many :chapters, -> { order(position: :asc) }, dependent: :destroy
+  has_many :course_progresses, dependent: :destroy
 
   has_rich_text :description
   has_one_attached :cover_image
