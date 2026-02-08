@@ -13,7 +13,7 @@
           <div class="mt-2 text-amber-800/80">Dokončete všechny segmenty v povinné kapitole a potom pokračujte.</div>
         </div>
       <% else %>
-      <% if segment.video.attached? %>
+      <% if segment.video_attached? %>
         <div data-controller="<%= admin_preview? ? "" : "video-completion" %>"
              <% unless admin_preview? %>
                data-video-completion-complete-url-value="<%= complete_course_chapter_segment_path(course, segment.chapter, segment) %>"
@@ -25,17 +25,17 @@
           playsinline
           preload="metadata"
           data-action="<%= admin_preview? ? "" : "ended->video-completion#complete" %>"
-          <% if segment.cover_image.attached? %>
-            poster="<%= admin_preview? ? rails_blob_path(segment.cover_image, disposition: "inline") : cover_image_course_chapter_segment_path(course, segment.chapter, segment) %>"
+          <% if segment.cover_image_attached? %>
+            poster="<%= admin_preview? ? rails_blob_path(segment.effective_cover_blob, disposition: "inline") : cover_image_course_chapter_segment_path(course, segment.chapter, segment) %>"
           <% end %>
         >
-          <source src="<%= admin_preview? ? rails_blob_path(segment.video, disposition: "inline") : video_course_chapter_segment_path(course, segment.chapter, segment) %>" type="video/mp4">
+          <source src="<%= admin_preview? ? rails_blob_path(segment.effective_video_blob, disposition: "inline") : video_course_chapter_segment_path(course, segment.chapter, segment) %>" type="video/mp4">
           Váš prohlížeč nepodporuje přehrávání videa.
         </video>
         </div>
-      <% elsif segment.cover_image.attached? %>
+      <% elsif segment.cover_image_attached? %>
         <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white">
-          <%= image_tag(admin_preview? ? rails_blob_path(segment.cover_image, disposition: "inline") : cover_image_course_chapter_segment_path(course, segment.chapter, segment), class: "w-full object-cover") %>
+          <%= image_tag(admin_preview? ? rails_blob_path(segment.effective_cover_blob, disposition: "inline") : cover_image_course_chapter_segment_path(course, segment.chapter, segment), class: "w-full object-cover") %>
         </div>
       <% end %>
 
@@ -88,7 +88,7 @@
       <%= link_to "Pokračovat",
                   segment_show_path(course, next_segment.chapter, next_segment),
                   data: { turbo_stream: true, video_completion_target: "continue" },
-                  class: "inline-flex w-full items-center justify-center rounded-2xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white hover:bg-black #{segment.video.attached? && !segment_completed ? "pointer-events-none opacity-60" : "" }" %>
+                  class: "inline-flex w-full items-center justify-center rounded-2xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white hover:bg-black #{segment.video_attached? && !segment_completed ? "pointer-events-none opacity-60" : "" }" %>
     <% else %>
       <%= link_to "Hotovo - zpět na kurz",
                   course_show_path(course, start: 1),

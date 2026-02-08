@@ -78,6 +78,8 @@ Rails.application.routes.draw do
         end
       end
     end
+
+    resources :media_assets, path: "media"
   end
 
   post "/auth/:provider/callback", to: "user_sessions#create"

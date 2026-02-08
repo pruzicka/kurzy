@@ -1,5 +1,7 @@
 class Segment < ApplicationRecord
   belongs_to :chapter
+  belongs_to :video_asset, class_name: "MediaAsset", optional: true
+  belongs_to :cover_asset, class_name: "MediaAsset", optional: true
   has_many :segment_completions, dependent: :destroy
 
   has_rich_text :content
@@ -37,6 +39,8 @@ class Segment < ApplicationRecord
   validate :cover_image_must_be_image
   validate :cover_image_must_be_under_size_limit
   validate :video_must_be_mp4
+  validate :video_asset_must_be_video
+  validate :cover_asset_must_be_image
 
   def move_up!
     neighbor = chapter.segments.where("position < ?", position).order(position: :desc).first
@@ -48,6 +52,22 @@ class Segment < ApplicationRecord
     neighbor = chapter.segments.where("position > ?", position).order(position: :asc).first
     return unless neighbor
     swap_positions!(neighbor)
+  end
+
+  def effective_video_blob
+    video_asset&.file&.blob || video&.blob
+  end
+
+  def effective_cover_blob
+    cover_asset&.file&.blob || cover_image&.blob
+  end
+
+  def video_attached?
+    effective_video_blob.present?
+  end
+
+  def cover_image_attached?
+    effective_cover_blob.present?
   end
 
   private
@@ -108,5 +128,19 @@ class Segment < ApplicationRecord
     return if ALLOWED_VIDEO_TYPES.include?(video.blob.content_type)
 
     errors.add(:video, "pouze MP4")
+  end
+
+  def video_asset_must_be_video
+    return if video_asset.blank?
+    return if video_asset.video?
+
+    errors.add(:video_asset, "musi byt video")
+  end
+
+  def cover_asset_must_be_image
+    return if cover_asset.blank?
+    return if cover_asset.image?
+
+    errors.add(:cover_asset, "musi byt obrazek")
   end
 end

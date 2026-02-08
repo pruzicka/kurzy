@@ -20,6 +20,24 @@
     <%= f.rich_text_area :content, placeholder: "Obsah segmentu..." %>
   </div>
 
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div class="flex flex-col gap-2">
+      <%= f.label :video_asset_id, "Video z knihovny (volitelné)", class: "text-sm font-medium text-gray-900" %>
+      <%= f.select :video_asset_id,
+                   options_from_collection_for_select(@video_assets, :id, :title, segment.video_asset_id),
+                   { include_blank: "— vyberte video —" },
+                   class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <%= f.label :cover_asset_id, "Náhled z knihovny (volitelné)", class: "text-sm font-medium text-gray-900" %>
+      <%= f.select :cover_asset_id,
+                   options_from_collection_for_select(@image_assets, :id, :title, segment.cover_asset_id),
+                   { include_blank: "— vyberte obrázek —" },
+                   class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
+    </div>
+  </div>
+
   <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
     <div class="flex flex-col gap-2">
       <%= f.label :cover_image, "Náhled (obrázek, volitelné)", class: "text-sm font-medium text-gray-900" %>
@@ -43,6 +61,19 @@
         </div>
         <div data-dropzone-target="progress" class="mt-3 space-y-2"></div>
       </div>
+
+      <% if segment.cover_asset.present? %>
+        <div class="flex items-center gap-3 text-xs text-gray-600">
+          <div class="min-w-0">
+            Z knihovny:
+            <%= link_to segment.cover_asset.title,
+                        rails_blob_path(segment.cover_asset.file, disposition: "inline"),
+                        class: "truncate font-medium text-gray-900 hover:underline",
+                        target: "_blank",
+                        rel: "noopener" %>
+          </div>
+        </div>
+      <% end %>
 
       <% if segment.cover_image.attached? %>
         <div class="flex items-center justify-between gap-3 text-xs text-gray-600">
@@ -80,6 +111,19 @@
         </div>
         <div data-dropzone-target="progress" class="mt-3 space-y-2"></div>
       </div>
+
+      <% if segment.video_asset.present? %>
+        <div class="flex items-center gap-3 text-xs text-gray-600">
+          <div class="min-w-0">
+            Z knihovny:
+            <%= link_to segment.video_asset.title,
+                        rails_blob_path(segment.video_asset.file, disposition: "inline"),
+                        class: "truncate font-medium text-gray-900 hover:underline",
+                        target: "_blank",
+                        rel: "noopener" %>
+          </div>
+        </div>
+      <% end %>
 
       <% if segment.video.attached? %>
         <div class="flex items-center justify-between gap-3 text-xs text-gray-600">

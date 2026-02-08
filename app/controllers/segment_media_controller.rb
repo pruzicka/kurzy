@@ -8,13 +8,15 @@ class SegmentMediaController < ApplicationController
   before_action :ensure_unlocked!
 
   def video
-    return head :not_found unless @segment.video.attached?
-    redirect_to_service_url(@segment.video.blob, disposition: "inline")
+    blob = @segment.effective_video_blob
+    return head :not_found unless blob
+    redirect_to_service_url(blob, disposition: "inline")
   end
 
   def cover_image
-    return head :not_found unless @segment.cover_image.attached?
-    redirect_to_service_url(@segment.cover_image.blob, disposition: "inline")
+    blob = @segment.effective_cover_blob
+    return head :not_found unless blob
+    redirect_to_service_url(blob, disposition: "inline")
   end
 
   def attachment

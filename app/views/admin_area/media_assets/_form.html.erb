@@ -1,0 +1,65 @@
+<%= form_with model: [:admin, media_asset], class: "flex flex-col gap-5" do |f| %>
+  <% if media_asset.errors.any? %>
+    <div class="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-900">
+      <div class="font-semibold">Formulář obsahuje chyby:</div>
+      <ul class="mt-2 list-disc pl-5">
+        <% media_asset.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div class="flex flex-col gap-2">
+      <%= f.label :title, "Název", class: "text-sm font-medium text-gray-900" %>
+      <%= f.text_field :title, class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <%= f.label :media_type, "Typ", class: "text-sm font-medium text-gray-900" %>
+      <%= f.select :media_type, MediaAsset::MEDIA_TYPES, {}, class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
+    </div>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <%= f.label :file, "Soubor (MP4 nebo obrázek)", class: "text-sm font-medium text-gray-900" %>
+    <div data-controller="dropzone" class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+      <%= f.file_field :file,
+                       direct_upload: true,
+                       accept: "video/mp4,image/*",
+                       data: { dropzone_target: "input", action: "change->dropzone#changed" },
+                       class: "sr-only" %>
+      <div
+        data-dropzone-target="area"
+        data-action="click->dropzone#open dragenter->dropzone#dragOver dragover->dropzone#dragOver dragleave->dropzone#dragLeave drop->dropzone#drop"
+        class="cursor-pointer rounded-2xl border border-dashed border-gray-300 bg-gray-50 px-4 py-6 text-center text-sm text-gray-700 hover:border-gray-400"
+      >
+        <div class="font-medium text-gray-900">Přetáhněte soubor sem</div>
+        <div class="mt-1 text-xs text-gray-600">
+          Video: MP4 (720p, H.264 + AAC). Obrázky: JPG/PNG/WebP/AVIF/GIF, ideálně do 10 MB.
+          <button type="button" data-action="click->dropzone#open" class="font-medium text-gray-900 underline underline-offset-2">přidat soubor</button>
+        </div>
+        <pre data-dropzone-target="files" class="mt-3 whitespace-pre-line text-xs text-gray-600"></pre>
+      </div>
+      <div data-dropzone-target="progress" class="mt-3 space-y-2"></div>
+    </div>
+
+    <% if media_asset.file.attached? %>
+      <div class="flex items-center justify-between gap-3 text-xs text-gray-600">
+        <%= link_to media_asset.file.filename.to_s, rails_blob_path(media_asset.file, disposition: "inline"), class: "truncate font-medium text-gray-900 hover:underline", target: "_blank", rel: "noopener" %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="flex flex-col gap-2">
+    <%= f.label :notes, "Poznámky (volitelné)", class: "text-sm font-medium text-gray-900" %>
+    <%= f.text_area :notes, rows: 3, class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
+  </div>
+
+  <div class="flex items-center gap-3">
+    <%= f.submit class: "inline-flex items-center justify-center rounded-2xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-black" %>
+    <%= link_to "Zpět", admin_media_assets_path, class: "inline-flex items-center justify-center rounded-2xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+  </div>
+<% end %>
+

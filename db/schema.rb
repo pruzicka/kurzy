@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_08_212757) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_09_000908) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -99,6 +99,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_08_212757) do
     t.index ["status"], name: "index_courses_on_status"
   end
 
+  create_table "media_assets", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "media_type", null: false
+    t.text "notes"
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["media_type"], name: "index_media_assets_on_media_type"
+  end
+
   create_table "segment_completions", force: :cascade do |t|
     t.datetime "completed_at"
     t.datetime "created_at", null: false
@@ -113,12 +122,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_08_212757) do
   create_table "segments", force: :cascade do |t|
     t.integer "chapter_id", null: false
     t.text "content"
+    t.integer "cover_asset_id"
     t.datetime "created_at", null: false
     t.integer "position", null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
+    t.integer "video_asset_id"
     t.index ["chapter_id", "position"], name: "index_segments_on_chapter_id_and_position", unique: true
     t.index ["chapter_id"], name: "index_segments_on_chapter_id"
+    t.index ["cover_asset_id"], name: "index_segments_on_cover_asset_id"
+    t.index ["video_asset_id"], name: "index_segments_on_video_asset_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -143,4 +156,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_08_212757) do
   add_foreign_key "segment_completions", "segments"
   add_foreign_key "segment_completions", "users"
   add_foreign_key "segments", "chapters"
+  add_foreign_key "segments", "media_assets", column: "cover_asset_id"
+  add_foreign_key "segments", "media_assets", column: "video_asset_id"
 end

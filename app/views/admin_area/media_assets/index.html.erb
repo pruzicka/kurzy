@@ -1,0 +1,94 @@
+<div class="flex items-end justify-between gap-4">
+  <div class="flex flex-col gap-1">
+    <h1 class="text-3xl font-semibold tracking-tight text-gray-900">Knihovna médií</h1>
+    <p class="text-sm text-gray-600">Videa a obrázky pro opětovné použití.</p>
+  </div>
+  <%= link_to "Nahrát média", new_admin_media_asset_path, class: "inline-flex items-center justify-center rounded-2xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-black" %>
+</div>
+
+<div class="mt-6 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+  <div class="grid grid-cols-12 gap-0 border-b border-gray-200 bg-gray-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-600">
+    <div class="col-span-5">Název</div>
+    <div class="col-span-2">Typ</div>
+    <div class="col-span-2 text-center">Použití</div>
+    <div class="col-span-3 text-right">Akce</div>
+  </div>
+
+  <% if @media_assets.any? %>
+    <div class="divide-y divide-gray-100">
+      <% @media_assets.each do |asset| %>
+        <div class="grid grid-cols-12 gap-0 px-4 py-4">
+          <div class="col-span-5">
+            <div class="flex items-center gap-3">
+              <% if asset.file.attached? %>
+                <% if asset.image? %>
+                  <% thumb = (asset.file.variant(resize_to_fill: [64, 36]).processed rescue nil) %>
+                  <% if thumb %>
+                    <%= image_tag thumb, class: "h-9 w-16 rounded-xl border border-gray-200 object-cover bg-white" %>
+                  <% else %>
+                    <%= image_tag rails_blob_path(asset.file, disposition: "inline"), class: "h-9 w-16 rounded-xl border border-gray-200 object-cover bg-white" %>
+                  <% end %>
+                <% elsif asset.video? %>
+                  <% preview = (asset.file.preview(resize_to_fill: [64, 36]).processed rescue nil) %>
+                  <% if preview %>
+                    <%= image_tag preview, class: "h-9 w-16 rounded-xl border border-gray-200 object-cover bg-white" %>
+                  <% else %>
+                    <div class="flex h-9 w-16 items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50 text-[10px] font-semibold text-gray-500">VIDEO</div>
+                  <% end %>
+                <% else %>
+                  <div class="flex h-9 w-16 items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50 text-[10px] font-semibold text-gray-500">MEDIA</div>
+                <% end %>
+              <% else %>
+                <div class="flex h-9 w-16 items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50 text-[10px] font-semibold text-gray-500">NO FILE</div>
+              <% end %>
+              <div class="min-w-0">
+                <div class="truncate font-medium text-gray-900"><%= asset.title %></div>
+                <% if asset.file.attached? %>
+                  <div class="mt-0.5 text-xs text-gray-600">
+                    <%= asset.file.filename.to_s %> · <%= number_to_human_size(asset.file.byte_size) %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-span-2">
+            <span class="inline-flex rounded-full border px-2.5 py-1 text-xs font-medium <%= asset.video? ? "bg-indigo-50 text-indigo-900 border-indigo-200" : "bg-emerald-50 text-emerald-900 border-emerald-200" %>">
+              <%= asset.media_type %>
+            </span>
+          </div>
+
+          <div class="col-span-2 text-center text-sm font-medium text-gray-900">
+            <%= asset.usage_count %>×
+          </div>
+
+          <div class="col-span-3 flex justify-end gap-2">
+            <%= link_to "Upravit", edit_admin_media_asset_path(asset), class: "rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+            <%= button_to "Smazat", admin_media_asset_path(asset), method: :delete, data: { turbo_confirm: "Smazat media?" }, class: "rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-medium text-rose-900 hover:bg-rose-100" %>
+          </div>
+
+          <% if asset.usage_count.positive? %>
+            <div class="col-span-12 mt-3 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-xs text-gray-700">
+              <span class="font-semibold text-gray-900">Použito v:</span>
+              <div class="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
+                <% asset.usage_segments.each do |segment| %>
+                  <div class="flex items-center justify-between gap-3 rounded-lg border border-gray-200 bg-white px-3 py-2">
+                    <div class="min-w-0">
+                      <div class="truncate font-medium text-gray-900"><%= segment.title %></div>
+                      <div class="mt-0.5 truncate text-[11px] text-gray-600">
+                        <%= segment.chapter.course.name %> · <%= segment.chapter.title %>
+                      </div>
+                    </div>
+                    <%= link_to "Segment", edit_admin_course_chapter_segment_path(segment.chapter.course, segment.chapter, segment), class: "shrink-0 rounded-lg border border-gray-300 bg-white px-2.5 py-1 text-[11px] font-medium text-gray-900 hover:bg-gray-50" %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="p-8 text-sm text-gray-700">Zatím tu nejsou žádná média. Nahrajte první.</div>
+  <% end %>
+</div>

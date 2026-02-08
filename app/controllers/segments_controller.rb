@@ -16,7 +16,7 @@ class SegmentsController < ApplicationController
 
     unless @locked
       # Non-video segments are considered completed once opened (there's nothing to "watch").
-      ensure_completion_for_non_video_segment! if !@segment.video.attached?
+      ensure_completion_for_non_video_segment! if !@segment.video_attached?
       update_course_progress!
     end
 

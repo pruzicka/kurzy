@@ -5,12 +5,14 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
 ActiveSupport	test/test_helper.rb	/^module ActiveSupport$/;"	m
+AddMediaAssetRefsToSegments	db/migrate/20260209000908_add_media_asset_refs_to_segments.rb	/^class AddMediaAssetRefsToSegments < ActiveRecord::Migration[8.1]$/;"	c
 AddUsernameToAdmins	db/migrate/20260208153221_add_username_to_admins.rb	/^class AddUsernameToAdmins < ActiveRecord::Migration[8.1]$/;"	c
 Admin	app/models/admin.rb	/^class Admin < ApplicationRecord$/;"	c
 AdminArea	app/controllers/admin_area/base_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/chapters_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/courses_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/dashboard_controller.rb	/^module AdminArea$/;"	m
+AdminArea	app/controllers/admin_area/media_assets_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/preview/base_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/preview/courses_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/preview/segments_controller.rb	/^module AdminArea$/;"	m
@@ -39,6 +41,7 @@ CreateActionTextTables	db/migrate/20260208175215_create_action_text_tables.actio
 CreateActiveStorageTables	db/migrate/20260208175214_create_active_storage_tables.active_storage.rb	/^class CreateActiveStorageTables < ActiveRecord::Migration[7.0]$/;"	c
 CreateCourseProgresses	db/migrate/20260208212535_create_course_progresses.rb	/^class CreateCourseProgresses < ActiveRecord::Migration[8.1]$/;"	c
 CreateCourses	db/migrate/20260208152842_create_courses.rb	/^class CreateCourses < ActiveRecord::Migration[8.1]$/;"	c
+CreateMediaAssets	db/migrate/20260209000907_create_media_assets.rb	/^class CreateMediaAssets < ActiveRecord::Migration[8.1]$/;"	c
 CreateSegmentCompletions	db/migrate/20260208205452_create_segment_completions.rb	/^class CreateSegmentCompletions < ActiveRecord::Migration[8.1]$/;"	c
 CreateSegments	db/migrate/20260208165425_create_segments.rb	/^class CreateSegments < ActiveRecord::Migration[8.1]$/;"	c
 CreateSteps	db/migrate/20260208165426_create_steps.rb	/^class CreateSteps < ActiveRecord::Migration[8.1]$/;"	c
@@ -50,6 +53,8 @@ HomeController	app/controllers/home_controller.rb	/^class HomeController < Appli
 Kurzy	config/application.rb	/^module Kurzy$/;"	m
 LoginController	app/controllers/login_controller.rb	/^class LoginController < ApplicationController$/;"	c
 MandatoryChapterLock	app/controllers/concerns/mandatory_chapter_lock.rb	/^module MandatoryChapterLock$/;"	m
+MediaAsset	app/models/media_asset.rb	/^class MediaAsset < ApplicationRecord$/;"	c
+MediaAssetsController	app/controllers/admin_area/media_assets_controller.rb	/^  class MediaAssetsController < BaseController$/;"	c	class:AdminArea
 PagesController	app/controllers/pages_controller.rb	/^class PagesController < ApplicationController$/;"	c
 Preview	app/controllers/admin_area/preview/base_controller.rb	/^  module Preview$/;"	m	class:AdminArea
 Preview	app/controllers/admin_area/preview/courses_controller.rb	/^  module Preview$/;"	m	class:AdminArea
@@ -98,23 +103,29 @@ change	db/migrate/20260208175215_create_action_text_tables.action_text.rb	/^  de
 change	db/migrate/20260208205452_create_segment_completions.rb	/^  def change$/;"	f	class:CreateSegmentCompletions
 change	db/migrate/20260208212535_create_course_progresses.rb	/^  def change$/;"	f	class:CreateCourseProgresses
 change	db/migrate/20260208212757_recreate_course_progresses_with_correct_foreign_key.rb	/^  def change$/;"	f	class:RecreateCourseProgressesWithCorrectForeignKey
+change	db/migrate/20260209000907_create_media_assets.rb	/^  def change$/;"	f	class:CreateMediaAssets
+change	db/migrate/20260209000908_add_media_asset_refs_to_segments.rb	/^  def change$/;"	f	class:AddMediaAssetRefsToSegments
 chapter_params	app/controllers/admin_area/chapters_controller.rb	/^    def chapter_params$/;"	f	class:AdminArea.ChaptersController
 course_params	app/controllers/admin_area/courses_controller.rb	/^    def course_params$/;"	f	class:AdminArea.CoursesController
 course_show_path	app/helpers/preview_paths_helper.rb	/^  def course_show_path(course, **params)$/;"	f	class:PreviewPathsHelper
 courses_list_path	app/helpers/preview_paths_helper.rb	/^  def courses_list_path(**params)$/;"	f	class:PreviewPathsHelper
+cover_asset_must_be_image	app/models/segment.rb	/^  def cover_asset_must_be_image$/;"	f	class:Segment
 cover_image	app/controllers/segment_media_controller.rb	/^  def cover_image$/;"	f	class:SegmentMediaController
+cover_image_attached?	app/models/segment.rb	/^  def cover_image_attached?$/;"	f	class:Segment
 cover_image_must_be_image	app/models/course.rb	/^  def cover_image_must_be_image$/;"	f	class:Course
 cover_image_must_be_image	app/models/segment.rb	/^  def cover_image_must_be_image$/;"	f	class:Segment
 cover_image_must_be_under_size_limit	app/models/course.rb	/^  def cover_image_must_be_under_size_limit$/;"	f	class:Course
 cover_image_must_be_under_size_limit	app/models/segment.rb	/^  def cover_image_must_be_under_size_limit$/;"	f	class:Segment
 create	app/controllers/admin_area/chapters_controller.rb	/^    def create$/;"	f	class:AdminArea.ChaptersController
 create	app/controllers/admin_area/courses_controller.rb	/^    def create$/;"	f	class:AdminArea.CoursesController
+create	app/controllers/admin_area/media_assets_controller.rb	/^    def create$/;"	f	class:AdminArea.MediaAssetsController
 create	app/controllers/admin_area/segments_controller.rb	/^    def create$/;"	f	class:AdminArea.SegmentsController
 create	app/controllers/segment_completions_controller.rb	/^  def create$/;"	f	class:SegmentCompletionsController
 create	app/controllers/user_sessions_controller.rb	/^  def create$/;"	f	class:UserSessionsController
 current_user	app/controllers/application_controller.rb	/^  def current_user$/;"	f	class:ApplicationController
 destroy	app/controllers/admin_area/chapters_controller.rb	/^    def destroy$/;"	f	class:AdminArea.ChaptersController
 destroy	app/controllers/admin_area/courses_controller.rb	/^    def destroy$/;"	f	class:AdminArea.CoursesController
+destroy	app/controllers/admin_area/media_assets_controller.rb	/^    def destroy$/;"	f	class:AdminArea.MediaAssetsController
 destroy	app/controllers/admin_area/segments_controller.rb	/^    def destroy$/;"	f	class:AdminArea.SegmentsController
 destroy	app/controllers/user_sessions_controller.rb	/^  def destroy$/;"	f	class:UserSessionsController
 destroy_attachment	app/controllers/admin_area/segments_controller.rb	/^    def destroy_attachment$/;"	f	class:AdminArea.SegmentsController
@@ -125,17 +136,28 @@ disclaimer	app/controllers/pages_controller.rb	/^  def disclaimer$/;"	f	class:Pa
 down	db/migrate/20260208172058_rename_segments_to_chapters_and_steps_to_segments.rb	/^  def down$/;"	f	class:RenameSegmentsToChaptersAndStepsToSegments
 edit	app/controllers/admin_area/chapters_controller.rb	/^    def edit$/;"	f	class:AdminArea.ChaptersController
 edit	app/controllers/admin_area/courses_controller.rb	/^    def edit$/;"	f	class:AdminArea.CoursesController
+edit	app/controllers/admin_area/media_assets_controller.rb	/^    def edit$/;"	f	class:AdminArea.MediaAssetsController
 edit	app/controllers/admin_area/segments_controller.rb	/^    def edit$/;"	f	class:AdminArea.SegmentsController
+effective_cover_blob	app/models/segment.rb	/^  def effective_cover_blob$/;"	f	class:Segment
+effective_video_blob	app/models/segment.rb	/^  def effective_video_blob$/;"	f	class:Segment
 ensure_completion_for_non_video_segment!	app/controllers/segments_controller.rb	/^  def ensure_completion_for_non_video_segment!$/;"	f	class:SegmentsController
 ensure_unlocked!	app/controllers/segment_media_controller.rb	/^  def ensure_unlocked!$/;"	f	class:SegmentMediaController
 failure	app/controllers/user_sessions_controller.rb	/^  def failure$/;"	f	class:UserSessionsController
+file_presence	app/models/media_asset.rb	/^  def file_presence$/;"	f	class:MediaAsset
+file_type_is_allowed	app/models/media_asset.rb	/^  def file_type_is_allowed$/;"	f	class:MediaAsset
 from.completeUrl	app/javascript/controllers/video_completion_controller.js	/^    completeUrl: String,$/;"	p
 from.completed	app/javascript/controllers/video_completion_controller.js	/^    completed: Boolean,$/;"	p
 from_omniauth	app/models/user.rb	/^  def self.from_omniauth(auth)$/;"	F	class:User
+image?	app/models/media_asset.rb	/^  def image?$/;"	f	class:MediaAsset
+image_size_under_limit	app/models/media_asset.rb	/^  def image_size_under_limit$/;"	f	class:MediaAsset
 index	app/controllers/admin_area/courses_controller.rb	/^    def index$/;"	f	class:AdminArea.CoursesController
+index	app/controllers/admin_area/media_assets_controller.rb	/^    def index$/;"	f	class:AdminArea.MediaAssetsController
 index	app/controllers/admin_area/preview/courses_controller.rb	/^      def index$/;"	f	class:AdminArea.Preview.CoursesController
 index	app/controllers/courses_controller.rb	/^  def index$/;"	f	class:CoursesController
 index	app/controllers/home_controller.rb	/^  def index$/;"	f	class:HomeController
+infer_media_type	app/models/media_asset.rb	/^  def infer_media_type$/;"	f	class:MediaAsset
+load_media_assets	app/controllers/admin_area/segments_controller.rb	/^    def load_media_assets$/;"	f	class:AdminArea.SegmentsController
+media_asset_params	app/controllers/admin_area/media_assets_controller.rb	/^    def media_asset_params$/;"	f	class:AdminArea.MediaAssetsController
 move_down	app/controllers/admin_area/chapters_controller.rb	/^    def move_down$/;"	f	class:AdminArea.ChaptersController
 move_down	app/controllers/admin_area/segments_controller.rb	/^    def move_down$/;"	f	class:AdminArea.SegmentsController
 move_down!	app/models/chapter.rb	/^  def move_down!$/;"	f	class:Chapter
@@ -147,6 +169,7 @@ move_up!	app/models/segment.rb	/^  def move_up!$/;"	f	class:Segment
 name	app/models/user.rb	/^  def name$/;"	f	class:User
 new	app/controllers/admin_area/chapters_controller.rb	/^    def new$/;"	f	class:AdminArea.ChaptersController
 new	app/controllers/admin_area/courses_controller.rb	/^    def new$/;"	f	class:AdminArea.CoursesController
+new	app/controllers/admin_area/media_assets_controller.rb	/^    def new$/;"	f	class:AdminArea.MediaAssetsController
 new	app/controllers/admin_area/segments_controller.rb	/^    def new$/;"	f	class:AdminArea.SegmentsController
 next_segment_for	app/controllers/admin_area/preview/segments_controller.rb	/^      def next_segment_for(course, segment)$/;"	f	class:AdminArea.Preview.SegmentsController
 next_segment_for	app/controllers/segments_controller.rb	/^  def next_segment_for(course, segment)$/;"	f	class:SegmentsController
@@ -157,6 +180,7 @@ redirect_to_service_url	app/controllers/segment_media_controller.rb	/^  def redi
 require_user!	app/controllers/application_controller.rb	/^  def require_user!$/;"	f	class:ApplicationController
 segment_params	app/controllers/admin_area/segments_controller.rb	/^    def segment_params$/;"	f	class:AdminArea.SegmentsController
 segment_show_path	app/helpers/preview_paths_helper.rb	/^  def segment_show_path(course, chapter, segment, **params)$/;"	f	class:PreviewPathsHelper
+set_active_storage_url_options	app/controllers/application_controller.rb	/^  def set_active_storage_url_options$/;"	f	class:ApplicationController
 set_chapter	app/controllers/admin_area/chapters_controller.rb	/^    def set_chapter$/;"	f	class:AdminArea.ChaptersController
 set_chapter	app/controllers/admin_area/preview/segments_controller.rb	/^      def set_chapter$/;"	f	class:AdminArea.Preview.SegmentsController
 set_chapter	app/controllers/admin_area/segments_controller.rb	/^    def set_chapter$/;"	f	class:AdminArea.SegmentsController
@@ -170,6 +194,7 @@ set_course	app/controllers/admin_area/segments_controller.rb	/^    def set_cours
 set_course	app/controllers/segment_completions_controller.rb	/^  def set_course$/;"	f	class:SegmentCompletionsController
 set_course	app/controllers/segment_media_controller.rb	/^  def set_course$/;"	f	class:SegmentMediaController
 set_course	app/controllers/segments_controller.rb	/^  def set_course$/;"	f	class:SegmentsController
+set_media_asset	app/controllers/admin_area/media_assets_controller.rb	/^    def set_media_asset$/;"	f	class:AdminArea.MediaAssetsController
 set_segment	app/controllers/admin_area/preview/segments_controller.rb	/^      def set_segment$/;"	f	class:AdminArea.Preview.SegmentsController
 set_segment	app/controllers/admin_area/segments_controller.rb	/^    def set_segment$/;"	f	class:AdminArea.SegmentsController
 set_segment	app/controllers/segment_completions_controller.rb	/^  def set_segment$/;"	f	class:SegmentCompletionsController
@@ -185,13 +210,20 @@ show	app/controllers/segments_controller.rb	/^  def show$/;"	f	class:SegmentsCon
 show	app/controllers/user_area/dashboard_controller.rb	/^    def show$/;"	f	class:UserArea.DashboardController
 swap_positions!	app/models/chapter.rb	/^  def swap_positions!(other)$/;"	f	class:Chapter
 swap_positions!	app/models/segment.rb	/^  def swap_positions!(other)$/;"	f	class:Segment
+sync_media_library!	app/controllers/admin_area/segments_controller.rb	/^    def sync_media_library!(segment)$/;"	f	class:AdminArea.SegmentsController
 system!	bin/setup	/^def system!(*args)$/;"	f
 terms	app/controllers/pages_controller.rb	/^  def terms$/;"	f	class:PagesController
 up	db/migrate/20260208172058_rename_segments_to_chapters_and_steps_to_segments.rb	/^  def up$/;"	f	class:RenameSegmentsToChaptersAndStepsToSegments
 update	app/controllers/admin_area/chapters_controller.rb	/^    def update$/;"	f	class:AdminArea.ChaptersController
 update	app/controllers/admin_area/courses_controller.rb	/^    def update$/;"	f	class:AdminArea.CoursesController
+update	app/controllers/admin_area/media_assets_controller.rb	/^    def update$/;"	f	class:AdminArea.MediaAssetsController
 update	app/controllers/admin_area/segments_controller.rb	/^    def update$/;"	f	class:AdminArea.SegmentsController
 update_course_progress!	app/controllers/segments_controller.rb	/^  def update_course_progress!$/;"	f	class:SegmentsController
+usage_count	app/models/media_asset.rb	/^  def usage_count$/;"	f	class:MediaAsset
+usage_segments	app/models/media_asset.rb	/^  def usage_segments$/;"	f	class:MediaAsset
 user_signed_in?	app/controllers/application_controller.rb	/^  def user_signed_in?$/;"	f	class:ApplicationController
 video	app/controllers/segment_media_controller.rb	/^  def video$/;"	f	class:SegmentMediaController
+video?	app/models/media_asset.rb	/^  def video?$/;"	f	class:MediaAsset
+video_asset_must_be_video	app/models/segment.rb	/^  def video_asset_must_be_video$/;"	f	class:Segment
+video_attached?	app/models/segment.rb	/^  def video_attached?$/;"	f	class:Segment
 video_must_be_mp4	app/models/segment.rb	/^  def video_must_be_mp4$/;"	f	class:Segment
