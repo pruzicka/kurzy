@@ -5,22 +5,51 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
 ActiveSupport	test/test_helper.rb	/^module ActiveSupport$/;"	m
+AddUsernameToAdmins	db/migrate/20260208153221_add_username_to_admins.rb	/^class AddUsernameToAdmins < ActiveRecord::Migration[8.1]$/;"	c
+Admin	app/models/admin.rb	/^class Admin < ApplicationRecord$/;"	c
+AdminArea	app/controllers/admin_area/base_controller.rb	/^module AdminArea$/;"	m
+AdminArea	app/controllers/admin_area/dashboard_controller.rb	/^module AdminArea$/;"	m
+AdminTest	test/models/admin_test.rb	/^class AdminTest < ActiveSupport::TestCase$/;"	c
 Application	config/application.rb	/^  class Application < Rails::Application$/;"	c	class:Kurzy
 ApplicationController	app/controllers/application_controller.rb	/^class ApplicationController < ActionController::Base$/;"	c
 ApplicationHelper	app/helpers/application_helper.rb	/^module ApplicationHelper$/;"	m
 ApplicationJob	app/jobs/application_job.rb	/^class ApplicationJob < ActiveJob::Base$/;"	c
 ApplicationMailer	app/mailers/application_mailer.rb	/^class ApplicationMailer < ActionMailer::Base$/;"	c
 ApplicationRecord	app/models/application_record.rb	/^class ApplicationRecord < ActiveRecord::Base$/;"	c
-GithubStatusChecks	.kamal/hooks/pre-deploy.sample	/^class GithubStatusChecks$/;"	c
+BaseController	app/controllers/admin_area/base_controller.rb	/^  class BaseController < ApplicationController$/;"	c	class:AdminArea
+BaseController	app/controllers/user/base_controller.rb	/^  class BaseController < ApplicationController$/;"	c	class:User
+Course	app/models/course.rb	/^class Course < ApplicationRecord$/;"	c
+CourseTest	test/models/course_test.rb	/^class CourseTest < ActiveSupport::TestCase$/;"	c
+CoursesController	app/controllers/courses_controller.rb	/^class CoursesController < ApplicationController$/;"	c
+CreateCourses	db/migrate/20260208152842_create_courses.rb	/^class CreateCourses < ActiveRecord::Migration[8.1]$/;"	c
+CreateUsers	db/migrate/20260208152837_create_users.rb	/^class CreateUsers < ActiveRecord::Migration[8.1]$/;"	c
+DashboardController	app/controllers/admin_area/dashboard_controller.rb	/^  class DashboardController < BaseController$/;"	c	class:AdminArea
+DashboardController	app/controllers/user/dashboard_controller.rb	/^  class DashboardController < BaseController$/;"	c	class:User
+DeviseCreateAdmins	db/migrate/20260208152833_devise_create_admins.rb	/^class DeviseCreateAdmins < ActiveRecord::Migration[8.1]$/;"	c
+HomeController	app/controllers/home_controller.rb	/^class HomeController < ApplicationController$/;"	c
 Kurzy	config/application.rb	/^module Kurzy$/;"	m
 TestCase	test/test_helper.rb	/^  class TestCase$/;"	c	class:ActiveSupport
-complete_count	.kamal/hooks/pre-deploy.sample	/^  def complete_count$/;"	f	class:GithubStatusChecks
-current_status	.kamal/hooks/pre-deploy.sample	/^  def current_status$/;"	f	class:GithubStatusChecks
-exit_with_error	.kamal/hooks/pre-deploy.sample	/^def exit_with_error(message)$/;"	f
-first_status_url	.kamal/hooks/pre-deploy.sample	/^  def first_status_url$/;"	f	class:GithubStatusChecks
-github_repo_from_remote_url	.kamal/hooks/pre-deploy.sample	/^    def github_repo_from_remote_url$/;"	f	class:GithubStatusChecks
-initialize	.kamal/hooks/pre-deploy.sample	/^  def initialize$/;"	f	class:GithubStatusChecks
-refresh!	.kamal/hooks/pre-deploy.sample	/^  def refresh!$/;"	f	class:GithubStatusChecks
-state	.kamal/hooks/pre-deploy.sample	/^  def state$/;"	f	class:GithubStatusChecks
+User	app/controllers/user/base_controller.rb	/^module User$/;"	m
+User	app/controllers/user/dashboard_controller.rb	/^module User$/;"	m
+User	app/models/user.rb	/^class User < ApplicationRecord$/;"	c
+UserSessionsController	app/controllers/user_sessions_controller.rb	/^class UserSessionsController < ApplicationController$/;"	c
+UserTest	test/models/user_test.rb	/^class UserTest < ActiveSupport::TestCase$/;"	c
+after_sign_in_path_for	app/controllers/application_controller.rb	/^  def after_sign_in_path_for(resource)$/;"	f	class:ApplicationController
+change	db/migrate/20260208152833_devise_create_admins.rb	/^  def change$/;"	f	class:DeviseCreateAdmins
+change	db/migrate/20260208152837_create_users.rb	/^  def change$/;"	f	class:CreateUsers
+change	db/migrate/20260208152842_create_courses.rb	/^  def change$/;"	f	class:CreateCourses
+change	db/migrate/20260208153221_add_username_to_admins.rb	/^  def change$/;"	f	class:AddUsernameToAdmins
+create	app/controllers/user_sessions_controller.rb	/^  def create$/;"	f	class:UserSessionsController
+current_user	app/controllers/application_controller.rb	/^  def current_user$/;"	f	class:ApplicationController
+destroy	app/controllers/user_sessions_controller.rb	/^  def destroy$/;"	f	class:UserSessionsController
+failure	app/controllers/user_sessions_controller.rb	/^  def failure$/;"	f	class:UserSessionsController
+from_omniauth	app/models/user.rb	/^  def self.from_omniauth(auth)$/;"	F	class:User
+index	app/controllers/courses_controller.rb	/^  def index$/;"	f	class:CoursesController
+index	app/controllers/home_controller.rb	/^  def index$/;"	f	class:HomeController
+name	app/models/user.rb	/^  def name$/;"	f	class:User
+require_user!	app/controllers/user/base_controller.rb	/^    def require_user!$/;"	f	class:User.BaseController
+show	app/controllers/admin_area/dashboard_controller.rb	/^    def show$/;"	f	class:AdminArea.DashboardController
+show	app/controllers/courses_controller.rb	/^  def show$/;"	f	class:CoursesController
+show	app/controllers/user/dashboard_controller.rb	/^    def show$/;"	f	class:User.DashboardController
 system!	bin/setup	/^def system!(*args)$/;"	f
-total_count	.kamal/hooks/pre-deploy.sample	/^  def total_count$/;"	f	class:GithubStatusChecks
+user_signed_in?	app/controllers/application_controller.rb	/^  def user_signed_in?$/;"	f	class:ApplicationController

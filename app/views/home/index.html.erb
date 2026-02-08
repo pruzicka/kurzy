@@ -1,0 +1,72 @@
+<div class="w-full">
+  <div class="flex flex-col gap-8">
+    <header class="flex flex-col gap-2">
+      <h1 class="text-4xl font-semibold tracking-tight">Kurzy</h1>
+      <p class="text-gray-600">Video kurzy v cestine. Prihlaseni + zakoupeni kurzu = pristup k lekcim.</p>
+    </header>
+
+    <section class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex flex-col gap-1">
+          <h2 class="text-lg font-medium">Prihlaseni</h2>
+          <% if user_signed_in? %>
+            <p class="text-gray-600">Prihlaseno jako <span class="font-medium text-gray-900"><%= current_user.name %></span></p>
+          <% else %>
+            <p class="text-gray-600">Prihlaste se pro pristup k zakoupenym kurzum.</p>
+          <% end %>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <% if user_signed_in? %>
+            <%= link_to "Moje kurzy", user_root_path, class: "inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-black" %>
+            <%= button_to "Odhlasit", logout_path, method: :delete, class: "inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+          <% else %>
+            <% if (Rails.application.credentials.dig(:google, :client_id).presence ||
+                   Rails.application.credentials.dig(:google, :cliend_id).presence ||
+                   ENV["GOOGLE_CLIENT_ID"].presence) &&
+                  (Rails.application.credentials.dig(:google, :client_secret).presence || ENV["GOOGLE_CLIENT_SECRET"].presence) %>
+              <%= button_to "Prihlasit se pres Google", "/auth/google_oauth2", method: :post, data: { turbo: false }, class: "inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-black" %>
+            <% else %>
+              <span class="text-sm text-amber-700">Google OAuth neni nakonfigurovany (chybi credentials nebo env vars).</span>
+            <% end %>
+          <% end %>
+
+          <%= link_to "Admin", new_admin_session_path, class: "inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+        </div>
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <div class="flex items-end justify-between gap-4">
+        <h2 class="text-2xl font-semibold tracking-tight">Dostupne kurzy</h2>
+        <%= link_to "Zobrazit vse", courses_path, class: "text-sm font-medium text-gray-900 hover:underline" %>
+      </div>
+
+      <% if @courses.any? %>
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <% @courses.each do |course| %>
+            <%= link_to course_path(course), class: "group rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:border-gray-300" do %>
+              <div class="flex flex-col gap-2">
+                <div class="flex items-start justify-between gap-4">
+                  <h3 class="text-lg font-semibold tracking-tight group-hover:underline"><%= course.name %></h3>
+                  <span class="shrink-0 rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700">
+                    <%= number_to_currency(course.price, unit: course.currency, precision: 0) %>
+                  </span>
+                </div>
+                <% if course.description.present? %>
+                  <p class="text-sm text-gray-600"><%= truncate(course.description, length: 160) %></p>
+                <% else %>
+                  <p class="text-sm text-gray-500">Popis brzy doplnime.</p>
+                <% end %>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-8 text-gray-700">
+          Zatim tu nejsou zadne verejne kurzy. Prihlas se jako admin a nejaky vytvor.
+        </div>
+      <% end %>
+    </section>
+  </div>
+</div>

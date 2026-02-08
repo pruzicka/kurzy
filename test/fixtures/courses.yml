@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: Ruby on Rails Zaklady
+  description: Prvni kurz.
+  status: public
+  price: 1990
+  currency: CZK
+  slug: rails-zaklady
+
+two:
+  name: Tailwind pro Rails
+  description: Druhy kurz.
+  status: draft
+  price: 990
+  currency: CZK
+  slug: tailwind-pro-rails

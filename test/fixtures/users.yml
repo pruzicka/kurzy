@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  email: user1@example.com
+  provider: google_oauth2
+  uid: "100000000000000000001"
+  first_name: Jana
+  last_name: Novakova
+  avatar_url: https://example.com/a.jpg
+
+two:
+  email: user2@example.com
+  provider: google_oauth2
+  uid: "100000000000000000002"
+  first_name: Petr
+  last_name: Novak
+  avatar_url: https://example.com/b.jpg

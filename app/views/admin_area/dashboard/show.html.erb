@@ -1,0 +1,23 @@
+<div class="w-full">
+  <div class="flex items-end justify-between gap-4">
+    <div class="flex flex-col gap-1">
+      <h1 class="text-3xl font-semibold tracking-tight">Admin</h1>
+      <p class="text-gray-600">Admin dashboard (v1).</p>
+    </div>
+    <div class="flex gap-3">
+      <%= link_to "Uvod", root_path, class: "inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+      <%= button_to "Odhlasit", destroy_admin_session_path, method: :delete, class: "inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-black" %>
+    </div>
+  </div>
+
+  <div class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+      <h2 class="text-lg font-semibold tracking-tight">Kurzy</h2>
+      <p class="mt-1 text-sm text-gray-600">CRUD prijde v dalsim kroku.</p>
+    </div>
+    <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+      <h2 class="text-lg font-semibold tracking-tight">Objednavky</h2>
+      <p class="mt-1 text-sm text-gray-600">Stripe webhooks + fakturace pozdeji.</p>
+    </div>
+  </div>
+</div>

@@ -23,9 +23,19 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
-      <%= yield %>
-    </main>
+  <body class="bg-gradient-to-b from-gray-50 to-white">
+    <% centered_layout = content_for?(:layout_centered) %>
+    <div class="<%= centered_layout ? "min-h-screen px-5 py-12 flex flex-col items-center justify-center gap-6" : "container mx-auto mt-10 px-5" %>">
+      <% if notice.present? %>
+        <div class="<%= centered_layout ? "w-full max-w-md" : "mb-6" %> rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900"><%= notice %></div>
+      <% end %>
+      <% if alert.present? %>
+        <div class="<%= centered_layout ? "w-full max-w-md" : "mb-6" %> rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-900"><%= alert %></div>
+      <% end %>
+
+      <main class="<%= centered_layout ? "w-full flex justify-center" : "flex flex-col gap-6" %>">
+        <%= yield %>
+      </main>
+    </div>
   </body>
 </html>

@@ -1,0 +1,62 @@
+<% content_for :layout_centered, true %>
+
+<div class="w-full max-w-md">
+  <div class="rounded-3xl bg-gradient-to-b from-white to-gray-50 p-1 shadow-sm ring-1 ring-gray-200">
+    <div class="rounded-[22px] bg-white px-6 py-7 shadow-sm">
+      <div class="flex flex-col gap-1">
+        <div class="inline-flex items-center gap-2">
+          <span class="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-gray-900 text-sm font-semibold text-white">A</span>
+          <div class="flex flex-col">
+            <h1 class="text-xl font-semibold tracking-tight text-gray-900">Admin</h1>
+            <p class="text-sm text-gray-600">Prihlaseni pro spravu kurzu.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <%= render "admins/shared/error_messages", resource: resource %>
+
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "flex flex-col gap-4" }) do |f| %>
+          <div class="flex flex-col gap-2">
+            <%= f.label :username, class: "text-sm font-medium text-gray-900" %>
+            <%= f.text_field :username,
+                             autofocus: true,
+                             autocomplete: "username",
+                             placeholder: "napr. admin",
+                             class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <%= f.label :password, class: "text-sm font-medium text-gray-900" %>
+            <%= f.password_field :password,
+                                 autocomplete: "current-password",
+                                 placeholder: "••••••••",
+                                 class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
+          </div>
+
+          <div class="flex items-center justify-between gap-3">
+            <% if devise_mapping.rememberable? %>
+              <label class="flex items-center gap-2 text-sm text-gray-700">
+                <%= f.check_box :remember_me, class: "h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900/20" %>
+                <span>Remember me</span>
+              </label>
+            <% else %>
+              <span></span>
+            <% end %>
+
+            <% if devise_mapping.recoverable? %>
+              <%= link_to "Zapomenute heslo?", new_password_path(resource_name), class: "text-sm font-medium text-gray-900 hover:underline" %>
+            <% end %>
+          </div>
+
+          <%= f.submit "Log in",
+                       class: "mt-1 inline-flex items-center justify-center rounded-2xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-black focus:outline-none focus:ring-2 focus:ring-gray-900/20" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-6 text-center text-sm text-gray-600">
+    <%= link_to "Zpet na uvod", root_path, class: "font-medium text-gray-900 hover:underline" %>
+  </div>
+</div>
