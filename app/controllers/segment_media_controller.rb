@@ -49,7 +49,7 @@ class SegmentMediaController < ApplicationController
   def redirect_to_service_url(blob, disposition:)
     response.headers["Cache-Control"] = "no-store"
 
-    url = blob.service_url(
+    url = blob.url(
       # Needs to be long enough for a typical viewing session (range requests can happen later).
       expires_in: 1.hour,
       disposition: disposition,

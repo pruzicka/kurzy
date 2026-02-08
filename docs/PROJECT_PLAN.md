@@ -193,6 +193,7 @@ Goal: users should not get a permanent, shareable video URL. We can't make this 
 
 See `docs/R2_SETUP.md` for bucket + credentials + CORS details.
 See `docs/MEDIA_SECURITY.md` for the practical implementation notes and limitations.
+See `docs/GOOGLE_AUTH.md` for Google Console redirect URI settings (port `3001` + production domain).
 
 ## 6. Suggestions & Improvements
 

@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   stale_when_importmap_changes
 
   helper_method :current_user, :user_signed_in?
+  before_action :set_active_storage_url_options
 
   private
 
@@ -20,6 +21,15 @@ class ApplicationController < ActionController::Base
 
   def require_user!
     redirect_to login_path, alert: "Pro pokračování se prosím přihlaste." unless user_signed_in?
+  end
+
+  # Needed for Active Storage disk service URLs (dev/test).
+  def set_active_storage_url_options
+    ActiveStorage::Current.url_options = {
+      protocol: request.protocol,
+      host: request.host,
+      port: request.optional_port
+    }
   end
 
   def after_sign_in_path_for(resource)

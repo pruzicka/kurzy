@@ -49,6 +49,7 @@ DeviseCreateAdmins	db/migrate/20260208152833_devise_create_admins.rb	/^class Dev
 HomeController	app/controllers/home_controller.rb	/^class HomeController < ApplicationController$/;"	c
 Kurzy	config/application.rb	/^module Kurzy$/;"	m
 LoginController	app/controllers/login_controller.rb	/^class LoginController < ApplicationController$/;"	c
+MandatoryChapterLock	app/controllers/concerns/mandatory_chapter_lock.rb	/^module MandatoryChapterLock$/;"	m
 PagesController	app/controllers/pages_controller.rb	/^class PagesController < ApplicationController$/;"	c
 Preview	app/controllers/admin_area/preview/base_controller.rb	/^  module Preview$/;"	m	class:AdminArea
 Preview	app/controllers/admin_area/preview/courses_controller.rb	/^  module Preview$/;"	m	class:AdminArea
@@ -61,6 +62,7 @@ Segment	app/models/segment.rb	/^class Segment < ApplicationRecord$/;"	c
 SegmentCompletion	app/models/segment_completion.rb	/^class SegmentCompletion < ApplicationRecord$/;"	c
 SegmentCompletionTest	test/models/segment_completion_test.rb	/^class SegmentCompletionTest < ActiveSupport::TestCase$/;"	c
 SegmentCompletionsController	app/controllers/segment_completions_controller.rb	/^class SegmentCompletionsController < ApplicationController$/;"	c
+SegmentMediaController	app/controllers/segment_media_controller.rb	/^class SegmentMediaController < ApplicationController$/;"	c
 SegmentTest	test/models/segment_test.rb	/^class SegmentTest < ActiveSupport::TestCase$/;"	c
 SegmentsController	app/controllers/admin_area/preview/segments_controller.rb	/^    class SegmentsController < BaseController$/;"	c	class:AdminArea.Preview
 SegmentsController	app/controllers/admin_area/segments_controller.rb	/^  class SegmentsController < BaseController$/;"	c	class:AdminArea
@@ -77,10 +79,11 @@ allowNewlines	app/javascript/controllers/dropzone_controller.js	/^function allow
 assign_position	app/models/chapter.rb	/^  def assign_position$/;"	f	class:Chapter
 assign_position	app/models/segment.rb	/^  def assign_position$/;"	f	class:Segment
 attach_files	app/controllers/admin_area/segments_controller.rb	/^    def attach_files(segment)$/;"	f	class:AdminArea.SegmentsController
+attachment	app/controllers/segment_media_controller.rb	/^  def attachment$/;"	f	class:SegmentMediaController
 attachments_must_be_pdf_or_image	app/models/segment.rb	/^  def attachments_must_be_pdf_or_image$/;"	f	class:Segment
 attachments_must_be_under_size_limit	app/models/segment.rb	/^  def attachments_must_be_under_size_limit$/;"	f	class:Segment
+blocking_mandatory_chapter_for	app/controllers/concerns/mandatory_chapter_lock.rb	/^  def blocking_mandatory_chapter_for(course, current_chapter, completions_by_segment_id)$/;"	f	class:MandatoryChapterLock
 blocking_mandatory_chapter_for	app/controllers/segment_completions_controller.rb	/^  def blocking_mandatory_chapter_for(course, current_chapter, completions_by_segment_id)$/;"	f	class:SegmentCompletionsController
-blocking_mandatory_chapter_for	app/controllers/segments_controller.rb	/^  def blocking_mandatory_chapter_for(course, current_chapter, completions_by_segment_id)$/;"	f	class:SegmentsController
 build_course	test/models/course_test.rb	/^  def build_course$/;"	f	class:CourseTest
 build_segment	test/models/segment_test.rb	/^  def build_segment$/;"	f	class:SegmentTest
 change	db/migrate/20260208152833_devise_create_admins.rb	/^  def change$/;"	f	class:DeviseCreateAdmins
@@ -99,6 +102,7 @@ chapter_params	app/controllers/admin_area/chapters_controller.rb	/^    def chapt
 course_params	app/controllers/admin_area/courses_controller.rb	/^    def course_params$/;"	f	class:AdminArea.CoursesController
 course_show_path	app/helpers/preview_paths_helper.rb	/^  def course_show_path(course, **params)$/;"	f	class:PreviewPathsHelper
 courses_list_path	app/helpers/preview_paths_helper.rb	/^  def courses_list_path(**params)$/;"	f	class:PreviewPathsHelper
+cover_image	app/controllers/segment_media_controller.rb	/^  def cover_image$/;"	f	class:SegmentMediaController
 cover_image_must_be_image	app/models/course.rb	/^  def cover_image_must_be_image$/;"	f	class:Course
 cover_image_must_be_image	app/models/segment.rb	/^  def cover_image_must_be_image$/;"	f	class:Segment
 cover_image_must_be_under_size_limit	app/models/course.rb	/^  def cover_image_must_be_under_size_limit$/;"	f	class:Course
@@ -123,6 +127,7 @@ edit	app/controllers/admin_area/chapters_controller.rb	/^    def edit$/;"	f	clas
 edit	app/controllers/admin_area/courses_controller.rb	/^    def edit$/;"	f	class:AdminArea.CoursesController
 edit	app/controllers/admin_area/segments_controller.rb	/^    def edit$/;"	f	class:AdminArea.SegmentsController
 ensure_completion_for_non_video_segment!	app/controllers/segments_controller.rb	/^  def ensure_completion_for_non_video_segment!$/;"	f	class:SegmentsController
+ensure_unlocked!	app/controllers/segment_media_controller.rb	/^  def ensure_unlocked!$/;"	f	class:SegmentMediaController
 failure	app/controllers/user_sessions_controller.rb	/^  def failure$/;"	f	class:UserSessionsController
 from.completeUrl	app/javascript/controllers/video_completion_controller.js	/^    completeUrl: String,$/;"	p
 from.completed	app/javascript/controllers/video_completion_controller.js	/^    completed: Boolean,$/;"	p
@@ -148,6 +153,7 @@ next_segment_for	app/controllers/segments_controller.rb	/^  def next_segment_for
 primary_and_foreign_key_types	db/migrate/20260208175214_create_active_storage_tables.active_storage.rb	/^    def primary_and_foreign_key_types$/;"	f	class:CreateActiveStorageTables
 primary_and_foreign_key_types	db/migrate/20260208175215_create_action_text_tables.action_text.rb	/^    def primary_and_foreign_key_types$/;"	f	class:CreateActionTextTables
 privacy	app/controllers/pages_controller.rb	/^  def privacy$/;"	f	class:PagesController
+redirect_to_service_url	app/controllers/segment_media_controller.rb	/^  def redirect_to_service_url(blob, disposition:)$/;"	f	class:SegmentMediaController
 require_user!	app/controllers/application_controller.rb	/^  def require_user!$/;"	f	class:ApplicationController
 segment_params	app/controllers/admin_area/segments_controller.rb	/^    def segment_params$/;"	f	class:AdminArea.SegmentsController
 segment_show_path	app/helpers/preview_paths_helper.rb	/^  def segment_show_path(course, chapter, segment, **params)$/;"	f	class:PreviewPathsHelper
@@ -155,16 +161,19 @@ set_chapter	app/controllers/admin_area/chapters_controller.rb	/^    def set_chap
 set_chapter	app/controllers/admin_area/preview/segments_controller.rb	/^      def set_chapter$/;"	f	class:AdminArea.Preview.SegmentsController
 set_chapter	app/controllers/admin_area/segments_controller.rb	/^    def set_chapter$/;"	f	class:AdminArea.SegmentsController
 set_chapter	app/controllers/segment_completions_controller.rb	/^  def set_chapter$/;"	f	class:SegmentCompletionsController
+set_chapter	app/controllers/segment_media_controller.rb	/^  def set_chapter$/;"	f	class:SegmentMediaController
 set_chapter	app/controllers/segments_controller.rb	/^  def set_chapter$/;"	f	class:SegmentsController
 set_course	app/controllers/admin_area/chapters_controller.rb	/^    def set_course$/;"	f	class:AdminArea.ChaptersController
 set_course	app/controllers/admin_area/courses_controller.rb	/^    def set_course$/;"	f	class:AdminArea.CoursesController
 set_course	app/controllers/admin_area/preview/segments_controller.rb	/^      def set_course$/;"	f	class:AdminArea.Preview.SegmentsController
 set_course	app/controllers/admin_area/segments_controller.rb	/^    def set_course$/;"	f	class:AdminArea.SegmentsController
 set_course	app/controllers/segment_completions_controller.rb	/^  def set_course$/;"	f	class:SegmentCompletionsController
+set_course	app/controllers/segment_media_controller.rb	/^  def set_course$/;"	f	class:SegmentMediaController
 set_course	app/controllers/segments_controller.rb	/^  def set_course$/;"	f	class:SegmentsController
 set_segment	app/controllers/admin_area/preview/segments_controller.rb	/^      def set_segment$/;"	f	class:AdminArea.Preview.SegmentsController
 set_segment	app/controllers/admin_area/segments_controller.rb	/^    def set_segment$/;"	f	class:AdminArea.SegmentsController
 set_segment	app/controllers/segment_completions_controller.rb	/^  def set_segment$/;"	f	class:SegmentCompletionsController
+set_segment	app/controllers/segment_media_controller.rb	/^  def set_segment$/;"	f	class:SegmentMediaController
 set_segment	app/controllers/segments_controller.rb	/^  def set_segment$/;"	f	class:SegmentsController
 show	app/controllers/admin_area/courses_controller.rb	/^    def show$/;"	f	class:AdminArea.CoursesController
 show	app/controllers/admin_area/dashboard_controller.rb	/^    def show$/;"	f	class:AdminArea.DashboardController
@@ -184,4 +193,5 @@ update	app/controllers/admin_area/courses_controller.rb	/^    def update$/;"	f	c
 update	app/controllers/admin_area/segments_controller.rb	/^    def update$/;"	f	class:AdminArea.SegmentsController
 update_course_progress!	app/controllers/segments_controller.rb	/^  def update_course_progress!$/;"	f	class:SegmentsController
 user_signed_in?	app/controllers/application_controller.rb	/^  def user_signed_in?$/;"	f	class:ApplicationController
+video	app/controllers/segment_media_controller.rb	/^  def video$/;"	f	class:SegmentMediaController
 video_must_be_mp4	app/models/segment.rb	/^  def video_must_be_mp4$/;"	f	class:Segment
