@@ -24,6 +24,22 @@ Rails.application.routes.draw do
 
   namespace :admin, module: "admin_area", path: "admin" do
     root "dashboard#show"
+
+    resources :courses do
+      resources :chapters, only: %i[new create edit update destroy] do
+        member do
+          patch :move_up
+          patch :move_down
+        end
+
+        resources :segments, only: %i[new create edit update destroy] do
+          member do
+            patch :move_up
+            patch :move_down
+          end
+        end
+      end
+    end
   end
 
   post "/auth/:provider/callback", to: "user_sessions#create"

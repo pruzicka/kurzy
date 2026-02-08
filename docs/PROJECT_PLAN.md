@@ -64,27 +64,27 @@ This is a preliminary schema. Relationships will be refined during development.
   - `slug` (string, unique for friendly URLs)
   - `status` (string, e.g., 'draft', 'public', 'archived')
   - `preview_video_url` (string, optional)
-  - *Associations:* `has_many :segments, -> { order(position: :asc) }`, `has_many :enrollments`
+  - *Associations:* `has_many :chapters, -> { order(position: :asc) }`, `has_many :enrollments`
 
-- **Segment:** (A module or chapter of a course)
+- **Chapter (Kapitola):** (Groups content within a course)
   - `title` (string)
   - `position` (integer, for ordering)
   - `is_mandatory` (boolean, default: false)
-  - *Associations:* `belongs_to :course`, `has_many :steps, -> { order(position: :asc) }`
+  - *Associations:* `belongs_to :course`, `has_many :segments, -> { order(position: :asc) }`
 
-- **Step:** (A single lesson within a Segment)
+- **Segment:** (A single content unit within a Chapter)
   - `title` (string), `content` (rich text)
   - `position` (integer, for ordering)
-  - *Associations:* `belongs_to :segment`, `has_one_attached :video`, `has_many_attached :attachments` (for PDFs)
+  - *Associations:* `belongs_to :chapter`, `has_one_attached :video`, `has_many_attached :attachments` (for PDFs)
 
 - **Enrollment:** (Joins a User to a Course they've purchased)
   - `status` (string, e.g., 'active', 'revoked', 'refunded')
   - `revoked_at` (datetime, optional)
   - *Associations:* `belongs_to :user`, `belongs_to :course`, `belongs_to :order`
 
-- **StepCompletion:** (Tracks user progress more granularly)
+- **SegmentCompletion:** (Tracks user progress more granularly)
   - `completed_at` (datetime)
-  - *Associations:* `belongs_to :user`, `belongs_to :step`
+  - *Associations:* `belongs_to :user`, `belongs_to :segment`
 
 - **Order:**
   - `status` (string, e.g., 'pending', 'completed', 'failed')
@@ -131,11 +131,11 @@ This is a preliminary schema. Relationships will be refined during development.
 ### Phase 2: Admin - Course & Content Management ([ ] Planned)
 - [ ] Build Admin UI (custom).
 - [ ] CRUD for Courses (Draft/Public states).
-- [ ] Nested CRUD for Segments within a Course.
+- [ ] Nested CRUD for Chapters (Kapitoly) within a Course.
+  - [ ] Implement drag-and-drop reordering for Chapters (Stimulus + Turbo).
+- [ ] Nested CRUD for Segments within a Chapter.
   - [ ] Implement drag-and-drop reordering for Segments (Stimulus + Turbo).
-- [ ] Nested CRUD for Steps within a Segment.
-  - [ ] Implement drag-and-drop reordering for Steps (Stimulus + Turbo).
-- [ ] Interface to upload/manage videos and PDF attachments for Steps.
+- [ ] Interface to upload/manage videos and PDF attachments for Segments.
 - [ ] User management dashboard (view users, enrollments).
 - [ ] Sales and order overview.
 - [ ] Basic refund/revoke access flow (admin can revoke enrollment, user loses access).
@@ -158,13 +158,13 @@ This is a preliminary schema. Relationships will be refined during development.
 ### Phase 4: User-Facing Learning Experience ([ ] Planned)
 - [ ] `/user` dashboard showing "My Courses".
 - [ ] Course consumption interface.
-  - [ ] Display Course -> Segments -> Steps structure.
-  - [ ] Video player for Steps.
+  - [ ] Display Course -> Chapters -> Segments structure.
+  - [ ] Video player for Segments.
   - [ ] Download links for attachments.
 - [ ] Progress tracking logic.
-  - [ ] "Mark as Complete" button for steps/segments.
-  - [ ] Logic to enforce `is_mandatory` segments.
-  - [ ] Visual progress indicators (e.g., 8/10 steps completed).
+  - [ ] "Mark as Complete" button for segments/chapters.
+  - [ ] Logic to enforce `is_mandatory` chapters (kapitoly).
+  - [ ] Visual progress indicators (e.g., 8/10 segments completed).
 - [ ] Ensure video delivery is authorized per-enrollment (see "Media authentication strategy" below).
 
 ### Phase 5: Polish & Advanced Features ([ ] Planned)

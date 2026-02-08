@@ -1,6 +1,8 @@
 class Course < ApplicationRecord
   STATUSES = %w[draft public archived].freeze
 
+  has_many :chapters, -> { order(position: :asc) }, dependent: :destroy
+
   validates :name, presence: true
   validates :status, presence: true, inclusion: { in: STATUSES }
   validates :currency, presence: true

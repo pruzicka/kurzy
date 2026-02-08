@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_08_162211) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_08_172058) do
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", default: "", null: false
@@ -23,6 +23,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_08_162211) do
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
     t.index ["username"], name: "index_admins_on_username", unique: true
+  end
+
+  create_table "chapters", force: :cascade do |t|
+    t.integer "course_id", null: false
+    t.datetime "created_at", null: false
+    t.boolean "is_mandatory", default: false, null: false
+    t.integer "position", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id", "position"], name: "index_chapters_on_course_id_and_position", unique: true
+    t.index ["course_id"], name: "index_chapters_on_course_id"
   end
 
   create_table "courses", force: :cascade do |t|
@@ -38,6 +49,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_08_162211) do
     t.index ["status"], name: "index_courses_on_status"
   end
 
+  create_table "segments", force: :cascade do |t|
+    t.integer "chapter_id", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.integer "position", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chapter_id", "position"], name: "index_segments_on_chapter_id_and_position", unique: true
+    t.index ["chapter_id"], name: "index_segments_on_chapter_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "avatar_url"
     t.datetime "created_at", null: false
@@ -50,4 +72,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_08_162211) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
   end
+
+  add_foreign_key "chapters", "courses"
+  add_foreign_key "segments", "chapters"
 end

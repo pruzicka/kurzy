@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Admin | Kurzy" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-gradient-to-b from-gray-50 to-white">
+    <div class="min-h-screen">
+      <header class="sticky top-0 z-10 border-b border-gray-200 bg-white/80 backdrop-blur">
+        <div class="container mx-auto flex items-center justify-between px-5 py-4">
+          <div class="flex items-center gap-3">
+            <span class="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-gray-900 text-sm font-semibold text-white">A</span>
+            <div class="flex flex-col leading-tight">
+              <span class="text-sm font-semibold tracking-tight text-gray-900">Admin</span>
+              <span class="text-xs text-gray-600">Kurzy</span>
+            </div>
+          </div>
+
+          <nav class="flex items-center gap-2 text-sm">
+            <%= link_to "Dashboard", admin_root_path, class: "rounded-xl px-3 py-2 font-medium text-gray-900 hover:bg-gray-100" %>
+            <%= link_to "Kurzy", admin_courses_path, class: "rounded-xl px-3 py-2 font-medium text-gray-900 hover:bg-gray-100" %>
+            <%= link_to "Web", root_path, class: "rounded-xl px-3 py-2 font-medium text-gray-900 hover:bg-gray-100" %>
+            <%= button_to "Logout", destroy_admin_session_path, method: :delete, class: "rounded-xl bg-gray-900 px-3 py-2 font-medium text-white hover:bg-black" %>
+          </nav>
+        </div>
+      </header>
+
+      <div class="container mx-auto px-5 py-8">
+        <% if notice.present? %>
+          <div class="mb-6 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900"><%= notice %></div>
+        <% end %>
+        <% if alert.present? %>
+          <div class="mb-6 rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-900"><%= alert %></div>
+        <% end %>
+
+        <%= yield %>
+      </div>
+    </div>
+  </body>
+</html>
+
