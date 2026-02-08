@@ -3,6 +3,7 @@ class Segment < ApplicationRecord
 
   has_rich_text :content
   has_one_attached :video
+  has_one_attached :cover_image
   has_many_attached :attachments
 
   MAX_ATTACHMENT_SIZE = 10.megabytes
@@ -14,6 +15,16 @@ class Segment < ApplicationRecord
     image/png
     image/webp
   ].freeze
+  ALLOWED_COVER_IMAGE_TYPES = %w[
+    image/avif
+    image/gif
+    image/jpeg
+    image/png
+    image/webp
+  ].freeze
+  ALLOWED_VIDEO_TYPES = %w[
+    video/mp4
+  ].freeze
 
   validates :title, presence: true
   validates :position, numericality: { only_integer: true, greater_than: 0 }
@@ -22,6 +33,9 @@ class Segment < ApplicationRecord
 
   validate :attachments_must_be_pdf_or_image
   validate :attachments_must_be_under_size_limit
+  validate :cover_image_must_be_image
+  validate :cover_image_must_be_under_size_limit
+  validate :video_must_be_mp4
 
   def move_up!
     neighbor = chapter.segments.where("position < ?", position).order(position: :desc).first
@@ -69,5 +83,29 @@ class Segment < ApplicationRecord
 
       errors.add(:attachments, "#{att.filename}: maximalne 10 MB na soubor")
     end
+  end
+
+  def cover_image_must_be_image
+    return unless cover_image.attached?
+    return unless cover_image.blob
+    return if ALLOWED_COVER_IMAGE_TYPES.include?(cover_image.blob.content_type)
+
+    errors.add(:cover_image, "pouze obrazek (jpg/png/webp/avif/gif)")
+  end
+
+  def cover_image_must_be_under_size_limit
+    return unless cover_image.attached?
+    return unless cover_image.blob
+    return if cover_image.blob.byte_size <= MAX_ATTACHMENT_SIZE
+
+    errors.add(:cover_image, "maximalne 10 MB")
+  end
+
+  def video_must_be_mp4
+    return unless video.attached?
+    return unless video.blob
+    return if ALLOWED_VIDEO_TYPES.include?(video.blob.content_type)
+
+    errors.add(:video, "pouze MP4")
   end
 end

@@ -75,7 +75,7 @@ This is a preliminary schema. Relationships will be refined during development.
 - **Segment:** (A single content unit within a Chapter)
   - `title` (string), `content` (rich text)
   - `position` (integer, for ordering)
-  - *Associations:* `belongs_to :chapter`, `has_one_attached :video`, `has_many_attached :attachments` (PDF + images, max 10 MB/file)
+  - *Associations:* `belongs_to :chapter`, `has_one_attached :video` (MP4 only), `has_one_attached :cover_image` (thumbnail), `has_many_attached :attachments` (PDF + images, max 10 MB/file)
 
 - **Enrollment:** (Joins a User to a Course they've purchased)
   - `status` (string, e.g., 'active', 'revoked', 'refunded')
@@ -188,6 +188,8 @@ Goal: users should not get a permanent, shareable video URL. We can't make this 
 - **Player flow:** the frontend requests a fresh signed URL when playback starts (and can refresh periodically). Shared URLs expire quickly.
 - **Domain restrictions:** "playable only on some domain" isn't a strong security boundary (Referer headers can be spoofed/omitted). We'll treat this as a nice-to-have only.
 - **Optional deterrents (later):** dynamic watermark overlay (e.g., user email/order id), HLS streaming with short-lived signed segment URLs, or Cloudflare Worker token validation in front of R2 for an extra layer.
+
+See `docs/R2_SETUP.md` for bucket + credentials + CORS details.
 
 ## 6. Suggestions & Improvements
 

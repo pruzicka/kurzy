@@ -16,6 +16,9 @@ module Kurzy
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # Allow MP4 videos to be served inline (otherwise Active Storage forces download).
+    config.active_storage.content_types_allowed_inline += ["video/mp4"]
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

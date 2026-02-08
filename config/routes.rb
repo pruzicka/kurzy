@@ -18,7 +18,11 @@ Rails.application.routes.draw do
 
   get "/login", to: "login#show", as: :login
 
-  resources :courses, only: %i[index show]
+  resources :courses, only: %i[index show] do
+    resources :chapters, only: [] do
+      resources :segments, only: %i[show]
+    end
+  end
 
   namespace :user, path: "user", module: "user_area" do
     root "dashboard#show"
@@ -39,6 +43,8 @@ Rails.application.routes.draw do
             patch :move_up
             patch :move_down
             delete "attachments/:attachment_id", action: :destroy_attachment, as: :destroy_attachment
+            delete "cover_image", action: :destroy_cover_image, as: :destroy_cover_image
+            delete "video", action: :destroy_video, as: :destroy_video
           end
         end
       end

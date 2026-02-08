@@ -28,8 +28,18 @@ Rails.application.configure do
   # Change to :null_store to avoid any caching.
   config.cache_store = :memory_store
 
-  # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
+  # Store uploaded files on disk by default.
+  #
+  # If you want to use Cloudflare R2 in development (recommended for testing direct uploads and
+  # signed URLs), set:
+  #   ACTIVE_STORAGE_SERVICE=r2
+  #
+  # If not set, we auto-select :r2 when R2 credentials are present, otherwise fall back to :local.
+  r2_configured = Rails.application.credentials.dig(:r2, :access_key_id).to_s != "" &&
+                  Rails.application.credentials.dig(:r2, :secret_access_key).to_s != "" &&
+                  Rails.application.credentials.dig(:r2, :account_id).to_s != ""
+  config.active_storage.service = ENV.fetch("ACTIVE_STORAGE_SERVICE", nil)&.to_sym || (r2_configured ? :r2 : :local)
+  config.active_storage.service_urls_expire_in = 5.minutes if config.active_storage.service == :r2
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false

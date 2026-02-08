@@ -1,0 +1,32 @@
+/*
+ * Tailwind's preflight resets list styles (ul/ol have no bullets by default).
+ * Lexxy renders semantic HTML (ul/ol/li), so we restore basic list styling for
+ * rendered rich text output.
+ */
+
+.lexxy-content ul,
+.lexxy-content ol {
+  margin: 0.75rem 0;
+  padding-left: 1.25rem;
+}
+
+.lexxy-content ul {
+  list-style: disc;
+}
+
+.lexxy-content ol {
+  list-style: decimal;
+}
+
+.lexxy-content li {
+  margin: 0.25rem 0;
+}
+
+.lexxy-content ul ul {
+  list-style: circle;
+}
+
+.lexxy-content ol ol {
+  list-style: lower-alpha;
+}
+

@@ -24,8 +24,9 @@ Rails.application.configure do
   # Store uploaded files on Cloudflare R2 (see config/storage.yml).
   config.active_storage.service = :r2
 
-  # Keep URLs short-lived; we'll serve via signed URLs for private buckets.
-  config.active_storage.service_urls_expire_in = 5.minutes
+  # Signed R2 URLs must be valid for long enough to play a full segment.
+  # We'll tighten this later once we have an auth-gated "refresh URL" flow in the UI.
+  config.active_storage.service_urls_expire_in = 30.minutes
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   config.assume_ssl = true
