@@ -54,6 +54,7 @@ UserTest	test/models/user_test.rb	/^class UserTest < ActiveSupport::TestCase$/;"
 after_sign_in_path_for	app/controllers/application_controller.rb	/^  def after_sign_in_path_for(resource)$/;"	f	class:ApplicationController
 assign_position	app/models/chapter.rb	/^  def assign_position$/;"	f	class:Chapter
 assign_position	app/models/segment.rb	/^  def assign_position$/;"	f	class:Segment
+attach_files	app/controllers/admin_area/segments_controller.rb	/^    def attach_files(segment)$/;"	f	class:AdminArea.SegmentsController
 change	db/migrate/20260208152833_devise_create_admins.rb	/^  def change$/;"	f	class:DeviseCreateAdmins
 change	db/migrate/20260208152837_create_users.rb	/^  def change$/;"	f	class:CreateUsers
 change	db/migrate/20260208152842_create_courses.rb	/^  def change$/;"	f	class:CreateCourses
