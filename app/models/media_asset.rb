@@ -16,6 +16,8 @@ class MediaAsset < ApplicationRecord
   validate :image_size_under_limit
 
   before_validation :infer_media_type, if: -> { media_type.blank? && file.attached? }
+  before_destroy :detach_from_segments
+  before_destroy :purge_file
 
   def usage_count
     video_segments.size + cover_segments.size
@@ -72,5 +74,14 @@ class MediaAsset < ApplicationRecord
     if file.blob.byte_size > MAX_IMAGE_SIZE
       errors.add(:file, "maximalne 10 MB")
     end
+  end
+
+  def detach_from_segments
+    Segment.where(video_asset_id: id).update_all(video_asset_id: nil)
+    Segment.where(cover_asset_id: id).update_all(cover_asset_id: nil)
+  end
+
+  def purge_file
+    file.purge if file.attached?
   end
 end
