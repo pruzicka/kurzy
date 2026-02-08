@@ -14,7 +14,7 @@ r2:
   bucket: kurzy-app-<%= Rails.env %>
   region: auto
   # endpoint: <%= Rails.application.credentials.dig(:r2, :endpoint) %>
-  endpoint: https://<%= Rails.application.credentials.dig(:cloudflare_r2, :account_id) %>.r2.cloudflarestorage.com
+  endpoint: https://<%= Rails.application.credentials.dig(:r2, :account_id) %>.r2.cloudflarestorage.com
   request_checksum_calculation: "when_required"
   response_checksum_validation: "when_required"
   # force_path_style: true

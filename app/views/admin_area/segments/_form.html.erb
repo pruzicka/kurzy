@@ -32,13 +32,17 @@
     </div>
 
     <div class="flex flex-col gap-2">
-      <%= f.label :attachments, "Prilohy (PDF, volitelne)", class: "text-sm font-medium text-gray-900" %>
-      <%= f.file_field :attachments, direct_upload: true, multiple: true, accept: "application/pdf", class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm" %>
+      <%= f.label :attachments, "Prilohy (PDF nebo obrazek, max 10 MB/soubor, volitelne)", class: "text-sm font-medium text-gray-900" %>
+      <%= f.file_field :attachments, direct_upload: true, multiple: true, accept: "application/pdf,image/*", class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm" %>
       <% if segment.attachments.attached? %>
-        <div class="text-xs text-gray-600">
-          <% segment.attachments.each do |att| %>
-            <div>
-              <%= link_to att.filename.to_s, url_for(att), class: "font-medium text-gray-900 hover:underline", target: "_blank", rel: "noopener" %>
+        <div class="mt-1 space-y-2 text-xs text-gray-700">
+          <% segment.attachments.attachments.each do |att| %>
+            <div class="flex items-center justify-between gap-3 rounded-xl border border-gray-200 bg-white px-3 py-2">
+              <%= link_to att.filename.to_s, url_for(att), class: "truncate font-medium text-gray-900 hover:underline", target: "_blank", rel: "noopener" %>
+              <%= link_to "Smazat",
+                          destroy_attachment_admin_course_chapter_segment_path(course, chapter, segment, attachment_id: att.id),
+                          data: { turbo_method: :delete, turbo_confirm: "Smazat prilohu #{att.filename}?" },
+                          class: "rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1 text-xs font-medium text-rose-900 hover:bg-rose-100" %>
             </div>
           <% end %>
         </div>

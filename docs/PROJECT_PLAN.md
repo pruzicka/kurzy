@@ -75,7 +75,7 @@ This is a preliminary schema. Relationships will be refined during development.
 - **Segment:** (A single content unit within a Chapter)
   - `title` (string), `content` (rich text)
   - `position` (integer, for ordering)
-  - *Associations:* `belongs_to :chapter`, `has_one_attached :video`, `has_many_attached :attachments` (for PDFs)
+  - *Associations:* `belongs_to :chapter`, `has_one_attached :video`, `has_many_attached :attachments` (PDF + images, max 10 MB/file)
 
 - **Enrollment:** (Joins a User to a Course they've purchased)
   - `status` (string, e.g., 'active', 'revoked', 'refunded')
@@ -135,7 +135,7 @@ This is a preliminary schema. Relationships will be refined during development.
   - [ ] Implement drag-and-drop reordering for Chapters (Stimulus + Turbo).
 - [ ] Nested CRUD for Segments within a Chapter.
   - [ ] Implement drag-and-drop reordering for Segments (Stimulus + Turbo).
-- [ ] Interface to upload/manage videos and PDF attachments for Segments.
+- [ ] Interface to upload/manage videos and PDF/image attachments for Segments (validate type + max 10 MB/file).
 - [ ] User management dashboard (view users, enrollments).
 - [ ] Sales and order overview.
 - [ ] Basic refund/revoke access flow (admin can revoke enrollment, user loses access).

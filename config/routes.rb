@@ -38,6 +38,7 @@ Rails.application.routes.draw do
           member do
             patch :move_up
             patch :move_down
+            delete "attachments/:attachment_id", action: :destroy_attachment, as: :destroy_attachment
           end
         end
       end

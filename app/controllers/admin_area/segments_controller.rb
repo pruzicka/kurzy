@@ -2,7 +2,7 @@ module AdminArea
   class SegmentsController < BaseController
     before_action :set_course
     before_action :set_chapter
-    before_action :set_segment, only: %i[edit update destroy move_up move_down]
+    before_action :set_segment, only: %i[edit update destroy move_up move_down destroy_attachment]
 
     def new
       @segment = @chapter.segments.new
@@ -45,6 +45,12 @@ module AdminArea
     def move_down
       @segment.move_down!
       redirect_to admin_course_path(@course)
+    end
+
+    def destroy_attachment
+      attachment = @segment.attachments.attachments.find(params[:attachment_id])
+      attachment.purge
+      redirect_to edit_admin_course_chapter_segment_path(@course, @chapter, @segment), notice: "Priloha smazana."
     end
 
     private
