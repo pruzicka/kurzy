@@ -1,0 +1,47 @@
+<aside class="h-full w-full overflow-y-auto border-r border-gray-200 bg-white/70 backdrop-blur">
+  <div class="p-5">
+    <div class="text-xs font-semibold uppercase tracking-wide text-gray-500">Obsah</div>
+  </div>
+
+  <div class="divide-y divide-gray-100">
+    <% course.chapters.each do |chapter| %>
+      <% total = chapter.segments.size %>
+      <% completed = completions_by_segment_id ? chapter.segments.count { |s| completions_by_segment_id.key?(s.id) } : 0 %>
+      <% open = current_segment&.chapter_id == chapter.id %>
+
+      <details class="group" <%= "open" if open %>>
+        <summary class="flex cursor-pointer items-center justify-between gap-3 px-5 py-4 hover:bg-gray-50">
+          <div class="min-w-0 truncate text-sm font-semibold text-gray-900"><%= chapter.title %></div>
+
+          <div class="flex items-center gap-2 text-gray-400">
+            <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700"><%= completed %>/<%= total %></span>
+            <svg class="h-4 w-4 transition-transform group-open:rotate-180" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.24 4.5a.75.75 0 0 1-1.08 0l-4.24-4.5a.75.75 0 0 1 .02-1.06Z" clip-rule="evenodd" />
+            </svg>
+          </div>
+        </summary>
+
+        <div class="px-3 pb-4">
+          <% if total.zero? %>
+            <div class="px-2 text-sm text-gray-500">Zatim zadne segmenty.</div>
+          <% else %>
+            <div class="space-y-1">
+              <% chapter.segments.each do |segment| %>
+                <% done = completions_by_segment_id&.key?(segment.id) %>
+                <% active = current_segment&.id == segment.id %>
+                <%= link_to segment_show_path(course, chapter, segment),
+                            data: { turbo_stream: true, turbo_frame: "_top" },
+                            class: "flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-sm #{active ? "bg-gray-900 text-white" : "text-gray-800 hover:bg-gray-50"}" do %>
+                  <span class="min-w-0 truncate font-medium"><%= segment.title %></span>
+                  <span class="shrink-0 text-xs <%= active ? "text-white/70" : "text-gray-400" %>">
+                    <%= done ? "✓" : "" %>
+                  </span>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </details>
+    <% end %>
+  </div>
+</aside>

@@ -11,6 +11,9 @@ AdminArea	app/controllers/admin_area/base_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/chapters_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/courses_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/dashboard_controller.rb	/^module AdminArea$/;"	m
+AdminArea	app/controllers/admin_area/preview/base_controller.rb	/^module AdminArea$/;"	m
+AdminArea	app/controllers/admin_area/preview/courses_controller.rb	/^module AdminArea$/;"	m
+AdminArea	app/controllers/admin_area/preview/segments_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/segments_controller.rb	/^module AdminArea$/;"	m
 AdminTest	test/models/admin_test.rb	/^class AdminTest < ActiveSupport::TestCase$/;"	c
 Application	config/application.rb	/^  class Application < Rails::Application$/;"	c	class:Kurzy
@@ -20,6 +23,7 @@ ApplicationJob	app/jobs/application_job.rb	/^class ApplicationJob < ActiveJob::B
 ApplicationMailer	app/mailers/application_mailer.rb	/^class ApplicationMailer < ActionMailer::Base$/;"	c
 ApplicationRecord	app/models/application_record.rb	/^class ApplicationRecord < ActiveRecord::Base$/;"	c
 BaseController	app/controllers/admin_area/base_controller.rb	/^  class BaseController < ApplicationController$/;"	c	class:AdminArea
+BaseController	app/controllers/admin_area/preview/base_controller.rb	/^    class BaseController < ApplicationController$/;"	c	class:AdminArea.Preview
 BaseController	app/controllers/user_area/base_controller.rb	/^  class BaseController < ApplicationController$/;"	c	class:UserArea
 Chapter	app/models/chapter.rb	/^class Chapter < ApplicationRecord$/;"	c
 ChapterTest	test/models/chapter_test.rb	/^class ChapterTest < ActiveSupport::TestCase$/;"	c
@@ -27,10 +31,12 @@ ChaptersController	app/controllers/admin_area/chapters_controller.rb	/^  class C
 Course	app/models/course.rb	/^class Course < ApplicationRecord$/;"	c
 CourseTest	test/models/course_test.rb	/^class CourseTest < ActiveSupport::TestCase$/;"	c
 CoursesController	app/controllers/admin_area/courses_controller.rb	/^  class CoursesController < BaseController$/;"	c	class:AdminArea
+CoursesController	app/controllers/admin_area/preview/courses_controller.rb	/^    class CoursesController < BaseController$/;"	c	class:AdminArea.Preview
 CoursesController	app/controllers/courses_controller.rb	/^class CoursesController < ApplicationController$/;"	c
 CreateActionTextTables	db/migrate/20260208175215_create_action_text_tables.action_text.rb	/^class CreateActionTextTables < ActiveRecord::Migration[6.0]$/;"	c
 CreateActiveStorageTables	db/migrate/20260208175214_create_active_storage_tables.active_storage.rb	/^class CreateActiveStorageTables < ActiveRecord::Migration[7.0]$/;"	c
 CreateCourses	db/migrate/20260208152842_create_courses.rb	/^class CreateCourses < ActiveRecord::Migration[8.1]$/;"	c
+CreateSegmentCompletions	db/migrate/20260208205452_create_segment_completions.rb	/^class CreateSegmentCompletions < ActiveRecord::Migration[8.1]$/;"	c
 CreateSegments	db/migrate/20260208165425_create_segments.rb	/^class CreateSegments < ActiveRecord::Migration[8.1]$/;"	c
 CreateSteps	db/migrate/20260208165426_create_steps.rb	/^class CreateSteps < ActiveRecord::Migration[8.1]$/;"	c
 CreateUsers	db/migrate/20260208152837_create_users.rb	/^class CreateUsers < ActiveRecord::Migration[8.1]$/;"	c
@@ -40,21 +46,36 @@ DeviseCreateAdmins	db/migrate/20260208152833_devise_create_admins.rb	/^class Dev
 HomeController	app/controllers/home_controller.rb	/^class HomeController < ApplicationController$/;"	c
 Kurzy	config/application.rb	/^module Kurzy$/;"	m
 LoginController	app/controllers/login_controller.rb	/^class LoginController < ApplicationController$/;"	c
+PagesController	app/controllers/pages_controller.rb	/^class PagesController < ApplicationController$/;"	c
+Preview	app/controllers/admin_area/preview/base_controller.rb	/^  module Preview$/;"	m	class:AdminArea
+Preview	app/controllers/admin_area/preview/courses_controller.rb	/^  module Preview$/;"	m	class:AdminArea
+Preview	app/controllers/admin_area/preview/segments_controller.rb	/^  module Preview$/;"	m	class:AdminArea
+PreviewPathsHelper	app/helpers/preview_paths_helper.rb	/^module PreviewPathsHelper$/;"	m
 RenameCourseTitleToNameAndPriceCentsToPrice	db/migrate/20260208162211_rename_course_title_to_name_and_price_cents_to_price.rb	/^class RenameCourseTitleToNameAndPriceCentsToPrice < ActiveRecord::Migration[8.1]$/;"	c
 RenameSegmentsToChaptersAndStepsToSegments	db/migrate/20260208172058_rename_segments_to_chapters_and_steps_to_segments.rb	/^class RenameSegmentsToChaptersAndStepsToSegments < ActiveRecord::Migration[8.1]$/;"	c
 Segment	app/models/segment.rb	/^class Segment < ApplicationRecord$/;"	c
+SegmentCompletion	app/models/segment_completion.rb	/^class SegmentCompletion < ApplicationRecord$/;"	c
+SegmentCompletionTest	test/models/segment_completion_test.rb	/^class SegmentCompletionTest < ActiveSupport::TestCase$/;"	c
 SegmentTest	test/models/segment_test.rb	/^class SegmentTest < ActiveSupport::TestCase$/;"	c
+SegmentsController	app/controllers/admin_area/preview/segments_controller.rb	/^    class SegmentsController < BaseController$/;"	c	class:AdminArea.Preview
 SegmentsController	app/controllers/admin_area/segments_controller.rb	/^  class SegmentsController < BaseController$/;"	c	class:AdminArea
+SegmentsController	app/controllers/segments_controller.rb	/^class SegmentsController < ApplicationController$/;"	c
 TestCase	test/test_helper.rb	/^  class TestCase$/;"	c	class:ActiveSupport
 User	app/models/user.rb	/^class User < ApplicationRecord$/;"	c
 UserArea	app/controllers/user_area/base_controller.rb	/^module UserArea$/;"	m
 UserArea	app/controllers/user_area/dashboard_controller.rb	/^module UserArea$/;"	m
 UserSessionsController	app/controllers/user_sessions_controller.rb	/^class UserSessionsController < ApplicationController$/;"	c
 UserTest	test/models/user_test.rb	/^class UserTest < ActiveSupport::TestCase$/;"	c
+admin_preview?	app/helpers/preview_paths_helper.rb	/^  def admin_preview?$/;"	f	class:PreviewPathsHelper
 after_sign_in_path_for	app/controllers/application_controller.rb	/^  def after_sign_in_path_for(resource)$/;"	f	class:ApplicationController
+allowNewlines	app/javascript/controllers/dropzone_controller.js	/^function allowNewlines(count) {$/;"	f
 assign_position	app/models/chapter.rb	/^  def assign_position$/;"	f	class:Chapter
 assign_position	app/models/segment.rb	/^  def assign_position$/;"	f	class:Segment
 attach_files	app/controllers/admin_area/segments_controller.rb	/^    def attach_files(segment)$/;"	f	class:AdminArea.SegmentsController
+attachments_must_be_pdf_or_image	app/models/segment.rb	/^  def attachments_must_be_pdf_or_image$/;"	f	class:Segment
+attachments_must_be_under_size_limit	app/models/segment.rb	/^  def attachments_must_be_under_size_limit$/;"	f	class:Segment
+build_course	test/models/course_test.rb	/^  def build_course$/;"	f	class:CourseTest
+build_segment	test/models/segment_test.rb	/^  def build_segment$/;"	f	class:SegmentTest
 change	db/migrate/20260208152833_devise_create_admins.rb	/^  def change$/;"	f	class:DeviseCreateAdmins
 change	db/migrate/20260208152837_create_users.rb	/^  def change$/;"	f	class:CreateUsers
 change	db/migrate/20260208152842_create_courses.rb	/^  def change$/;"	f	class:CreateCourses
@@ -64,8 +85,15 @@ change	db/migrate/20260208165425_create_segments.rb	/^  def change$/;"	f	class:C
 change	db/migrate/20260208165426_create_steps.rb	/^  def change$/;"	f	class:CreateSteps
 change	db/migrate/20260208175214_create_active_storage_tables.active_storage.rb	/^  def change$/;"	f	class:CreateActiveStorageTables
 change	db/migrate/20260208175215_create_action_text_tables.action_text.rb	/^  def change$/;"	f	class:CreateActionTextTables
+change	db/migrate/20260208205452_create_segment_completions.rb	/^  def change$/;"	f	class:CreateSegmentCompletions
 chapter_params	app/controllers/admin_area/chapters_controller.rb	/^    def chapter_params$/;"	f	class:AdminArea.ChaptersController
 course_params	app/controllers/admin_area/courses_controller.rb	/^    def course_params$/;"	f	class:AdminArea.CoursesController
+course_show_path	app/helpers/preview_paths_helper.rb	/^  def course_show_path(course)$/;"	f	class:PreviewPathsHelper
+courses_list_path	app/helpers/preview_paths_helper.rb	/^  def courses_list_path$/;"	f	class:PreviewPathsHelper
+cover_image_must_be_image	app/models/course.rb	/^  def cover_image_must_be_image$/;"	f	class:Course
+cover_image_must_be_image	app/models/segment.rb	/^  def cover_image_must_be_image$/;"	f	class:Segment
+cover_image_must_be_under_size_limit	app/models/course.rb	/^  def cover_image_must_be_under_size_limit$/;"	f	class:Course
+cover_image_must_be_under_size_limit	app/models/segment.rb	/^  def cover_image_must_be_under_size_limit$/;"	f	class:Segment
 create	app/controllers/admin_area/chapters_controller.rb	/^    def create$/;"	f	class:AdminArea.ChaptersController
 create	app/controllers/admin_area/courses_controller.rb	/^    def create$/;"	f	class:AdminArea.CoursesController
 create	app/controllers/admin_area/segments_controller.rb	/^    def create$/;"	f	class:AdminArea.SegmentsController
@@ -75,6 +103,11 @@ destroy	app/controllers/admin_area/chapters_controller.rb	/^    def destroy$/;"	
 destroy	app/controllers/admin_area/courses_controller.rb	/^    def destroy$/;"	f	class:AdminArea.CoursesController
 destroy	app/controllers/admin_area/segments_controller.rb	/^    def destroy$/;"	f	class:AdminArea.SegmentsController
 destroy	app/controllers/user_sessions_controller.rb	/^  def destroy$/;"	f	class:UserSessionsController
+destroy_attachment	app/controllers/admin_area/segments_controller.rb	/^    def destroy_attachment$/;"	f	class:AdminArea.SegmentsController
+destroy_cover_image	app/controllers/admin_area/courses_controller.rb	/^    def destroy_cover_image$/;"	f	class:AdminArea.CoursesController
+destroy_cover_image	app/controllers/admin_area/segments_controller.rb	/^    def destroy_cover_image$/;"	f	class:AdminArea.SegmentsController
+destroy_video	app/controllers/admin_area/segments_controller.rb	/^    def destroy_video$/;"	f	class:AdminArea.SegmentsController
+disclaimer	app/controllers/pages_controller.rb	/^  def disclaimer$/;"	f	class:PagesController
 down	db/migrate/20260208172058_rename_segments_to_chapters_and_steps_to_segments.rb	/^  def down$/;"	f	class:RenameSegmentsToChaptersAndStepsToSegments
 edit	app/controllers/admin_area/chapters_controller.rb	/^    def edit$/;"	f	class:AdminArea.ChaptersController
 edit	app/controllers/admin_area/courses_controller.rb	/^    def edit$/;"	f	class:AdminArea.CoursesController
@@ -82,8 +115,10 @@ edit	app/controllers/admin_area/segments_controller.rb	/^    def edit$/;"	f	clas
 failure	app/controllers/user_sessions_controller.rb	/^  def failure$/;"	f	class:UserSessionsController
 from_omniauth	app/models/user.rb	/^  def self.from_omniauth(auth)$/;"	F	class:User
 index	app/controllers/admin_area/courses_controller.rb	/^    def index$/;"	f	class:AdminArea.CoursesController
+index	app/controllers/admin_area/preview/courses_controller.rb	/^      def index$/;"	f	class:AdminArea.Preview.CoursesController
 index	app/controllers/courses_controller.rb	/^  def index$/;"	f	class:CoursesController
 index	app/controllers/home_controller.rb	/^  def index$/;"	f	class:HomeController
+mark_completed!	app/controllers/segments_controller.rb	/^  def mark_completed!$/;"	f	class:SegmentsController
 move_down	app/controllers/admin_area/chapters_controller.rb	/^    def move_down$/;"	f	class:AdminArea.ChaptersController
 move_down	app/controllers/admin_area/segments_controller.rb	/^    def move_down$/;"	f	class:AdminArea.SegmentsController
 move_down!	app/models/chapter.rb	/^  def move_down!$/;"	f	class:Chapter
@@ -96,26 +131,41 @@ name	app/models/user.rb	/^  def name$/;"	f	class:User
 new	app/controllers/admin_area/chapters_controller.rb	/^    def new$/;"	f	class:AdminArea.ChaptersController
 new	app/controllers/admin_area/courses_controller.rb	/^    def new$/;"	f	class:AdminArea.CoursesController
 new	app/controllers/admin_area/segments_controller.rb	/^    def new$/;"	f	class:AdminArea.SegmentsController
+next_segment_for	app/controllers/admin_area/preview/segments_controller.rb	/^      def next_segment_for(course, segment)$/;"	f	class:AdminArea.Preview.SegmentsController
+next_segment_for	app/controllers/segments_controller.rb	/^  def next_segment_for(course, segment)$/;"	f	class:SegmentsController
 primary_and_foreign_key_types	db/migrate/20260208175214_create_active_storage_tables.active_storage.rb	/^    def primary_and_foreign_key_types$/;"	f	class:CreateActiveStorageTables
 primary_and_foreign_key_types	db/migrate/20260208175215_create_action_text_tables.action_text.rb	/^    def primary_and_foreign_key_types$/;"	f	class:CreateActionTextTables
+privacy	app/controllers/pages_controller.rb	/^  def privacy$/;"	f	class:PagesController
 require_user!	app/controllers/application_controller.rb	/^  def require_user!$/;"	f	class:ApplicationController
 segment_params	app/controllers/admin_area/segments_controller.rb	/^    def segment_params$/;"	f	class:AdminArea.SegmentsController
+segment_show_path	app/helpers/preview_paths_helper.rb	/^  def segment_show_path(course, chapter, segment)$/;"	f	class:PreviewPathsHelper
 set_chapter	app/controllers/admin_area/chapters_controller.rb	/^    def set_chapter$/;"	f	class:AdminArea.ChaptersController
+set_chapter	app/controllers/admin_area/preview/segments_controller.rb	/^      def set_chapter$/;"	f	class:AdminArea.Preview.SegmentsController
 set_chapter	app/controllers/admin_area/segments_controller.rb	/^    def set_chapter$/;"	f	class:AdminArea.SegmentsController
+set_chapter	app/controllers/segments_controller.rb	/^  def set_chapter$/;"	f	class:SegmentsController
 set_course	app/controllers/admin_area/chapters_controller.rb	/^    def set_course$/;"	f	class:AdminArea.ChaptersController
 set_course	app/controllers/admin_area/courses_controller.rb	/^    def set_course$/;"	f	class:AdminArea.CoursesController
+set_course	app/controllers/admin_area/preview/segments_controller.rb	/^      def set_course$/;"	f	class:AdminArea.Preview.SegmentsController
 set_course	app/controllers/admin_area/segments_controller.rb	/^    def set_course$/;"	f	class:AdminArea.SegmentsController
+set_course	app/controllers/segments_controller.rb	/^  def set_course$/;"	f	class:SegmentsController
+set_segment	app/controllers/admin_area/preview/segments_controller.rb	/^      def set_segment$/;"	f	class:AdminArea.Preview.SegmentsController
 set_segment	app/controllers/admin_area/segments_controller.rb	/^    def set_segment$/;"	f	class:AdminArea.SegmentsController
+set_segment	app/controllers/segments_controller.rb	/^  def set_segment$/;"	f	class:SegmentsController
 show	app/controllers/admin_area/courses_controller.rb	/^    def show$/;"	f	class:AdminArea.CoursesController
 show	app/controllers/admin_area/dashboard_controller.rb	/^    def show$/;"	f	class:AdminArea.DashboardController
+show	app/controllers/admin_area/preview/courses_controller.rb	/^      def show$/;"	f	class:AdminArea.Preview.CoursesController
+show	app/controllers/admin_area/preview/segments_controller.rb	/^      def show$/;"	f	class:AdminArea.Preview.SegmentsController
 show	app/controllers/courses_controller.rb	/^  def show$/;"	f	class:CoursesController
 show	app/controllers/login_controller.rb	/^  def show$/;"	f	class:LoginController
+show	app/controllers/segments_controller.rb	/^  def show$/;"	f	class:SegmentsController
 show	app/controllers/user_area/dashboard_controller.rb	/^    def show$/;"	f	class:UserArea.DashboardController
 swap_positions!	app/models/chapter.rb	/^  def swap_positions!(other)$/;"	f	class:Chapter
 swap_positions!	app/models/segment.rb	/^  def swap_positions!(other)$/;"	f	class:Segment
 system!	bin/setup	/^def system!(*args)$/;"	f
+terms	app/controllers/pages_controller.rb	/^  def terms$/;"	f	class:PagesController
 up	db/migrate/20260208172058_rename_segments_to_chapters_and_steps_to_segments.rb	/^  def up$/;"	f	class:RenameSegmentsToChaptersAndStepsToSegments
 update	app/controllers/admin_area/chapters_controller.rb	/^    def update$/;"	f	class:AdminArea.ChaptersController
 update	app/controllers/admin_area/courses_controller.rb	/^    def update$/;"	f	class:AdminArea.CoursesController
 update	app/controllers/admin_area/segments_controller.rb	/^    def update$/;"	f	class:AdminArea.SegmentsController
 user_signed_in?	app/controllers/application_controller.rb	/^  def user_signed_in?$/;"	f	class:ApplicationController
+video_must_be_mp4	app/models/segment.rb	/^  def video_must_be_mp4$/;"	f	class:Segment

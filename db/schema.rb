@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_08_175215) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_08_205452) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -87,6 +87,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_08_175215) do
     t.index ["status"], name: "index_courses_on_status"
   end
 
+  create_table "segment_completions", force: :cascade do |t|
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.integer "segment_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["segment_id"], name: "index_segment_completions_on_segment_id"
+    t.index ["user_id", "segment_id"], name: "index_segment_completions_on_user_id_and_segment_id", unique: true
+    t.index ["user_id"], name: "index_segment_completions_on_user_id"
+  end
+
   create_table "segments", force: :cascade do |t|
     t.integer "chapter_id", null: false
     t.text "content"
@@ -114,5 +125,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_08_175215) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "chapters", "courses"
+  add_foreign_key "segment_completions", "segments"
+  add_foreign_key "segment_completions", "users"
   add_foreign_key "segments", "chapters"
 end

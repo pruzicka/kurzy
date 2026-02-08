@@ -1,64 +1,22 @@
-<div class="w-full">
-  <div class="flex items-end justify-between gap-4">
-    <div class="flex flex-col gap-1">
-      <h1 class="text-3xl font-semibold tracking-tight"><%= @course.name %></h1>
-      <p class="text-gray-600"><%= number_to_currency(@course.price, unit: @course.currency, precision: 0) %></p>
-    </div>
-    <%= link_to "Zpet na kurzy", courses_path, class: "text-sm font-medium text-gray-900 hover:underline" %>
-  </div>
+<% content_for :layout_fullscreen, true %>
 
-  <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
-    <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm lg:col-span-2">
-      <% if @course.description&.body&.present? %>
-        <div class="text-gray-700"><%= @course.description %></div>
-      <% else %>
-        <p class="text-gray-500">Popis brzy doplnime.</p>
+<div class="min-h-screen w-full">
+  <%= render "shared/navbar", course: @course %>
+
+  <div class="flex h-[calc(100vh-57px)] w-full overflow-hidden">
+    <div class="flex w-full max-w-[360px] shrink-0 flex-col border-r border-gray-200 bg-white/70 backdrop-blur">
+      <%= turbo_frame_tag "course_sidebar", class: "flex-1 overflow-y-auto" do %>
+        <%= render "courses/sidebar", course: @course, current_segment: nil, completions_by_segment_id: @completions_by_segment_id %>
       <% end %>
-
-      <div class="mt-6 rounded-xl bg-gray-50 p-4 text-sm text-gray-700">
-        Nakup + pristup k lekcim doplnime v dalsi fazi (Stripe Checkout + webhooks). Pro MVP je obsah pristupny prihlasenym uzivatelum.
+      <div class="border-t border-gray-200 bg-white px-5 py-3">
+        <%= render "shared/footer_links" %>
       </div>
     </div>
 
-    <aside class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-      <h2 class="text-sm font-semibold tracking-tight text-gray-900">Obsah kurzu</h2>
-
-      <% if @course.chapters.any? %>
-        <div class="mt-3 space-y-4">
-          <% @course.chapters.each do |chapter| %>
-            <div>
-              <div class="text-sm font-semibold text-gray-900"><%= chapter.title %></div>
-              <% if chapter.segments.any? %>
-                <div class="mt-2 space-y-1">
-                  <% chapter.segments.each do |segment| %>
-                    <%= link_to course_chapter_segment_path(@course, chapter, segment),
-                                class: "group flex items-center justify-between gap-3 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 hover:border-gray-300" do %>
-                      <span class="truncate text-sm font-medium text-gray-900 group-hover:underline"><%= segment.title %></span>
-                      <span class="flex shrink-0 items-center gap-2 text-gray-400">
-                        <% if segment.attachments.attached? %>
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-4 w-4" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M18.375 12.739V7.5a4.125 4.125 0 0 0-8.25 0v8.625a2.625 2.625 0 0 0 5.25 0V8.625a1.125 1.125 0 0 0-2.25 0v7.5" />
-                          </svg>
-                        <% end %>
-                        <% if segment.video.attached? %>
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-4 w-4" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5 19.5 8.25v7.5l-3.75-2.25" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 6.75h9A2.25 2.25 0 0 1 15.75 9v6A2.25 2.25 0 0 1 13.5 17.25h-9A2.25 2.25 0 0 1 2.25 15V9A2.25 2.25 0 0 1 4.5 6.75Z" />
-                          </svg>
-                        <% end %>
-                      </span>
-                    <% end %>
-                  <% end %>
-                </div>
-              <% else %>
-                <div class="mt-2 text-sm text-gray-500">Zatim zadne segmenty.</div>
-              <% end %>
-            </div>
-          <% end %>
-        </div>
-      <% else %>
-        <p class="mt-2 text-sm text-gray-500">Zatim zadny obsah.</p>
+    <div class="flex-1 bg-white">
+      <%= turbo_frame_tag "course_main", class: "h-full w-full" do %>
+        <%= render "courses/main_hero", course: @course %>
       <% end %>
-    </aside>
+    </div>
   </div>
 </div>

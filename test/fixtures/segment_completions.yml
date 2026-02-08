@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  segment: one
+  completed_at: 2026-02-08 21:54:52
+
+two:
+  user: two
+  segment: two
+  completed_at: 2026-02-08 21:54:52

@@ -1,5 +1,6 @@
 class Segment < ApplicationRecord
   belongs_to :chapter
+  has_many :segment_completions, dependent: :destroy
 
   has_rich_text :content
   has_one_attached :video

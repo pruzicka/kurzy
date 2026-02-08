@@ -1,84 +1,22 @@
-<div class="w-full">
-  <div class="flex flex-wrap items-end justify-between gap-4">
-    <div class="flex flex-col gap-1">
-      <div class="text-sm text-gray-600">
-        <%= link_to "Kurzy", courses_path, class: "font-medium text-gray-900 hover:underline" %>
-        <span class="mx-2 text-gray-300">/</span>
-        <%= link_to @course.name, course_path(@course), class: "font-medium text-gray-900 hover:underline" %>
-        <span class="mx-2 text-gray-300">/</span>
-        <span class="text-gray-700"><%= @chapter.title %></span>
-      </div>
-      <h1 class="text-3xl font-semibold tracking-tight text-gray-900"><%= @segment.title %></h1>
-    </div>
-  </div>
+<% content_for :layout_fullscreen, true %>
 
-  <div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
-    <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm lg:col-span-2">
-      <% if @segment.video.attached? %>
-        <video
-          class="w-full overflow-hidden rounded-2xl bg-black"
-          controls
-          playsinline
-          preload="metadata"
-          <% if @segment.cover_image.attached? %>poster="<%= rails_blob_path(@segment.cover_image, disposition: "inline") %>"<% end %>
-        >
-          <source src="<%= rails_blob_path(@segment.video, disposition: "inline") %>" type="video/mp4">
-          Váš prohlížeč nepodporuje přehrávání videa.
-        </video>
-      <% elsif @segment.cover_image.attached? %>
-        <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white">
-          <%= image_tag rails_blob_path(@segment.cover_image, disposition: "inline"), class: "w-full object-cover" %>
-        </div>
+<div class="min-h-screen w-full">
+  <%= render "shared/navbar", course: @course %>
+
+  <div class="flex h-[calc(100vh-57px)] w-full overflow-hidden">
+    <div class="flex w-full max-w-[360px] shrink-0 flex-col border-r border-gray-200 bg-white/70 backdrop-blur">
+      <%= turbo_frame_tag "course_sidebar", class: "flex-1 overflow-y-auto" do %>
+        <%= render "courses/sidebar", course: @course, current_segment: @segment, completions_by_segment_id: @completions_by_segment_id %>
       <% end %>
-
-      <div class="prose prose-gray mt-6 max-w-none">
-        <% if @segment.content&.body&.present? %>
-          <%= @segment.content %>
-        <% else %>
-          <p class="text-gray-500">Obsah brzy doplníme.</p>
-        <% end %>
+      <div class="border-t border-gray-200 bg-white px-5 py-3">
+        <%= render "shared/footer_links" %>
       </div>
     </div>
 
-    <aside class="flex flex-col gap-6">
-      <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-        <h2 class="text-sm font-semibold tracking-tight text-gray-900">Přílohy</h2>
-        <% if @segment.attachments.attached? %>
-          <div class="mt-3 grid grid-cols-1 gap-2">
-            <% @segment.attachments.each do |att| %>
-              <%= link_to rails_blob_path(att, disposition: "inline"),
-                          class: "group flex items-center gap-3 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 hover:border-gray-300",
-                          target: "_blank",
-                          rel: "noopener" do %>
-                <% if att.blob.content_type&.start_with?("image/") %>
-                  <% thumb = (att.variant(resize_to_fill: [44, 44]).processed rescue nil) %>
-                  <% if thumb %>
-                    <%= image_tag thumb, class: "h-11 w-11 rounded-lg border border-gray-200 object-cover bg-white" %>
-                  <% else %>
-                    <div class="flex h-11 w-11 items-center justify-center rounded-lg border border-gray-200 bg-white text-[10px] font-semibold text-gray-600">IMG</div>
-                  <% end %>
-                <% else %>
-                  <div class="flex h-11 w-11 items-center justify-center rounded-lg border border-gray-200 bg-white text-[10px] font-semibold text-gray-600">PDF</div>
-                <% end %>
-
-                <div class="min-w-0 flex-1">
-                  <div class="truncate text-sm font-medium text-gray-900 group-hover:underline"><%= att.filename.to_s %></div>
-                  <div class="mt-0.5 text-xs text-gray-500"><%= number_to_human_size(att.blob.byte_size) %></div>
-                </div>
-              <% end %>
-            <% end %>
-          </div>
-        <% else %>
-          <p class="mt-2 text-sm text-gray-500">Žádné přílohy.</p>
-        <% end %>
-      </div>
-
-      <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-        <h2 class="text-sm font-semibold tracking-tight text-gray-900">Navigace</h2>
-        <div class="mt-3 text-sm text-gray-700">
-          <%= link_to "Zpět na kurz", course_path(@course), class: "font-medium text-gray-900 hover:underline" %>
-        </div>
-      </div>
-    </aside>
+    <div class="flex-1 bg-white">
+      <%= turbo_frame_tag "course_main", class: "h-full w-full" do %>
+        <%= render "segments/main_player", course: @course, segment: @segment, next_segment: @next_segment, segment_completed: @segment_completed %>
+      <% end %>
+    </div>
   </div>
 </div>

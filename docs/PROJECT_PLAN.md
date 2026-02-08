@@ -63,6 +63,7 @@ This is a preliminary schema. Relationships will be refined during development.
   - `price` (integer), `currency` (string, default 'CZK')
   - `slug` (string, unique for friendly URLs)
   - `status` (string, e.g., 'draft', 'public', 'archived')
+  - `cover_image` (Active Storage attachment, thumbnail)
   - `preview_video_url` (string, optional)
   - *Associations:* `has_many :chapters, -> { order(position: :asc) }`, `has_many :enrollments`
 

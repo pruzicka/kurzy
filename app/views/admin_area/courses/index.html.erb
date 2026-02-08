@@ -19,13 +19,27 @@
       <% @courses.each do |course| %>
         <div class="grid grid-cols-12 items-center gap-0 px-4 py-4">
           <div class="col-span-5">
-            <div class="font-medium text-gray-900"><%= course.name %></div>
-            <div class="mt-0.5 text-xs text-gray-600">
-              <span class="font-medium">ID:</span> <%= course.id %>
-              <% if course.slug.present? %>
-                <span class="mx-2 text-gray-300">/</span>
-                <span class="font-medium">slug:</span> <%= course.slug %>
+            <div class="flex items-center gap-3">
+              <% if course.cover_image.attached? %>
+                <% thumb = (course.cover_image.variant(resize_to_fill: [64, 36]).processed rescue nil) %>
+                <% if thumb %>
+                  <%= image_tag thumb, class: "h-9 w-16 rounded-xl border border-gray-200 object-cover bg-white" %>
+                <% else %>
+                  <%= image_tag rails_blob_path(course.cover_image, disposition: "inline"), class: "h-9 w-16 rounded-xl border border-gray-200 object-cover bg-white" %>
+                <% end %>
+              <% else %>
+                <div class="flex h-9 w-16 items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50 text-[10px] font-semibold text-gray-500">NO IMG</div>
               <% end %>
+              <div class="min-w-0">
+                <div class="truncate font-medium text-gray-900"><%= course.name %></div>
+                <div class="mt-0.5 text-xs text-gray-600">
+                  <span class="font-medium">ID:</span> <%= course.id %>
+                  <% if course.slug.present? %>
+                    <span class="mx-2 text-gray-300">/</span>
+                    <span class="font-medium">slug:</span> <%= course.slug %>
+                  <% end %>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -56,4 +70,3 @@
     <div class="p-8 text-sm text-gray-700">Zatim tu nejsou zadne kurzy. Vytvor prvni.</div>
   <% end %>
 </div>
-

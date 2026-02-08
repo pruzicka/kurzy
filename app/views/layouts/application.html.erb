@@ -27,7 +27,14 @@
 
   <body class="bg-gradient-to-b from-gray-50 to-white">
     <% centered_layout = content_for?(:layout_centered) %>
-    <div class="<%= centered_layout ? "min-h-screen px-5 py-12 flex flex-col items-center justify-center gap-6" : "container mx-auto mt-10 px-5" %>">
+    <% fullscreen_layout = content_for?(:layout_fullscreen) %>
+    <div class="<%= if centered_layout
+                    "min-h-screen px-5 py-12 flex flex-col items-center justify-center gap-6"
+                  elsif fullscreen_layout
+                    "min-h-screen w-full"
+                  else
+                    "container mx-auto mt-10 px-5"
+                  end %>">
       <% if notice.present? %>
         <div class="<%= centered_layout ? "w-full max-w-md" : "mb-6" %> rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900"><%= notice %></div>
       <% end %>

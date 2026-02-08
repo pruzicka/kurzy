@@ -1,0 +1,29 @@
+<header class="sticky top-0 z-20 border-b border-gray-200 bg-white/80 backdrop-blur">
+  <div class="mx-auto flex w-full items-center justify-between gap-4 px-5 py-3">
+    <div class="flex items-center gap-3">
+      <span class="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-gray-900 text-sm font-semibold text-white">K</span>
+      <div class="flex items-baseline gap-3">
+        <%= link_to "Kurzy", courses_list_path, class: "text-sm font-semibold tracking-tight text-gray-900 hover:underline" %>
+        <% if admin_preview? %>
+          <span class="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-900">Preview</span>
+        <% end %>
+      </div>
+    </div>
+
+    <nav class="flex items-center gap-2 text-sm">
+      <% if admin_preview? %>
+        <% if defined?(course) && course.present? %>
+          <%= link_to "Zpet do adminu", admin_course_path(course), class: "rounded-xl border border-gray-300 bg-white px-3 py-2 font-medium text-gray-900 hover:bg-gray-50" %>
+        <% else %>
+          <%= link_to "Admin", admin_root_path, class: "rounded-xl border border-gray-300 bg-white px-3 py-2 font-medium text-gray-900 hover:bg-gray-50" %>
+        <% end %>
+      <% elsif user_signed_in? %>
+        <span class="hidden text-sm text-gray-600 sm:inline">Prihlaseno jako <span class="font-medium text-gray-900"><%= current_user.name %></span></span>
+        <%= button_to "Odhlasit", logout_path, method: :delete, class: "rounded-xl bg-gray-900 px-3 py-2 font-medium text-white hover:bg-black" %>
+      <% else %>
+        <%= link_to "Prihlasit", login_path, class: "rounded-xl bg-gray-900 px-3 py-2 font-medium text-white hover:bg-black" %>
+      <% end %>
+    </nav>
+  </div>
+</header>
+

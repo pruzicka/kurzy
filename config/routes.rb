@@ -16,11 +16,19 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#index"
 
+  get "/disclaimer", to: "pages#disclaimer"
+  get "/terms", to: "pages#terms"
+  get "/privacy", to: "pages#privacy"
+
   get "/login", to: "login#show", as: :login
 
   resources :courses, only: %i[index show] do
     resources :chapters, only: [] do
-      resources :segments, only: %i[show]
+      resources :segments, only: %i[show] do
+        member do
+          post :complete, to: "segment_completions#create"
+        end
+      end
     end
   end
 
@@ -31,7 +39,19 @@ Rails.application.routes.draw do
   namespace :admin, module: "admin_area", path: "admin" do
     root "dashboard#show"
 
+    namespace :preview, module: "preview", path: "preview" do
+      resources :courses, only: %i[index show] do
+        resources :chapters, only: [] do
+          resources :segments, only: %i[show]
+        end
+      end
+    end
+
     resources :courses do
+      member do
+        delete :cover_image, action: :destroy_cover_image
+      end
+
       resources :chapters, only: %i[new create edit update destroy] do
         member do
           patch :move_up

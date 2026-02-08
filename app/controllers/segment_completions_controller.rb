@@ -1,18 +1,20 @@
-class SegmentsController < ApplicationController
+class SegmentCompletionsController < ApplicationController
   before_action :require_user!
   before_action :set_course
   before_action :set_chapter
   before_action :set_segment
 
-  def show
-    @next_segment = next_segment_for(@course, @segment)
+  def create
+    completion = current_user.segment_completions.find_or_initialize_by(segment: @segment)
+    completion.completed_at ||= Time.current
+    completion.save! if completion.changed?
+
     segment_ids = @course.chapters.flat_map { |c| c.segments.map(&:id) }
     @completions_by_segment_id = current_user.segment_completions.where(segment_id: segment_ids).pluck(:segment_id).index_with(true)
-    @segment_completed = @completions_by_segment_id.key?(@segment.id)
 
     respond_to do |format|
-      format.html
       format.turbo_stream
+      format.html { redirect_to course_chapter_segment_path(@course, @chapter, @segment) }
     end
   end
 
@@ -29,12 +31,5 @@ class SegmentsController < ApplicationController
   def set_segment
     @segment = @chapter.segments.find(params[:id])
   end
-
-  def next_segment_for(course, segment)
-    ordered = course.chapters.flat_map(&:segments)
-    idx = ordered.index(segment)
-    return nil unless idx
-
-    ordered[idx + 1]
-  end
 end
+

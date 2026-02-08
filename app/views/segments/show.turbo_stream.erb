@@ -1,0 +1,7 @@
+<%= turbo_stream.update "course_sidebar" do %>
+  <%= render "courses/sidebar", course: @course, current_segment: @segment, completions_by_segment_id: @completions_by_segment_id %>
+<% end %>
+
+<%= turbo_stream.update "course_main" do %>
+  <%= render "segments/main_player", course: @course, segment: @segment, next_segment: @next_segment, segment_completed: @segment_completed %>
+<% end %>

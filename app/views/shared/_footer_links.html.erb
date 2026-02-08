@@ -1,0 +1,9 @@
+<div class="flex flex-wrap items-center justify-between gap-2 text-xs text-gray-500">
+  <div class="flex items-center gap-3">
+    <%= link_to "Disclaimer", disclaimer_path, class: "hover:text-gray-900 hover:underline" %>
+    <%= link_to "Podminky", terms_path, class: "hover:text-gray-900 hover:underline" %>
+    <%= link_to "Soukromi", privacy_path, class: "hover:text-gray-900 hover:underline" %>
+  </div>
+  <div class="text-gray-400">© <%= Time.current.year %> Kurzy</div>
+</div>
+

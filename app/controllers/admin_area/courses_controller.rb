@@ -1,6 +1,6 @@
 module AdminArea
   class CoursesController < BaseController
-    before_action :set_course, only: %i[show edit update destroy]
+    before_action :set_course, only: %i[show edit update destroy destroy_cover_image]
 
     def index
       @courses = Course.order(created_at: :desc)
@@ -38,6 +38,11 @@ module AdminArea
       redirect_to admin_courses_path, notice: "Kurz smazan."
     end
 
+    def destroy_cover_image
+      @course.cover_image.purge if @course.cover_image.attached?
+      redirect_to edit_admin_course_path(@course), notice: "Obrazek kurzu smazan."
+    end
+
     private
 
     def set_course
@@ -45,7 +50,7 @@ module AdminArea
     end
 
     def course_params
-      params.require(:course).permit(:name, :description, :status, :price, :currency, :slug)
+      params.require(:course).permit(:name, :description, :status, :price, :currency, :slug, :cover_image)
     end
   end
 end

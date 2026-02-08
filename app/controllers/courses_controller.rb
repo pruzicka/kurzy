@@ -6,6 +6,8 @@ class CoursesController < ApplicationController
   end
 
   def show
-    @course = Course.publicly_visible.find(params[:id])
+    @course = Course.publicly_visible.includes(chapters: :segments).find(params[:id])
+    segment_ids = @course.chapters.flat_map { |c| c.segments.map(&:id) }
+    @completions_by_segment_id = current_user.segment_completions.where(segment_id: segment_ids).pluck(:segment_id).index_with(true)
   end
 end
