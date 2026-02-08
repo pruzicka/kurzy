@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#index"
 
+  get "/login", to: "login#show", as: :login
+
   resources :courses, only: %i[index show]
 
   namespace :user, path: "user", module: "user_area" do

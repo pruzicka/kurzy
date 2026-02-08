@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
     current_user.present?
   end
 
+  def require_user!
+    redirect_to login_path, alert: "Pro pokracovani se prosim prihlaste." unless user_signed_in?
+  end
+
   def after_sign_in_path_for(resource)
     return admin_root_path if resource.is_a?(Admin)
     super

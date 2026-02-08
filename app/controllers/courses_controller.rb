@@ -1,4 +1,6 @@
 class CoursesController < ApplicationController
+  before_action :require_user!
+
   def index
     @courses = Course.publicly_visible.order(created_at: :desc)
   end
@@ -7,4 +9,3 @@ class CoursesController < ApplicationController
     @course = Course.publicly_visible.find(params[:id])
   end
 end
-
