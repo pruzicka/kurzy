@@ -6,36 +6,35 @@
       <div class="flex items-center gap-3">
         <span class="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-gray-900 text-sm font-semibold text-white">K</span>
         <div class="flex flex-col">
-          <h1 class="text-xl font-semibold tracking-tight text-gray-900">Prihlaseni</h1>
-          <p class="text-sm text-gray-600">Pristup do aplikace.</p>
+          <h1 class="text-xl font-semibold tracking-tight text-gray-900">Přihlášení</h1>
+          <p class="text-sm text-gray-600">Přístup do aplikace.</p>
         </div>
       </div>
 
       <div class="mt-6 flex flex-col gap-3">
-        <% google_client_id = Rails.application.credentials.dig(:google, :client_id) || Rails.application.credentials.dig(:google, :cliend_id) || ENV["GOOGLE_CLIENT_ID"] %>
+        <% google_client_id = Rails.application.credentials.dig(:google, :client_id) || ENV["GOOGLE_CLIENT_ID"] %>
         <% google_client_secret = Rails.application.credentials.dig(:google, :client_secret) || ENV["GOOGLE_CLIENT_SECRET"] %>
 
         <% if google_client_id.present? && google_client_secret.present? %>
-          <%= button_to "Prihlasit se pres Google",
+          <%= button_to "Přihlásit se přes Google",
                         "/auth/google_oauth2",
                         method: :post,
                         data: { turbo: false },
                         class: "inline-flex items-center justify-center rounded-2xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-black" %>
         <% else %>
           <div class="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-            Google OAuth neni nakonfigurovany (chybi credentials nebo env vars).
+            Google OAuth není nakonfigurovaný (chybí credentials nebo env vars).
           </div>
         <% end %>
 
         <div class="rounded-2xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700">
-          Admin login je na <%= link_to "admin/login", new_admin_session_path, class: "font-medium text-gray-900 hover:underline" %>.
+          Admin přihlášení je na <%= link_to "admin/login", new_admin_session_path, class: "font-medium text-gray-900 hover:underline" %>.
         </div>
       </div>
     </div>
   </div>
 
   <div class="mt-6 text-center text-sm text-gray-600">
-    <%= link_to "Zpet na root", root_path, class: "font-medium text-gray-900 hover:underline" %>
+    <%= link_to "Zpět na úvod", root_path, class: "font-medium text-gray-900 hover:underline" %>
   </div>
 </div>
-

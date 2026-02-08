@@ -8,9 +8,9 @@
     <div class="px-6 py-6">
       <% if locked %>
         <div class="rounded-2xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">
-          <div class="font-semibold">Obsah je zamceny</div>
+          <div class="font-semibold">Obsah je zamčený</div>
           <div class="mt-1"><%= lock_message %></div>
-          <div class="mt-2 text-amber-800/80">Dokoncete vsechny segmenty v povinne kapitole a potom pokracujte.</div>
+          <div class="mt-2 text-amber-800/80">Dokončete všechny segmenty v povinné kapitole a potom pokračujte.</div>
         </div>
       <% else %>
       <% if segment.video.attached? %>
@@ -25,15 +25,17 @@
           playsinline
           preload="metadata"
           data-action="<%= admin_preview? ? "" : "ended->video-completion#complete" %>"
-          <% if segment.cover_image.attached? %>poster="<%= rails_blob_path(segment.cover_image, disposition: "inline") %>"<% end %>
+          <% if segment.cover_image.attached? %>
+            poster="<%= admin_preview? ? rails_blob_path(segment.cover_image, disposition: "inline") : cover_image_course_chapter_segment_path(course, segment.chapter, segment) %>"
+          <% end %>
         >
-          <source src="<%= rails_blob_path(segment.video, disposition: "inline") %>" type="video/mp4">
+          <source src="<%= admin_preview? ? rails_blob_path(segment.video, disposition: "inline") : video_course_chapter_segment_path(course, segment.chapter, segment) %>" type="video/mp4">
           Váš prohlížeč nepodporuje přehrávání videa.
         </video>
         </div>
       <% elsif segment.cover_image.attached? %>
         <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white">
-          <%= image_tag rails_blob_path(segment.cover_image, disposition: "inline"), class: "w-full object-cover" %>
+          <%= image_tag(admin_preview? ? rails_blob_path(segment.cover_image, disposition: "inline") : cover_image_course_chapter_segment_path(course, segment.chapter, segment), class: "w-full object-cover") %>
         </div>
       <% end %>
 
@@ -45,17 +47,18 @@
 
       <% if segment.attachments.attached? %>
         <div class="mt-10 border-t border-gray-200 pt-6">
-          <div class="text-xs font-semibold uppercase tracking-wide text-gray-500">Prilohy</div>
-          <div class="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
-            <% segment.attachments.each do |att| %>
-              <%= link_to rails_blob_path(att, disposition: "inline"),
-                          class: "group flex items-center gap-3 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 hover:border-gray-300",
-                          target: "_blank",
-                          rel: "noopener" do %>
-                <% if att.blob.content_type&.start_with?("image/") %>
-                  <% thumb = (att.variant(resize_to_fill: [44, 44]).processed rescue nil) %>
-                  <% if thumb %>
-                    <%= image_tag thumb, class: "h-11 w-11 rounded-lg border border-gray-200 object-cover bg-white" %>
+	          <div class="text-xs font-semibold uppercase tracking-wide text-gray-500">Přílohy</div>
+	          <div class="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+	            <% segment.attachments.each do |att| %>
+	              <% href = admin_preview? ? rails_blob_path(att, disposition: "inline") : course_chapter_segment_attachment_path(course, segment.chapter, segment, attachment_id: att.id) %>
+	              <%= link_to href,
+	                          class: "group flex items-center gap-3 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 hover:border-gray-300",
+	                          target: "_blank",
+	                          rel: "noopener" do %>
+	                <% if att.blob.content_type&.start_with?("image/") %>
+	                  <% thumb = (att.variant(resize_to_fill: [44, 44]).processed rescue nil) %>
+	                  <% if thumb %>
+	                    <%= image_tag thumb, class: "h-11 w-11 rounded-lg border border-gray-200 object-cover bg-white" %>
                   <% else %>
                     <div class="flex h-11 w-11 items-center justify-center rounded-lg border border-gray-200 bg-white text-[10px] font-semibold text-gray-600">IMG</div>
                   <% end %>
@@ -79,15 +82,15 @@
   <div class="border-t border-gray-200 bg-white px-6 py-4">
     <% if locked %>
       <button type="button" class="inline-flex w-full items-center justify-center rounded-2xl bg-gray-200 px-5 py-3 text-sm font-semibold text-gray-600" disabled>
-        Pokracovat
+        Pokračovat
       </button>
     <% elsif next_segment %>
-      <%= link_to "Pokracovat",
+      <%= link_to "Pokračovat",
                   segment_show_path(course, next_segment.chapter, next_segment),
                   data: { turbo_stream: true, video_completion_target: "continue" },
                   class: "inline-flex w-full items-center justify-center rounded-2xl bg-gray-900 px-5 py-3 text-sm font-semibold text-white hover:bg-black #{segment.video.attached? && !segment_completed ? "pointer-events-none opacity-60" : "" }" %>
     <% else %>
-      <%= link_to "Hotovo - zpet na kurz",
+      <%= link_to "Hotovo - zpět na kurz",
                   course_show_path(course, start: 1),
                   class: "inline-flex w-full items-center justify-center rounded-2xl border border-gray-300 bg-white px-5 py-3 text-sm font-semibold text-gray-900 hover:bg-gray-50" %>
     <% end %>

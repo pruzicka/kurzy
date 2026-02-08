@@ -1,14 +1,14 @@
 <div class="flex items-end justify-between gap-4">
   <div class="flex flex-col gap-1">
     <h1 class="text-3xl font-semibold tracking-tight text-gray-900">Kurzy</h1>
-    <p class="text-sm text-gray-600">Sprava kurzu a obsahu.</p>
+    <p class="text-sm text-gray-600">Správa kurzů a obsahu.</p>
   </div>
-  <%= link_to "Novy kurz", new_admin_course_path, class: "inline-flex items-center justify-center rounded-2xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-black" %>
+  <%= link_to "Nový kurz", new_admin_course_path, class: "inline-flex items-center justify-center rounded-2xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-black" %>
 </div>
 
 <div class="mt-6 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
   <div class="grid grid-cols-12 gap-0 border-b border-gray-200 bg-gray-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-600">
-    <div class="col-span-5">Nazev</div>
+    <div class="col-span-5">Název</div>
     <div class="col-span-2">Stav</div>
     <div class="col-span-2 text-right">Cena</div>
     <div class="col-span-3 text-right">Akce</div>
@@ -67,6 +67,6 @@
       <% end %>
     </div>
   <% else %>
-    <div class="p-8 text-sm text-gray-700">Zatim tu nejsou zadne kurzy. Vytvor prvni.</div>
+    <div class="p-8 text-sm text-gray-700">Zatím tu nejsou žádné kurzy. Vytvořte první.</div>
   <% end %>
 </div>

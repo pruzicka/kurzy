@@ -185,17 +185,19 @@ This is a preliminary schema. Relationships will be refined during development.
 Goal: users should not get a permanent, shareable video URL. We can't make this "unshareable" in an absolute sense (screen recording always exists), but we can make link sharing inconvenient and short-lived.
 
 - **Storage:** keep R2 buckets private (no public listing / no public object access).
-- **Delivery:** serve videos via **short-lived signed URLs** (e.g., 30-120 seconds) generated only after verifying the user has an active Enrollment.
-- **Player flow:** the frontend requests a fresh signed URL when playback starts (and can refresh periodically). Shared URLs expire quickly.
+- **Delivery:** serve videos via **short-lived signed URLs** (e.g., 30-300 seconds) generated only after verifying the user is authorized to access the segment.
+- **Avoid permanent Rails blob routes:** do **not** render `/rails/active_storage/blobs/redirect/<signed_id>/...` in user-facing HTML, because the signed id is effectively permanent and shareable.
+- **Player flow:** the `<video>` source should point at an auth-gated endpoint that redirects to a short-lived presigned URL.
 - **Domain restrictions:** "playable only on some domain" isn't a strong security boundary (Referer headers can be spoofed/omitted). We'll treat this as a nice-to-have only.
 - **Optional deterrents (later):** dynamic watermark overlay (e.g., user email/order id), HLS streaming with short-lived signed segment URLs, or Cloudflare Worker token validation in front of R2 for an extra layer.
 
 See `docs/R2_SETUP.md` for bucket + credentials + CORS details.
+See `docs/MEDIA_SECURITY.md` for the practical implementation notes and limitations.
 
 ## 6. Suggestions & Improvements
 
 1.  **Authorization (Pundit):** Use Pundit for a cleaner, more scalable authorization system. Policies are just plain Ruby objects and are easier to test and manage than a large `ability.rb` file.
-2.  **Rich Text:** For course descriptions and step content, use the built-in `ActionText` with the Trix editor. It's simple, well-integrated, and supports basic formatting and image uploads.
+2.  **Rich Text:** For course descriptions and segment content, use `ActionText` with the **Lexxy** editor (instead of Trix) for better writing UX. Keep styling in a dedicated stylesheet so lists/headers render correctly.
 3.  **Testing Strategy:** Don't skip testing. We will use Minitest with fixtures. At a minimum, we should have:
     - **Model tests:** For data validations and logic.
     - **System tests:** To simulate user flows like "user buys a course" and "user completes a step". This ensures the application works end-to-end.

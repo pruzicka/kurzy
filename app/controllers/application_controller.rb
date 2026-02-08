@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
   end
 
   def require_user!
-    redirect_to login_path, alert: "Pro pokracovani se prosim prihlaste." unless user_signed_in?
+    redirect_to login_path, alert: "Pro pokračování se prosím přihlaste." unless user_signed_in?
   end
 
   def after_sign_in_path_for(resource)

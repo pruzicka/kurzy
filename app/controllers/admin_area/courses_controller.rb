@@ -16,7 +16,7 @@ module AdminArea
     def create
       @course = Course.new(course_params)
       if @course.save
-        redirect_to admin_course_path(@course), notice: "Kurz vytvoren."
+        redirect_to admin_course_path(@course), notice: "Kurz vytvořen."
       else
         render :new, status: :unprocessable_entity
       end
@@ -35,12 +35,12 @@ module AdminArea
 
     def destroy
       @course.destroy!
-      redirect_to admin_courses_path, notice: "Kurz smazan."
+      redirect_to admin_courses_path, notice: "Kurz smazán."
     end
 
     def destroy_cover_image
       @course.cover_image.purge if @course.cover_image.attached?
-      redirect_to edit_admin_course_path(@course), notice: "Obrazek kurzu smazan."
+      redirect_to edit_admin_course_path(@course), notice: "Obrázek kurzu smazán."
     end
 
     private

@@ -29,6 +29,15 @@ Rails.application.routes.draw do
           post :complete, to: "segment_completions#create"
         end
       end
+
+      # Auth-gated media endpoints (avoid permanent Active Storage signed routes in user-facing HTML).
+      resources :segments, only: [] do
+        member do
+          get :video, to: "segment_media#video"
+          get :cover_image, to: "segment_media#cover_image"
+        end
+        get "attachments/:attachment_id", to: "segment_media#attachment", as: :attachment
+      end
     end
   end
 

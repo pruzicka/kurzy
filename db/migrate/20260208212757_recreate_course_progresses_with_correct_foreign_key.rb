@@ -1,17 +1,20 @@
 class RecreateCourseProgressesWithCorrectForeignKey < ActiveRecord::Migration[8.1]
   def change
-    # The original generated migration referenced :last_segment without to_table,
-    # which would try to create a FK to a non-existent `last_segments` table.
-    drop_table :course_progresses, if_exists: true
+    # Safety migration:
+    # Older versions of this repo created an incorrect FK for last_segment_id.
+    # Fix it without dropping data.
+    return unless table_exists?(:course_progresses)
 
-    create_table :course_progresses do |t|
-      t.references :user, null: false, foreign_key: true
-      t.references :course, null: false, foreign_key: true
-      t.references :last_segment, null: false, foreign_key: { to_table: :segments }
-
-      t.timestamps
+    if foreign_key_exists?(:course_progresses, column: :last_segment_id)
+      remove_foreign_key :course_progresses, column: :last_segment_id
     end
 
-    add_index :course_progresses, [:user_id, :course_id], unique: true
+    unless foreign_key_exists?(:course_progresses, :segments, column: :last_segment_id)
+      add_foreign_key :course_progresses, :segments, column: :last_segment_id
+    end
+
+    unless index_exists?(:course_progresses, [:user_id, :course_id], unique: true)
+      add_index :course_progresses, [:user_id, :course_id], unique: true
+    end
   end
 end

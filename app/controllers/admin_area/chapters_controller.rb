@@ -10,7 +10,7 @@ module AdminArea
     def create
       @chapter = @course.chapters.new(chapter_params)
       if @chapter.save
-        redirect_to admin_course_path(@course), notice: "Kapitola vytvorena."
+        redirect_to admin_course_path(@course), notice: "Kapitola vytvořena."
       else
         render :new, status: :unprocessable_entity
       end
@@ -29,7 +29,7 @@ module AdminArea
 
     def destroy
       @chapter.destroy!
-      redirect_to admin_course_path(@course), notice: "Kapitola smazana."
+      redirect_to admin_course_path(@course), notice: "Kapitola smazána."
     end
 
     def move_up

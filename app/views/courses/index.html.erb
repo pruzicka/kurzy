@@ -1,7 +1,7 @@
 <div class="w-full">
   <div class="flex items-end justify-between gap-4">
     <h1 class="text-3xl font-semibold tracking-tight">Kurzy</h1>
-    <%= link_to "Zpet na uvod", root_path, class: "text-sm font-medium text-gray-900 hover:underline" %>
+    <%= link_to "Zpět na úvod", root_path, class: "text-sm font-medium text-gray-900 hover:underline" %>
   </div>
 
   <div class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -27,7 +27,7 @@
           <% if course.description&.body&.present? %>
             <p class="text-sm text-gray-600"><%= truncate(course.description.body.to_plain_text, length: 180) %></p>
           <% else %>
-            <p class="text-sm text-gray-500">Popis brzy doplnime.</p>
+            <p class="text-sm text-gray-500">Popis brzy doplníme.</p>
           <% end %>
         </div>
       <% end %>

@@ -12,7 +12,7 @@ module AdminArea
       @segment = @chapter.segments.new(segment_params.except(:attachments))
       attach_files(@segment)
       if @segment.save
-        redirect_to admin_course_path(@course), notice: "Segment vytvoren."
+        redirect_to admin_course_path(@course), notice: "Segment vytvořen."
       else
         render :new, status: :unprocessable_entity
       end
@@ -34,7 +34,7 @@ module AdminArea
 
     def destroy
       @segment.destroy!
-      redirect_to admin_course_path(@course), notice: "Segment smazan."
+      redirect_to admin_course_path(@course), notice: "Segment smazán."
     end
 
     def move_up
@@ -50,17 +50,17 @@ module AdminArea
     def destroy_attachment
       attachment = @segment.attachments.attachments.find(params[:attachment_id])
       attachment.purge
-      redirect_to edit_admin_course_chapter_segment_path(@course, @chapter, @segment), notice: "Priloha smazana."
+      redirect_to edit_admin_course_chapter_segment_path(@course, @chapter, @segment), notice: "Příloha smazána."
     end
 
     def destroy_cover_image
       @segment.cover_image.purge if @segment.cover_image.attached?
-      redirect_to edit_admin_course_chapter_segment_path(@course, @chapter, @segment), notice: "Nahled smazan."
+      redirect_to edit_admin_course_chapter_segment_path(@course, @chapter, @segment), notice: "Náhled smazán."
     end
 
     def destroy_video
       @segment.video.purge if @segment.video.attached?
-      redirect_to edit_admin_course_chapter_segment_path(@course, @chapter, @segment), notice: "Video smazano."
+      redirect_to edit_admin_course_chapter_segment_path(@course, @chapter, @segment), notice: "Video smazáno."
     end
 
     private

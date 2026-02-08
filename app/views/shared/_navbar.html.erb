@@ -13,17 +13,16 @@
     <nav class="flex items-center gap-2 text-sm">
       <% if admin_preview? %>
         <% if defined?(course) && course.present? %>
-          <%= link_to "Zpet do adminu", admin_course_path(course), class: "rounded-xl border border-gray-300 bg-white px-3 py-2 font-medium text-gray-900 hover:bg-gray-50" %>
+          <%= link_to "Zpět do adminu", admin_course_path(course), class: "rounded-xl border border-gray-300 bg-white px-3 py-2 font-medium text-gray-900 hover:bg-gray-50" %>
         <% else %>
           <%= link_to "Admin", admin_root_path, class: "rounded-xl border border-gray-300 bg-white px-3 py-2 font-medium text-gray-900 hover:bg-gray-50" %>
         <% end %>
       <% elsif user_signed_in? %>
-        <span class="hidden text-sm text-gray-600 sm:inline">Prihlaseno jako <span class="font-medium text-gray-900"><%= current_user.name %></span></span>
-        <%= button_to "Odhlasit", logout_path, method: :delete, class: "rounded-xl bg-gray-900 px-3 py-2 font-medium text-white hover:bg-black" %>
+        <span class="hidden text-sm text-gray-600 sm:inline">Přihlášeno jako <span class="font-medium text-gray-900"><%= current_user.name %></span></span>
+        <%= button_to "Odhlásit", logout_path, method: :delete, class: "rounded-xl bg-gray-900 px-3 py-2 font-medium text-white hover:bg-black" %>
       <% else %>
-        <%= link_to "Prihlasit", login_path, class: "rounded-xl bg-gray-900 px-3 py-2 font-medium text-white hover:bg-black" %>
+        <%= link_to "Přihlásit", login_path, class: "rounded-xl bg-gray-900 px-3 py-2 font-medium text-white hover:bg-black" %>
       <% end %>
     </nav>
   </div>
 </header>
-

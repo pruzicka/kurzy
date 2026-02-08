@@ -2,16 +2,16 @@
   <div class="flex items-end justify-between gap-4">
     <div class="flex flex-col gap-1">
       <h1 class="text-3xl font-semibold tracking-tight">Moje kurzy</h1>
-      <p class="text-gray-600">Prihlaseno jako <span class="font-medium text-gray-900"><%= current_user.name %></span></p>
+      <p class="text-gray-600">Přihlášeno jako <span class="font-medium text-gray-900"><%= current_user.name %></span></p>
     </div>
     <div class="flex gap-3">
-      <%= link_to "Zpet na uvod", root_path, class: "inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
-      <%= button_to "Odhlasit", logout_path, method: :delete, class: "inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-black" %>
+      <%= link_to "Zpět na úvod", root_path, class: "inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+      <%= button_to "Odhlásit", logout_path, method: :delete, class: "inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-black" %>
     </div>
   </div>
 
   <div class="mt-6 rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-8 text-gray-700">
-    Tady budou vase zakoupene kurzy (Enrollment) a progress. Zatim je prihlaseni hotove, nakup pridame dalsi.
+    Tady budou vaše zakoupené kurzy (Enrollment) a progress. Zatím je přihlášení hotové, nákup přidáme později.
   </div>
 
   <div class="mt-6">
