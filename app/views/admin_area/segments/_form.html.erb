@@ -20,6 +20,32 @@
     <%= f.rich_text_area :content, placeholder: "Obsah segmentu..." %>
   </div>
 
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div class="flex flex-col gap-2">
+      <%= f.label :video, "Video (volitelne)", class: "text-sm font-medium text-gray-900" %>
+      <%= f.file_field :video, direct_upload: true, accept: "video/*", class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm" %>
+      <% if segment.video.attached? %>
+        <div class="text-xs text-gray-600">
+          Aktualni: <%= link_to segment.video.filename.to_s, url_for(segment.video), class: "font-medium text-gray-900 hover:underline", target: "_blank", rel: "noopener" %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <%= f.label :attachments, "Prilohy (PDF, volitelne)", class: "text-sm font-medium text-gray-900" %>
+      <%= f.file_field :attachments, direct_upload: true, multiple: true, accept: "application/pdf", class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm" %>
+      <% if segment.attachments.attached? %>
+        <div class="text-xs text-gray-600">
+          <% segment.attachments.each do |att| %>
+            <div>
+              <%= link_to att.filename.to_s, url_for(att), class: "font-medium text-gray-900 hover:underline", target: "_blank", rel: "noopener" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
   <div class="flex items-center gap-3">
     <%= f.submit class: "inline-flex items-center justify-center rounded-2xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-black" %>
     <%= link_to "Zpet", admin_course_path(course), class: "inline-flex items-center justify-center rounded-2xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50" %>

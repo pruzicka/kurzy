@@ -2,6 +2,8 @@ class Segment < ApplicationRecord
   belongs_to :chapter
 
   has_rich_text :content
+  has_one_attached :video
+  has_many_attached :attachments
 
   validates :title, presence: true
   validates :position, numericality: { only_integer: true, greater_than: 0 }

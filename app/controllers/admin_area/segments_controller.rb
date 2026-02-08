@@ -9,7 +9,8 @@ module AdminArea
     end
 
     def create
-      @segment = @chapter.segments.new(segment_params)
+      @segment = @chapter.segments.new(segment_params.except(:attachments))
+      attach_files(@segment)
       if @segment.save
         redirect_to admin_course_path(@course), notice: "Segment vytvoren."
       else
@@ -21,7 +22,10 @@ module AdminArea
     end
 
     def update
-      if @segment.update(segment_params)
+      @segment.assign_attributes(segment_params.except(:attachments))
+      attach_files(@segment)
+
+      if @segment.save
         redirect_to admin_course_path(@course), notice: "Segment upraven."
       else
         render :edit, status: :unprocessable_entity
@@ -58,7 +62,12 @@ module AdminArea
     end
 
     def segment_params
-      params.require(:segment).permit(:title, :content)
+      params.require(:segment).permit(:title, :content, :video, attachments: [])
+    end
+
+    def attach_files(segment)
+      new_files = Array(segment_params[:attachments]).reject(&:blank?)
+      segment.attachments.attach(new_files) if new_files.any?
     end
   end
 end

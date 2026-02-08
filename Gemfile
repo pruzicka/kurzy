@@ -28,6 +28,9 @@ gem "omniauth-rails_csrf_protection"
 # Rich text editor (Lexxy) + ActionText storage
 gem "lexxy", "~> 0.1.26.beta"
 
+# Active Storage S3 service (Cloudflare R2 is S3-compatible)
+gem "aws-sdk-s3", "~> 1.176"
+
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
