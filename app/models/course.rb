@@ -3,6 +3,8 @@ class Course < ApplicationRecord
 
   has_many :chapters, -> { order(position: :asc) }, dependent: :destroy
 
+  has_rich_text :description
+
   validates :name, presence: true
   validates :status, presence: true, inclusion: { in: STATUSES }
   validates :currency, presence: true

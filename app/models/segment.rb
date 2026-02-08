@@ -1,6 +1,8 @@
 class Segment < ApplicationRecord
   belongs_to :chapter
 
+  has_rich_text :content
+
   validates :title, presence: true
   validates :position, numericality: { only_integer: true, greater_than: 0 }
 

@@ -8,8 +8,8 @@
   </div>
 
   <div class="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-    <% if @course.description.present? %>
-      <p class="text-gray-700"><%= simple_format(@course.description) %></p>
+    <% if @course.description&.body&.present? %>
+      <div class="text-gray-700"><%= @course.description %></div>
     <% else %>
       <p class="text-gray-500">Popis brzy doplnime.</p>
     <% end %>

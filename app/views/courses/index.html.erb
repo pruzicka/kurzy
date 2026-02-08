@@ -14,8 +14,8 @@
               <%= number_to_currency(course.price, unit: course.currency, precision: 0) %>
             </span>
           </div>
-          <% if course.description.present? %>
-            <p class="text-sm text-gray-600"><%= truncate(course.description, length: 180) %></p>
+          <% if course.description&.body&.present? %>
+            <p class="text-sm text-gray-600"><%= truncate(course.description.body.to_plain_text, length: 180) %></p>
           <% else %>
             <p class="text-sm text-gray-500">Popis brzy doplnime.</p>
           <% end %>
