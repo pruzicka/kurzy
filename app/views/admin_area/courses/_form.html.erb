@@ -10,43 +10,40 @@
     </div>
   <% end %>
 
-  <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-[minmax(0,1fr)_280px]">
     <div class="flex flex-col gap-2">
       <%= f.label :name, "Název", class: "text-sm font-medium text-gray-900" %>
       <%= f.text_field :name, class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
     </div>
 
     <div class="flex flex-col gap-2">
-      <%= f.label :status, "Stav", class: "text-sm font-medium text-gray-900" %>
-      <%= f.select :status, Course::STATUSES, {}, class: "w-full max-w-[220px] rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
+      <%= f.label :slug, "Slug (volitelné)", class: "text-sm font-medium text-gray-900" %>
+      <%= f.text_field :slug, placeholder: "napr. rails-zaklady", class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
     </div>
   </div>
 
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
     <div class="flex flex-col gap-2">
+      <%= f.label :status, "Stav", class: "text-sm font-medium text-gray-900" %>
+      <%= f.select :status, Course::STATUSES, {}, class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
+    </div>
+    <div class="flex flex-col gap-2">
       <%= f.label :course_type, "Typ kurzu", class: "text-sm font-medium text-gray-900" %>
       <%= f.select :course_type,
                    [["Online kurz", "online_course"], ["E-book", "ebook"], ["Fyzický trénink", "in_person"]],
                    {},
-                   class: "w-full max-w-[240px] rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
+                   class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
     </div>
   </div>
 
-  <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-    <div class="flex flex-col gap-2 md:col-span-2">
-      <%= f.label :slug, "Slug (volitelné)", class: "text-sm font-medium text-gray-900" %>
-      <%= f.text_field :slug, placeholder: "napr. rails-zaklady", class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-[200px_120px]">
+    <div class="flex flex-col gap-2">
+      <%= f.label :price, "Cena", class: "text-sm font-medium text-gray-900" %>
+      <%= f.number_field :price, min: 0, step: 1, class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
     </div>
     <div class="flex flex-col gap-2">
       <%= f.label :currency, "Měna", class: "text-sm font-medium text-gray-900" %>
       <%= f.text_field :currency, class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
-    </div>
-  </div>
-
-  <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
-    <div class="flex flex-col gap-2">
-      <%= f.label :price, "Cena (CZK)", class: "text-sm font-medium text-gray-900" %>
-      <%= f.number_field :price, min: 0, step: 1, class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
     </div>
   </div>
 
