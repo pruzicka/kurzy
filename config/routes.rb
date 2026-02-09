@@ -22,6 +22,15 @@ Rails.application.routes.draw do
 
   get "/login", to: "login#show", as: :login
 
+  resource :cart, only: [:show]
+  resources :cart_items, only: %i[create update destroy]
+  resources :enrollments, only: [:destroy]
+  post "/checkout", to: "checkouts#create", as: :checkout
+  get "/checkout/success", to: "checkouts#success", as: :checkout_success
+  get "/checkout/cancel", to: "checkouts#cancel", as: :checkout_cancel
+
+  post "/webhooks/stripe", to: "stripe_webhooks#create"
+
   resources :courses, only: %i[index show] do
     resources :chapters, only: [] do
       resources :segments, only: %i[show] do
@@ -43,10 +52,12 @@ Rails.application.routes.draw do
 
   namespace :user, path: "user", module: "user_area" do
     root "dashboard#show"
+    resource :settings, only: %i[edit update]
   end
 
   namespace :admin, module: "admin_area", path: "admin" do
     root "dashboard#show"
+    resource :profile, only: %i[edit update]
 
     namespace :preview, module: "preview", path: "preview" do
       resources :courses, only: %i[index show] do

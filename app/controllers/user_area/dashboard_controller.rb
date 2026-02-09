@@ -1,7 +1,7 @@
 module UserArea
   class DashboardController < BaseController
     def show
-      # Enrollment/Course purchase flow comes later; keep dashboard simple for now.
+      @enrollments = current_user.enrollments.includes(:course).order(created_at: :desc)
     end
   end
 end

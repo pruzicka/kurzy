@@ -32,20 +32,46 @@
     <div class="<%= if centered_layout
                     "min-h-screen px-5 py-12 flex flex-col items-center justify-center gap-6"
                   elsif fullscreen_layout
-                    "min-h-screen w-full"
+                    "min-h-screen w-full flex flex-col"
                   else
-                    "container mx-auto mt-10 px-5"
+                    "min-h-screen flex flex-col"
                   end %>">
+      <% unless centered_layout || fullscreen_layout %>
+        <%= render "shared/navbar" %>
+      <% end %>
       <% if notice.present? %>
-        <div class="<%= centered_layout ? "w-full max-w-md" : "mb-6" %> rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900"><%= notice %></div>
+        <div class="<%= centered_layout ? "w-full max-w-md" : "container mx-auto mt-10 px-5 mb-6" %> rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-900"><%= notice %></div>
       <% end %>
       <% if alert.present? %>
-        <div class="<%= centered_layout ? "w-full max-w-md" : "mb-6" %> rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-900"><%= alert %></div>
+        <div class="<%= centered_layout ? "w-full max-w-md" : "container mx-auto mt-10 px-5 mb-6" %> rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-900"><%= alert %></div>
       <% end %>
 
-      <main class="<%= centered_layout ? "w-full flex justify-center" : "flex flex-col gap-6" %>">
-        <%= yield %>
-      </main>
+      <% if centered_layout %>
+        <main class="w-full flex justify-center">
+          <%= yield %>
+        </main>
+      <% elsif fullscreen_layout %>
+        <main class="flex flex-col gap-6">
+          <%= yield %>
+        </main>
+      <% else %>
+        <main class="container mx-auto mt-10 px-5 flex flex-col gap-6">
+          <%= yield %>
+        </main>
+      <% end %>
+
+      <% unless centered_layout %>
+        <footer class="mt-auto w-full border-t border-gray-200 bg-white/80 backdrop-blur">
+          <div class="<%= fullscreen_layout ? "mx-auto flex w-full max-w-6xl flex-col items-center justify-between gap-3 px-5 py-6 text-xs text-gray-600 sm:flex-row" : "container mx-auto flex flex-col items-center justify-between gap-3 px-5 py-6 text-xs text-gray-600 sm:flex-row" %>">
+            <div class="text-gray-500">© <%= Time.current.year %> Kurzy</div>
+            <div class="flex flex-wrap items-center gap-4">
+              <%= link_to "Disclaimer", disclaimer_path, class: "font-medium text-gray-700 hover:text-gray-900 hover:underline" %>
+              <%= link_to "Podmínky", terms_path, class: "font-medium text-gray-700 hover:text-gray-900 hover:underline" %>
+              <%= link_to "Soukromí", privacy_path, class: "font-medium text-gray-700 hover:text-gray-900 hover:underline" %>
+            </div>
+          </div>
+        </footer>
+      <% end %>
     </div>
   </body>
 </html>

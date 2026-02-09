@@ -3,6 +3,11 @@
     <div class="flex items-center gap-3">
       <span class="inline-flex h-9 w-9 items-center justify-center rounded-2xl bg-gray-900 text-sm font-semibold text-white">K</span>
       <div class="flex items-baseline gap-3">
+        <% if user_signed_in? %>
+          <%= link_to "Dashboard", user_root_path, class: "text-sm font-semibold tracking-tight text-gray-900 hover:underline" %>
+        <% else %>
+          <%= link_to "Úvod", root_path, class: "text-sm font-semibold tracking-tight text-gray-900 hover:underline" %>
+        <% end %>
         <%= link_to "Kurzy", courses_list_path, class: "text-sm font-semibold tracking-tight text-gray-900 hover:underline" %>
         <% if admin_preview? %>
           <span class="rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-semibold text-amber-900">Preview</span>
@@ -18,8 +23,34 @@
           <%= link_to "Admin", admin_root_path, class: "rounded-xl border border-gray-300 bg-white px-3 py-2 font-medium text-gray-900 hover:bg-gray-50" %>
         <% end %>
       <% elsif user_signed_in? %>
-        <span class="hidden text-sm text-gray-600 sm:inline">Přihlášeno jako <span class="font-medium text-gray-900"><%= current_user.name %></span></span>
-        <%= button_to "Odhlásit", logout_path, method: :delete, class: "rounded-xl bg-gray-900 px-3 py-2 font-medium text-white hover:bg-black" %>
+        <% cart_count = current_user.cart&.cart_items&.sum(:quantity).to_i %>
+        <%= link_to "Košík#{cart_count.positive? ? " (#{cart_count})" : ""}", cart_path, class: "rounded-xl border border-gray-300 bg-white px-3 py-2 font-medium text-gray-900 hover:bg-gray-50" %>
+        <details class="relative">
+          <summary class="list-none">
+            <div class="flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-2.5 py-1.5 hover:bg-gray-50">
+              <% if current_user.avatar.attached? %>
+                <%= image_tag current_user.avatar.variant(resize_to_fill: [36, 36]), class: "h-9 w-9 rounded-full border border-gray-200 object-cover" %>
+              <% elsif current_user.avatar_url.present? %>
+                <%= image_tag current_user.avatar_url, class: "h-9 w-9 rounded-full border border-gray-200 object-cover", referrerpolicy: "no-referrer", crossorigin: "anonymous" %>
+              <% else %>
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gray-900 text-sm font-semibold text-white">
+                  <%= current_user.name.to_s.split.first.to_s.first&.upcase || "U" %>
+                </span>
+              <% end %>
+              <span class="hidden text-sm font-medium text-gray-900 sm:inline"><%= current_user.name %></span>
+              <svg class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.24 4.5a.75.75 0 0 1-1.08 0l-4.24-4.5a.75.75 0 0 1 .02-1.06Z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          </summary>
+          <div class="absolute right-0 mt-2 w-56 rounded-2xl border border-gray-200 bg-white p-2 shadow-lg">
+            <div class="px-3 py-2 text-xs text-gray-500">Přihlášeno jako</div>
+            <div class="px-3 pb-2 text-sm font-medium text-gray-900"><%= current_user.name %></div>
+            <div class="h-px bg-gray-100"></div>
+            <%= link_to "Předvolby", edit_user_settings_path, class: "mt-2 block rounded-xl px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+            <%= button_to "Odhlásit", logout_path, method: :delete, class: "mt-1 w-full rounded-xl bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-black" %>
+          </div>
+        </details>
       <% else %>
         <%= link_to "Přihlásit", login_path, class: "rounded-xl bg-gray-900 px-3 py-2 font-medium text-white hover:bg-black" %>
       <% end %>

@@ -23,6 +23,12 @@ class ApplicationController < ActionController::Base
     redirect_to login_path, alert: "Pro pokračování se prosím přihlaste." unless user_signed_in?
   end
 
+  def require_enrollment!(course)
+    return if current_user&.enrollments&.exists?(course: course)
+
+    redirect_to courses_path, alert: "Tento kurz je dostupný pouze po zakoupení."
+  end
+
   # Needed for Active Storage disk service URLs (dev/test).
   def set_active_storage_url_options
     ActiveStorage::Current.url_options = {

@@ -1,8 +1,11 @@
 class Course < ApplicationRecord
   STATUSES = %w[draft public archived].freeze
+  COURSE_TYPES = %w[online_course ebook in_person].freeze
 
   has_many :chapters, -> { order(position: :asc) }, dependent: :destroy
   has_many :course_progresses, dependent: :destroy
+  has_many :enrollments, dependent: :destroy
+  has_many :order_items, dependent: :destroy
 
   has_rich_text :description
   has_one_attached :cover_image
@@ -18,6 +21,7 @@ class Course < ApplicationRecord
 
   validates :name, presence: true
   validates :status, presence: true, inclusion: { in: STATUSES }
+  validates :course_type, presence: true, inclusion: { in: COURSE_TYPES }
   validates :currency, presence: true
   validates :price, numericality: { greater_than_or_equal_to: 0, only_integer: true }
   validates :slug, uniqueness: true, allow_blank: true
@@ -26,6 +30,36 @@ class Course < ApplicationRecord
   validate :cover_image_must_be_under_size_limit
 
   scope :publicly_visible, -> { where(status: "public") }
+
+  ZERO_DECIMAL_CURRENCIES = %w[
+    BIF CLP DJF GNF JPY KMF KRW MGA PYG RWF UGX VND VUV XAF XOF XPF
+  ].freeze
+
+  def price_in_minor_units
+    return 0 if price.nil?
+    if ZERO_DECIMAL_CURRENCIES.include?(currency.to_s.upcase)
+      price
+    else
+      price * 100
+    end
+  end
+
+  def currency_precision
+    ZERO_DECIMAL_CURRENCIES.include?(currency.to_s.upcase) ? 0 : 2
+  end
+
+  def display_precision
+    return 0 if currency.to_s.upcase == "CZK"
+    currency_precision
+  end
+
+  def course_type_label
+    case course_type
+    when "ebook" then "E-book"
+    when "in_person" then "Fyzický trénink"
+    else "Online kurz"
+    end
+  end
 
   private
 

@@ -170,6 +170,8 @@ This is a preliminary schema. Relationships will be refined during development.
 
 ### Phase 5: Polish & Advanced Features ([ ] Planned)
 - [ ] Configure OmniAuth providers (Google, Facebook, Apple) for User model.
+- [ ] Add Apple ID login (User).
+- [ ] Add Facebook login (User).
 - [ ] Build a "Recommended Courses" feature (e.g., based on categories or popularity).
 - [ ] Refine the UI/UX for both admin and user areas to be beautiful and responsive.
 - [ ] Set up CI (GitHub Actions) to run tests and basic linters.
@@ -194,6 +196,7 @@ Goal: users should not get a permanent, shareable video URL. We can't make this 
 See `docs/R2_SETUP.md` for bucket + credentials + CORS details.
 See `docs/MEDIA_SECURITY.md` for the practical implementation notes and limitations.
 See `docs/GOOGLE_AUTH.md` for Google Console redirect URI settings (port `3001` + production domain).
+See `docs/STREAMING_PIPELINE.md` for a future HLS encoding + upload plan.
 
 ## 6. Suggestions & Improvements
 
