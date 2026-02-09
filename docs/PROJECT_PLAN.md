@@ -149,6 +149,13 @@ This is a preliminary schema. Relationships will be refined during development.
 - [ ] Integrate Stripe Checkout (one-time payments).
 - [ ] Decide whether to add `pay` gem now or later (recommended later unless we need subscriptions soon).
 - [ ] Implement Coupon/Discount logic in the checkout.
+    - [ ] Order-level coupons (percent or fixed amount).
+    - [ ] Admin UI for coupon creation + usage tracking.
+    - [ ] Discount shown as separate line in Stripe Checkout.
+- [ ] Fakturoid invoicing integration.
+    - [ ] Collect billing details required for CZ invoices (company name, IČO/DIČ, address).
+    - [ ] Create invoice on `checkout.session.completed` via background job.
+    - [ ] Decide whether to send invoices via Fakturoid or SendGrid.
 - [ ] Set up background jobs (Sidekiq) and ensure Redis is provisioned on Heroku.
 - [ ] Create webhook endpoint for Stripe events with signature verification and idempotency.
   - [ ] Handle at minimum: `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `checkout.session.expired`, `charge.refunded`.
@@ -178,6 +185,15 @@ This is a preliminary schema. Relationships will be refined during development.
 - [ ] Add SEO basics (sitemap, meta tags, OpenGraph).
 - [ ] Add legal pages and consent (Terms, Privacy Policy, Cookies; Czech first).
 - [ ] Add analytics (simple pageview + conversion tracking).
+- [ ] Admin insights: orders, users, progress % per course, and revenue summaries.
+- [ ] Email system (SendGrid).
+    - [ ] Purchase confirmation email.
+    - [ ] Gift notification email.
+    - [ ] Invoice delivery (or link) email if not sent by Fakturoid.
+- [ ] Gifted courses flow.
+    - [ ] Allow gifting to an existing user by email.
+    - [ ] Track giver/recipient and gift status.
+    - [ ] Ensure recipient gets access after payment.
 
 ---
 
