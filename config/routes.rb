@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get "/disclaimer", to: "pages#disclaimer"
   get "/terms", to: "pages#terms"
   get "/privacy", to: "pages#privacy"
+  get "/data-deletion", to: "pages#data_deletion"
 
   get "/login", to: "login#show", as: :login
 
@@ -52,7 +53,7 @@ Rails.application.routes.draw do
 
   namespace :user, path: "user", module: "user_area" do
     root "dashboard#show"
-    resource :settings, only: %i[edit update]
+    resource :settings, only: %i[edit update destroy]
   end
 
   namespace :admin, module: "admin_area", path: "admin" do

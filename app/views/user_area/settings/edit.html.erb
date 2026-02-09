@@ -85,3 +85,17 @@
     </div>
   <% end %>
 </div>
+
+<div class="mt-6 rounded-2xl border border-rose-200 bg-rose-50 p-6 shadow-sm">
+  <div class="text-sm font-semibold text-rose-900">Smazat účet</div>
+  <p class="mt-2 text-sm text-rose-900/80">
+    Tato akce je nevratná. Smažeme váš účet, nákupy i průběh kurzů.
+  </p>
+  <div class="mt-4">
+    <%= button_to "Smazat účet",
+                  user_settings_path,
+                  method: :delete,
+                  data: { turbo_confirm: "Opravdu chcete smazat účet? Tato akce je nevratná." },
+                  class: "inline-flex items-center justify-center rounded-2xl border border-rose-200 bg-white px-4 py-2.5 text-sm font-semibold text-rose-900 hover:bg-rose-100" %>
+  </div>
+</div>

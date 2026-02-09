@@ -17,6 +17,12 @@ module UserArea
       end
     end
 
+    def destroy
+      current_user.destroy!
+      reset_session
+      redirect_to root_path, notice: "Účet byl smazán."
+    end
+
     private
 
     def user_params
@@ -24,4 +30,3 @@ module UserArea
     end
   end
 end
-

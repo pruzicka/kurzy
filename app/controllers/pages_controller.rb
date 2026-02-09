@@ -9,5 +9,7 @@ class PagesController < ApplicationController
 
   def privacy
   end
-end
 
+  def data_deletion
+  end
+end
