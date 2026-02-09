@@ -25,6 +25,7 @@ gem "devise"
 gem "omniauth"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection"
+gem "omniauth-facebook"
 
 # Rich text editor (Lexxy) + ActionText storage
 gem "lexxy", "~> 0.7.4.beta"

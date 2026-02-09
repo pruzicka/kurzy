@@ -33,7 +33,7 @@ A summary of the technical foundation for the application.
 | **Asset Hosting**     | Cloudflare R2 (Active Storage S3 service)               | Use Active Storage's built-in **S3 service** configured to point at R2 (endpoint + access keys). Use a **private bucket** and **short-lived signed URLs** for delivery. |
 | **Hosting**           | Heroku                                                  | Heroku is an excellent choice for easy deployment, especially when avoiding Docker-based development initially. It simplifies infrastructure management. |
 | **Source Control**    | GitHub                                                  | Standard choice. We'll use GitHub for code hosting and potentially Actions for CI/CD.                                                                                           |
-| **Authentication**    | Devise (for Admin) & OmniAuth (for User)                | Devise will handle email/password authentication for administrators. OmniAuth will be primarily used for user sign-up/login via Google/Facebook/Apple ID, enhancing user convenience. |
+| **Authentication**    | Devise (for Admin) & OmniAuth (for User)                | Devise will handle email/password authentication for administrators. OmniAuth will be primarily used for user sign-up/login via Google/Facebook, enhancing user convenience. |
 | **Authorization**     | **Pundit** (Suggestion)                                 | While CanCanCan is classic, **Pundit** is a more modern, lightweight, and object-oriented choice that is often preferred in new Rails apps. It's simpler to reason about.         |
 | **Admin Interface**   | Custom (within `/admin` namespace)                      | We will build a custom admin interface to precisely fit our needs, avoiding external dependencies. |
 | **Background Jobs**   | Sidekiq                                                 | We'll need this for sending emails, processing payments, and calling the Fakturoid API. Sidekiq is a robust choice, widely used with Rails. |
@@ -120,7 +120,7 @@ This is a preliminary schema. Relationships will be refined during development.
 - [ ] Setup Minitest with fixtures for testing.
 - [ ] Install and configure Devise for Admin authentication.
     - [ ] Create Admin model with migrations.
-    - [ ] Install and configure OmniAuth for User authentication (Google/Facebook/Apple).
+    - [ ] Install and configure OmniAuth for User authentication (Google/Facebook).
     - [ ] Create User model with migrations, primarily for OmniAuth details.
     - [ ] Configure Rails I18n for `cs` (default) and `en` locales.
 - [ ] Set up basic namespaces and routing for `/admin` and `/user`.
@@ -169,8 +169,7 @@ This is a preliminary schema. Relationships will be refined during development.
 - [ ] Ensure video delivery is authorized per-enrollment (see "Media authentication strategy" below).
 
 ### Phase 5: Polish & Advanced Features ([ ] Planned)
-- [ ] Configure OmniAuth providers (Google, Facebook, Apple) for User model.
-- [ ] Add Apple ID login (User).
+- [ ] Configure OmniAuth providers (Google, Facebook) for User model.
 - [ ] Add Facebook login (User).
 - [ ] Build a "Recommended Courses" feature (e.g., based on categories or popularity).
 - [ ] Refine the UI/UX for both admin and user areas to be beautiful and responsive.
@@ -196,6 +195,7 @@ Goal: users should not get a permanent, shareable video URL. We can't make this 
 See `docs/R2_SETUP.md` for bucket + credentials + CORS details.
 See `docs/MEDIA_SECURITY.md` for the practical implementation notes and limitations.
 See `docs/GOOGLE_AUTH.md` for Google Console redirect URI settings (port `3001` + production domain).
+See `docs/FACEBOOK_AUTH.md` for Facebook App settings (OAuth redirect URIs + credentials).
 See `docs/STREAMING_PIPELINE.md` for a future HLS encoding + upload plan.
 
 ## 6. Suggestions & Improvements

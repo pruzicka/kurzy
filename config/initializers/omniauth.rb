@@ -14,6 +14,19 @@ Rails.application.config.middleware.use OmniAuth::Builder do
       prompt: "select_account"
     )
   end
+
+  facebook_app_id = Rails.application.credentials.dig(:facebook, :app_id) || ENV["FACEBOOK_APP_ID"]
+  facebook_app_secret = Rails.application.credentials.dig(:facebook, :app_secret) || ENV["FACEBOOK_APP_SECRET"]
+
+  if facebook_app_id.present? && facebook_app_secret.present?
+    provider(
+      :facebook,
+      facebook_app_id,
+      facebook_app_secret,
+      scope: "email,public_profile",
+      info_fields: "email,first_name,last_name,picture"
+    )
+  end
 end
 
 # OmniAuth 2 expects non-GET by default; this gem adds CSRF protection for the request phase.
