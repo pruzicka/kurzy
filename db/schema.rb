@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_09_153917) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_09_162000) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -77,9 +77,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_09_153917) do
   end
 
   create_table "carts", force: :cascade do |t|
+    t.integer "coupon_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
+    t.index ["coupon_id"], name: "index_carts_on_coupon_id"
     t.index ["user_id"], name: "index_carts_on_user_id", unique: true
   end
 
@@ -92,6 +94,35 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_09_153917) do
     t.datetime "updated_at", null: false
     t.index ["course_id", "position"], name: "index_chapters_on_course_id_and_position", unique: true
     t.index ["course_id"], name: "index_chapters_on_course_id"
+  end
+
+  create_table "coupon_redemptions", force: :cascade do |t|
+    t.integer "coupon_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "order_id", null: false
+    t.datetime "redeemed_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["coupon_id"], name: "index_coupon_redemptions_on_coupon_id"
+    t.index ["order_id"], name: "index_coupon_redemptions_on_order_id", unique: true
+    t.index ["user_id"], name: "index_coupon_redemptions_on_user_id"
+  end
+
+  create_table "coupons", force: :cascade do |t|
+    t.boolean "active", default: true, null: false
+    t.string "code", null: false
+    t.datetime "created_at", null: false
+    t.string "currency"
+    t.string "discount_type", null: false
+    t.datetime "ends_at"
+    t.integer "max_redemptions"
+    t.string "name"
+    t.integer "redemptions_count", default: 0, null: false
+    t.datetime "starts_at"
+    t.datetime "updated_at", null: false
+    t.integer "value", null: false
+    t.index ["active"], name: "index_coupons_on_active"
+    t.index ["code"], name: "index_coupons_on_code", unique: true
   end
 
   create_table "course_progresses", force: :cascade do |t|
@@ -156,14 +187,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_09_153917) do
   end
 
   create_table "orders", force: :cascade do |t|
+    t.integer "coupon_id"
     t.datetime "created_at", null: false
     t.string "currency", default: "CZK", null: false
+    t.integer "discount_amount", default: 0, null: false
     t.string "status", default: "pending", null: false
     t.string "stripe_payment_intent_id"
     t.string "stripe_session_id"
+    t.integer "subtotal_amount", default: 0, null: false
     t.integer "total_amount", default: 0, null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
+    t.index ["coupon_id"], name: "index_orders_on_coupon_id"
     t.index ["stripe_session_id"], name: "index_orders_on_stripe_session_id", unique: true
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
@@ -213,8 +248,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_09_153917) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "courses"
+  add_foreign_key "carts", "coupons"
   add_foreign_key "carts", "users"
   add_foreign_key "chapters", "courses"
+  add_foreign_key "coupon_redemptions", "coupons"
+  add_foreign_key "coupon_redemptions", "orders"
+  add_foreign_key "coupon_redemptions", "users"
   add_foreign_key "course_progresses", "courses"
   add_foreign_key "course_progresses", "segments", column: "last_segment_id"
   add_foreign_key "course_progresses", "users"
@@ -223,6 +262,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_09_153917) do
   add_foreign_key "enrollments", "users"
   add_foreign_key "order_items", "courses"
   add_foreign_key "order_items", "orders"
+  add_foreign_key "orders", "coupons"
   add_foreign_key "orders", "users"
   add_foreign_key "segment_completions", "segments"
   add_foreign_key "segment_completions", "users"

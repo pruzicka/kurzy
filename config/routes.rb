@@ -23,7 +23,10 @@ Rails.application.routes.draw do
 
   get "/login", to: "login#show", as: :login
 
-  resource :cart, only: [:show]
+  resource :cart, only: [:show] do
+    patch :apply_coupon
+    delete :remove_coupon
+  end
   resources :cart_items, only: %i[create update destroy]
   resources :enrollments, only: [:destroy]
   post "/checkout", to: "checkouts#create", as: :checkout
@@ -92,6 +95,9 @@ Rails.application.routes.draw do
     end
 
     resources :media_assets, path: "media"
+    resources :orders, only: %i[index show destroy]
+    resources :users, only: %i[index show]
+    resources :coupons, except: %i[show]
   end
 
   post "/auth/:provider/callback", to: "user_sessions#create"

@@ -1,0 +1,66 @@
+<div class="flex items-end justify-between gap-4">
+  <div class="flex flex-col gap-1">
+    <h1 class="text-3xl font-semibold tracking-tight text-gray-900">Objednávka</h1>
+    <p class="text-sm text-gray-600">Detail objednávky #<%= @order.id %>.</p>
+  </div>
+  <%= link_to "Zpět", admin_orders_path, class: "inline-flex items-center justify-center rounded-2xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+</div>
+
+<div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
+  <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm lg:col-span-2">
+    <h2 class="text-lg font-semibold text-gray-900">Položky</h2>
+    <div class="mt-4 space-y-3">
+      <% @order.order_items.each do |item| %>
+        <div class="flex items-center justify-between rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm">
+          <div>
+            <div class="font-medium text-gray-900"><%= item.course.name %></div>
+            <div class="text-xs text-gray-500"><%= item.course.course_type_label %></div>
+          </div>
+          <div class="text-right">
+            <div class="font-semibold text-gray-900">
+              <%= number_to_currency(item.unit_amount / (item.currency == "CZK" ? 1.0 : 100.0), unit: item.currency, precision: item.currency == "CZK" ? 0 : 2) %>
+            </div>
+            <div class="text-xs text-gray-500">Množství: <%= item.quantity %></div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+    <h2 class="text-lg font-semibold text-gray-900">Souhrn</h2>
+    <div class="mt-4 space-y-2 text-sm text-gray-700">
+      <div class="flex items-center justify-between">
+        <span>Uživatel</span>
+        <span class="font-semibold text-gray-900"><%= @order.user.name %></span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span>Stav</span>
+        <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700"><%= @order.status %></span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span>Mezisoučet</span>
+        <span class="font-semibold text-gray-900"><%= number_to_currency(@order.subtotal_amount / (@order.currency == "CZK" ? 1.0 : 100.0), unit: @order.currency, precision: @order.currency == "CZK" ? 0 : 2) %></span>
+      </div>
+      <% if @order.discount_amount.positive? %>
+        <div class="flex items-center justify-between text-emerald-700">
+          <span>Sleva</span>
+          <span class="font-semibold">-<%= number_to_currency(@order.discount_amount / (@order.currency == "CZK" ? 1.0 : 100.0), unit: @order.currency, precision: @order.currency == "CZK" ? 0 : 2) %></span>
+        </div>
+      <% end %>
+      <div class="flex items-center justify-between text-base font-semibold text-gray-900">
+        <span>Celkem</span>
+        <span><%= number_to_currency(@order.total_amount / (@order.currency == "CZK" ? 1.0 : 100.0), unit: @order.currency, precision: @order.currency == "CZK" ? 0 : 2) %></span>
+      </div>
+      <% if @order.coupon.present? %>
+        <div class="mt-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-900">
+          Použitý kód: <span class="font-semibold"><%= @order.coupon.code %></span>
+        </div>
+      <% end %>
+      <div class="mt-2 text-xs text-gray-500">Vytvořeno: <%= l(@order.created_at, format: :short) %></div>
+      <% if @order.stripe_session_id.present? %>
+        <div class="text-xs text-gray-500">Stripe session: <%= @order.stripe_session_id %></div>
+      <% end %>
+    </div>
+  </div>
+</div>

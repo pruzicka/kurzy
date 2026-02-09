@@ -1,0 +1,86 @@
+<div class="flex items-end justify-between gap-4">
+  <div class="flex flex-col gap-1">
+    <h1 class="text-3xl font-semibold tracking-tight text-gray-900"><%= @user.name %></h1>
+    <p class="text-sm text-gray-600"><%= @user.email %></p>
+  </div>
+  <%= link_to "Zpět", admin_users_path, class: "inline-flex items-center justify-center rounded-2xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+</div>
+
+<div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
+  <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+    <h2 class="text-lg font-semibold text-gray-900">Souhrn</h2>
+    <div class="mt-4 space-y-2 text-sm text-gray-700">
+      <div class="flex items-center justify-between">
+        <span>Kurzy</span>
+        <span class="font-semibold text-gray-900"><%= @enrollments.size %></span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span>Objednávky</span>
+        <span class="font-semibold text-gray-900"><%= @orders.size %></span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span>Registrace</span>
+        <span class="font-semibold text-gray-900"><%= l(@user.created_at, format: :short) %></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm lg:col-span-2">
+    <h2 class="text-lg font-semibold text-gray-900">Pokrok v kurzech</h2>
+    <% if @enrollments.any? %>
+      <div class="mt-4 space-y-3">
+        <% @enrollments.each do |enrollment| %>
+          <% course = enrollment.course %>
+          <% total = @segments_count_by_course_id[course.id].to_i %>
+          <% completed = @completed_count_by_course_id[course.id].to_i %>
+          <% percent = total.positive? ? ((completed.to_f / total) * 100).round : 0 %>
+          <% last_segment = @progress_by_course_id[course.id]&.last_segment_id %>
+          <div class="rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm">
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <div class="font-medium text-gray-900"><%= course.name %></div>
+                <div class="text-xs text-gray-500"><%= completed %>/<%= total %> dokončeno</div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm font-semibold text-gray-900"><%= percent %>%</div>
+                <% if last_segment.present? %>
+                  <% segment = course.chapters.flat_map(&:segments).find { |s| s.id == last_segment } %>
+                  <% if segment %>
+                    <div class="text-xs text-gray-500">Naposledy: <%= segment.title %></div>
+                  <% end %>
+                <% end %>
+              </div>
+            </div>
+            <div class="mt-2 h-2 w-full rounded-full bg-gray-200">
+              <div class="h-2 rounded-full bg-emerald-500" style="width: <%= percent %>%"></div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="mt-3 text-sm text-gray-500">Uživatel zatím nemá žádné zakoupené kurzy.</div>
+    <% end %>
+  </div>
+</div>
+
+<div class="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+  <h2 class="text-lg font-semibold text-gray-900">Objednávky</h2>
+  <% if @orders.any? %>
+    <div class="mt-4 space-y-3">
+      <% @orders.each do |order| %>
+        <div class="flex items-center justify-between rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm">
+          <div>
+            <div class="font-medium text-gray-900">#<%= order.id %> • <%= order.status %></div>
+            <div class="text-xs text-gray-500"><%= l(order.created_at, format: :short) %></div>
+          </div>
+          <div class="text-right">
+            <div class="font-semibold text-gray-900"><%= number_to_currency(order.total_amount / (order.currency == "CZK" ? 1.0 : 100.0), unit: order.currency, precision: order.currency == "CZK" ? 0 : 2) %></div>
+            <%= link_to "Detail", admin_order_path(order), class: "text-xs font-medium text-gray-900 hover:underline" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="mt-3 text-sm text-gray-500">Zatím žádné objednávky.</div>
+  <% end %>
+</div>

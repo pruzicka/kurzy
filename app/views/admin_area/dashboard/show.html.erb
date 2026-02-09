@@ -1,18 +1,73 @@
-<div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-  <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+<div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+  <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm lg:col-span-2">
     <h1 class="text-2xl font-semibold tracking-tight text-gray-900">Dashboard</h1>
-    <p class="mt-1 text-sm text-gray-600">Rychly start pro spravu obsahu.</p>
+    <p class="mt-1 text-sm text-gray-600">Rychlý start pro správu obsahu.</p>
 
     <div class="mt-5 flex flex-wrap gap-3">
-      <%= link_to "Vytvorit kurz", new_admin_course_path, class: "inline-flex items-center justify-center rounded-2xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-black" %>
-      <%= link_to "Seznam kurzu", admin_courses_path, class: "inline-flex items-center justify-center rounded-2xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+      <%= link_to "Vytvořit kurz", new_admin_course_path, class: "inline-flex items-center justify-center rounded-2xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-black" %>
+      <%= link_to "Seznam kurzů", admin_courses_path, class: "inline-flex items-center justify-center rounded-2xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+      <%= link_to "Objednávky", admin_orders_path, class: "inline-flex items-center justify-center rounded-2xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+      <%= link_to "Uživatelé", admin_users_path, class: "inline-flex items-center justify-center rounded-2xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
     </div>
   </div>
 
   <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-    <h2 class="text-lg font-semibold tracking-tight text-gray-900">Co dal</h2>
-    <div class="mt-3 space-y-2 text-sm text-gray-700">
-      <p>- Stripe Checkout + webhooks (Order/Enrollment)</p>
+    <h2 class="text-lg font-semibold tracking-tight text-gray-900">Rychlé statistiky</h2>
+    <div class="mt-4 space-y-2 text-sm text-gray-700">
+      <div class="flex items-center justify-between">
+        <span>Uživatelé</span>
+        <span class="font-semibold text-gray-900"><%= @total_users %></span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span>Objednávky</span>
+        <span class="font-semibold text-gray-900"><%= @total_orders %></span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span>Placené</span>
+        <span class="font-semibold text-gray-900"><%= @paid_orders %></span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span>Kurzy (aktivní)</span>
+        <span class="font-semibold text-gray-900"><%= @active_enrollments %></span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span>Dokončeno</span>
+        <span class="font-semibold text-gray-900"><%= @completion_rate %>%</span>
+      </div>
     </div>
+  </div>
+</div>
+
+<div class="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
+  <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+    <h2 class="text-lg font-semibold tracking-tight text-gray-900">Tržby</h2>
+    <div class="mt-4 space-y-2 text-sm text-gray-700">
+      <div class="flex items-center justify-between">
+        <span>Celkem</span>
+        <span class="font-semibold text-gray-900"><%= number_to_currency(@revenue_total / 1.0, unit: "CZK", precision: 0) %></span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span>Posledních 30 dní</span>
+        <span class="font-semibold text-gray-900"><%= number_to_currency(@revenue_30d / 1.0, unit: "CZK", precision: 0) %></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm lg:col-span-2">
+    <h2 class="text-lg font-semibold tracking-tight text-gray-900">Nejprodávanější kurzy</h2>
+    <% if @top_courses.any? %>
+      <div class="mt-4 space-y-2 text-sm text-gray-700">
+        <% @top_courses.each do |course_id, count| %>
+          <% course = Course.find_by(id: course_id) %>
+          <% next unless course %>
+          <div class="flex items-center justify-between rounded-xl border border-gray-200 bg-gray-50 px-3 py-2">
+            <span class="font-medium text-gray-900"><%= course.name %></span>
+            <span class="text-xs text-gray-500"><%= count %> prodejů</span>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="mt-3 text-sm text-gray-500">Zatím žádná data.</div>
+    <% end %>
   </div>
 </div>

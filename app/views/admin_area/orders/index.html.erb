@@ -1,0 +1,59 @@
+<div class="flex flex-wrap items-end justify-between gap-4">
+  <div class="flex flex-col gap-1">
+    <h1 class="text-3xl font-semibold tracking-tight text-gray-900">Objednávky</h1>
+    <p class="text-sm text-gray-600">Přehled objednávek a plateb.</p>
+  </div>
+  <%= form_with url: admin_orders_path, method: :get, class: "flex items-center gap-2" do %>
+    <%= text_field_tag :q, @query, placeholder: "Hledat (email, jméno, ID, stav)", class: "w-64 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
+    <%= submit_tag "Hledat", class: "rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs font-semibold text-gray-900 hover:bg-gray-50" %>
+  <% end %>
+</div>
+
+<div class="mt-6 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+  <div class="grid grid-cols-12 gap-0 border-b border-gray-200 bg-gray-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-600">
+    <div class="col-span-3"><%= orders_sort_link("Uživatel", "user") %></div>
+    <div class="col-span-2"><%= orders_sort_link("Stav", "status") %></div>
+    <div class="col-span-2"><%= orders_sort_link("Celkem", "total") %></div>
+    <div class="col-span-2">Sleva</div>
+    <div class="col-span-2"><%= orders_sort_link("Datum", "created") %></div>
+    <div class="col-span-1 text-right">Akce</div>
+  </div>
+
+  <div class="divide-y divide-gray-100">
+    <% @orders.each do |order| %>
+      <div class="grid grid-cols-12 items-center gap-0 px-4 py-4 text-sm">
+        <div class="col-span-3">
+          <div class="font-medium text-gray-900"><%= order.user.name %></div>
+          <div class="text-xs text-gray-500"><%= order.user.email %></div>
+        </div>
+        <div class="col-span-2">
+          <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700"><%= order.status %></span>
+        </div>
+        <div class="col-span-2 font-semibold text-gray-900">
+          <%= number_to_currency(order.total_amount / (order.currency == "CZK" ? 1.0 : 100.0), unit: order.currency, precision: order.currency == "CZK" ? 0 : 2) %>
+        </div>
+        <div class="col-span-2 text-xs text-gray-500">
+          <% if order.coupon.present? %>
+            <div class="font-semibold text-gray-900"><%= order.coupon.code %></div>
+            <div><%= number_to_currency(order.discount_amount / (order.currency == "CZK" ? 1.0 : 100.0), unit: order.currency, precision: order.currency == "CZK" ? 0 : 2) %></div>
+          <% else %>
+            —
+          <% end %>
+        </div>
+        <div class="col-span-2 text-xs text-gray-500"><%= l(order.created_at, format: :short) %></div>
+        <div class="col-span-1 flex justify-end gap-2">
+          <%= link_to "Detail", admin_order_path(order), class: "rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs font-semibold text-gray-900 hover:bg-gray-50" %>
+          <% if order.status == "pending" || order.status == "canceled" %>
+            <%= button_to "Smazat", admin_order_path(order), method: :delete, data: { turbo_confirm: "Smazat objednávku?" }, class: "rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-900 hover:bg-rose-100" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<% if @pagy %>
+  <div class="mt-6 flex justify-center">
+    <%= pagy_nav(@pagy).html_safe %>
+  </div>
+<% end %>

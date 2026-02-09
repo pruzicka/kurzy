@@ -46,7 +46,21 @@ class StripeWebhooksController < ActionController::Base
         end
       end
 
+      if order.coupon.present?
+        redemption = CouponRedemption.find_by(order: order)
+        if redemption.blank?
+          CouponRedemption.create!(
+            order: order,
+            coupon: order.coupon,
+            user: order.user,
+            redeemed_at: Time.current
+          )
+          order.coupon.increment!(:redemptions_count)
+        end
+      end
+
       order.user.cart&.cart_items&.destroy_all
+      order.user.cart&.remove_coupon!
     end
   end
 end
