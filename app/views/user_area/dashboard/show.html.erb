@@ -10,11 +10,54 @@
     </div>
   </div>
 
-  <div class="mt-6 rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-8 text-gray-700">
-    Tady budou vaše zakoupené kurzy (Enrollment) a progress. Zatím je přihlášení hotové, nákup přidáme později.
-  </div>
-
-  <div class="mt-6">
-    <%= link_to "Zobrazit kurzy", courses_path, class: "inline-flex items-center justify-center rounded-2xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-black" %>
-  </div>
+  <% if @enrollments.any? %>
+    <div class="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+      <% @enrollments.each do |enrollment| %>
+        <% course = enrollment.course %>
+        <div class="group rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:border-gray-300">
+          <div class="flex flex-col gap-3">
+            <% if course.cover_image.attached? %>
+              <% thumb = (course.cover_image.variant(resize_to_fill: [1200, 675]).processed rescue nil) %>
+              <%= link_to course_show_path(course), class: "overflow-hidden rounded-2xl border border-gray-200 bg-white" do %>
+                <% if thumb %>
+                  <%= image_tag thumb, class: "h-36 w-full object-cover" %>
+                <% else %>
+                  <%= image_tag rails_blob_path(course.cover_image, disposition: "inline"), class: "h-36 w-full object-cover" %>
+                <% end %>
+              <% end %>
+            <% end %>
+            <div class="flex items-center justify-between gap-4">
+              <h2 class="text-lg font-semibold tracking-tight">
+                <%= link_to course.name, course_show_path(course), class: "hover:underline" %>
+              </h2>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-medium text-gray-500">Zakoupeno</span>
+                <% unless Rails.env.production? %>
+                  <%= button_to "Odebrat (dev)",
+                                enrollment_path(enrollment),
+                                method: :delete,
+                                data: { turbo_confirm: "Odebrat kurz z účtu?" },
+                                class: "rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1 text-[11px] font-medium text-rose-900 hover:bg-rose-100" %>
+                <% end %>
+              </div>
+            </div>
+            <% if course.description&.body&.present? %>
+              <div class="prose prose-sm prose-gray max-w-none">
+                <%= course.description %>
+              </div>
+            <% else %>
+              <p class="text-sm text-gray-500">Popis brzy doplníme.</p>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="mt-6 rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-8 text-gray-700">
+      Zatím nemáte zakoupené žádné kurzy.
+    </div>
+    <div class="mt-6">
+      <%= link_to "Zobrazit kurzy", courses_path, class: "inline-flex items-center justify-center rounded-2xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-black" %>
+    </div>
+  <% end %>
 </div>

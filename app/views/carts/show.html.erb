@@ -1,0 +1,74 @@
+<div class="flex items-end justify-between gap-4">
+  <div class="flex flex-col gap-1">
+    <h1 class="text-3xl font-semibold tracking-tight text-gray-900">Košík</h1>
+    <p class="text-sm text-gray-600">Zkontrolujte objednávku před platbou.</p>
+  </div>
+  <%= link_to "Pokračovat v kurzech", courses_path, class: "text-sm font-medium text-gray-900 hover:underline" %>
+</div>
+
+<% if @items.any? %>
+  <div class="mt-6 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+    <div class="grid grid-cols-12 gap-0 border-b border-gray-200 bg-gray-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-600">
+      <div class="col-span-6">Kurz</div>
+      <div class="col-span-2 text-center">Množství</div>
+      <div class="col-span-2 text-right">Cena</div>
+      <div class="col-span-2 text-right">Akce</div>
+    </div>
+
+    <div class="divide-y divide-gray-100">
+      <% @items.each do |item| %>
+        <% course = item.course %>
+        <div class="grid grid-cols-12 items-center gap-0 px-4 py-4">
+          <div class="col-span-6">
+            <div class="flex items-center gap-3">
+              <% if course.cover_image.attached? %>
+                <% thumb = (course.cover_image.variant(resize_to_fill: [96, 54]).processed rescue nil) %>
+                <% if thumb %>
+                  <%= image_tag thumb, class: "h-12 w-20 rounded-xl border border-gray-200 object-cover bg-white" %>
+                <% else %>
+                  <%= image_tag rails_blob_path(course.cover_image, disposition: "inline"), class: "h-12 w-20 rounded-xl border border-gray-200 object-cover bg-white" %>
+                <% end %>
+              <% else %>
+                <div class="flex h-12 w-20 items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50 text-[10px] font-semibold text-gray-500">NO IMG</div>
+              <% end %>
+              <div class="min-w-0">
+                <div class="truncate font-medium text-gray-900"><%= course.name %></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-span-2 text-center">
+            <%= form_with url: cart_item_path(item), method: :patch, class: "inline-flex items-center gap-2 justify-center" do %>
+              <%= number_field_tag :quantity, item.quantity, min: 1, class: "w-20 rounded-xl border border-gray-300 bg-white px-2 py-1 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
+              <%= submit_tag "OK", class: "rounded-xl border border-gray-300 bg-white px-2.5 py-1 text-xs font-medium text-gray-900 hover:bg-gray-50" %>
+            <% end %>
+          </div>
+
+          <div class="col-span-2 text-right text-sm font-medium text-gray-900">
+            <%= number_to_currency(item.total_amount / (course.currency_precision.zero? ? 1 : 100.0), unit: course.currency, precision: course.display_precision) %>
+          </div>
+
+          <div class="col-span-2 flex justify-end">
+            <%= button_to "Odebrat", cart_item_path(item), method: :delete, class: "rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-medium text-rose-900 hover:bg-rose-100" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="mt-6 flex flex-col items-end gap-4">
+    <div class="text-lg font-semibold text-gray-900">
+      <% precision = @items.first&.course&.display_precision || 2 %>
+      <%= number_to_currency(@cart.total_amount / (@cart.currency_precision.zero? ? 1 : 100.0), unit: @cart.currency, precision: precision) %>
+    </div>
+    <%= button_to "Přejít na platbu",
+                  checkout_path,
+                  method: :post,
+                  data: { turbo: false, turbo_submits_with: "Zpracovávám..." },
+                  class: "rounded-2xl bg-gray-900 px-6 py-3 text-sm font-semibold text-white hover:bg-black disabled:opacity-60 disabled:cursor-not-allowed" %>
+  </div>
+<% else %>
+  <div class="mt-6 rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-8 text-gray-700">
+    Košík je prázdný.
+  </div>
+<% end %>

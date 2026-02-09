@@ -7,6 +7,8 @@ class CoursesController < ApplicationController
 
   def show
     @course = Course.publicly_visible.includes(chapters: :segments).find(params[:id])
+    require_enrollment!(@course)
+    return if performed?
     segment_ids = @course.chapters.flat_map { |c| c.segments.map(&:id) }
     @completions_by_segment_id = current_user.segment_completions.where(segment_id: segment_ids).pluck(:segment_id).index_with(true)
 

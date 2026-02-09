@@ -5,6 +5,7 @@ class SegmentMediaController < ApplicationController
   before_action :set_course
   before_action :set_chapter
   before_action :set_segment
+  before_action :ensure_enrolled!
   before_action :ensure_unlocked!
 
   def video
@@ -46,6 +47,12 @@ class SegmentMediaController < ApplicationController
 
     blocking = blocking_mandatory_chapter_for(@course, @chapter, completions_by_segment_id)
     head :forbidden if blocking.present?
+  end
+
+  def ensure_enrolled!
+    return if current_user&.enrollments&.exists?(course: @course)
+
+    head :forbidden
   end
 
   def redirect_to_service_url(blob, disposition:)
