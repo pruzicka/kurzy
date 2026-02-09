@@ -57,6 +57,9 @@
   </div>
 
   <div class="mt-6 flex flex-col items-end gap-4">
+    <div class="max-w-xl rounded-2xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700">
+      Odesláním objednávky souhlasím s tím, aby mi byl digitální obsah zpřístupněn ihned po zaplacení, a beru na vědomí, že tím zaniká mé právo na odstoupení od smlouvy do 14 dnů.
+    </div>
     <div class="text-lg font-semibold text-gray-900">
       <% precision = @items.first&.course&.display_precision || 2 %>
       <%= number_to_currency(@cart.total_amount / (@cart.currency_precision.zero? ? 1 : 100.0), unit: @cart.currency, precision: precision) %>

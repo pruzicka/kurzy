@@ -22,7 +22,7 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-[180px_minmax(0,1fr)]">
     <div class="flex flex-col gap-2">
       <%= f.label :status, "Stav", class: "text-sm font-medium text-gray-900" %>
       <%= f.select :status, Course::STATUSES, {}, class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>

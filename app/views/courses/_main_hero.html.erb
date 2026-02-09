@@ -1,3 +1,5 @@
+<% enrolled = local_assigns.fetch(:enrolled, true) %>
+
 <div class="flex h-full flex-col">
   <% if course.cover_image.attached? %>
     <% thumb = (course.cover_image.variant(resize_to_fill: [2000, 1125]).processed rescue nil) %>
@@ -31,9 +33,25 @@
         <p class="text-gray-500">Popis brzy doplníme.</p>
       <% end %>
 
-      <div class="mt-8 rounded-2xl border border-gray-200 bg-gray-50 p-5 text-sm text-gray-700">
-        Vyberte segment vlevo pro přehrání videa.
-      </div>
+      <% if enrolled %>
+        <div class="mt-8 rounded-2xl border border-gray-200 bg-gray-50 p-5 text-sm text-gray-700">
+          Vyberte segment vlevo pro přehrání videa.
+        </div>
+      <% else %>
+        <div class="mt-8 rounded-2xl border border-gray-200 bg-gray-50 p-5">
+          <div class="text-sm font-semibold text-gray-900">Kurz ještě nemáte zakoupený.</div>
+          <div class="mt-2 flex flex-wrap items-center justify-between gap-3">
+            <div class="text-sm text-gray-600">
+              Cena: <span class="font-semibold text-gray-900"><%= number_to_currency(course.price, unit: course.currency, precision: course.display_precision) %></span>
+            </div>
+            <%= button_to "Koupit nyní",
+                          cart_items_path(course_id: course.id),
+                          method: :post,
+                          data: { turbo: false, turbo_submits_with: "Přidávám..." },
+                          class: "inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-black" %>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

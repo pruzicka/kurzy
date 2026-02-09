@@ -1,5 +1,4 @@
 class CoursesController < ApplicationController
-  before_action :require_user!
 
   def index
     @courses = Course.publicly_visible.order(created_at: :desc)
@@ -7,8 +6,11 @@ class CoursesController < ApplicationController
 
   def show
     @course = Course.publicly_visible.includes(chapters: :segments).find(params[:id])
-    require_enrollment!(@course)
-    return if performed?
+    @enrolled = user_signed_in? && current_user.enrollments.exists?(course: @course)
+    @completions_by_segment_id = {}
+
+    return unless @enrolled
+
     segment_ids = @course.chapters.flat_map { |c| c.segments.map(&:id) }
     @completions_by_segment_id = current_user.segment_completions.where(segment_id: segment_ids).pluck(:segment_id).index_with(true)
 
