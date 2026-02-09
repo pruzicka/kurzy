@@ -3,9 +3,15 @@
     <h1 class="text-3xl font-semibold tracking-tight text-gray-900">Objednávky</h1>
     <p class="text-sm text-gray-600">Přehled objednávek a plateb.</p>
   </div>
-  <%= form_with url: admin_orders_path, method: :get, class: "flex items-center gap-2" do %>
+  <%= form_with url: admin_orders_path, method: :get, class: "flex flex-wrap items-center gap-2" do %>
     <%= text_field_tag :q, @query, placeholder: "Hledat (email, jméno, ID, stav)", class: "w-64 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
-    <%= submit_tag "Hledat", class: "rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs font-semibold text-gray-900 hover:bg-gray-50" %>
+    <%= select_tag :status,
+                   options_for_select([["Všechny stavy", ""], ["pending", "pending"], ["paid", "paid"], ["canceled", "canceled"]], @status),
+                   class: "rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
+    <%= date_field_tag :date_from, @date_from, class: "rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
+    <%= date_field_tag :date_to, @date_to, class: "rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
+    <%= submit_tag "Filtrovat", class: "rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs font-semibold text-gray-900 hover:bg-gray-50" %>
+    <%= link_to "Reset", admin_orders_path, class: "rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs font-semibold text-gray-900 hover:bg-gray-50" %>
   <% end %>
 </div>
 
@@ -30,12 +36,12 @@
           <span class="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-700"><%= order.status %></span>
         </div>
         <div class="col-span-2 font-semibold text-gray-900">
-          <%= number_to_currency(order.total_amount / (order.currency == "CZK" ? 1.0 : 100.0), unit: order.currency, precision: order.currency == "CZK" ? 0 : 2) %>
+          <%= number_to_currency(order.total_amount / (order.currency_precision.zero? ? 1.0 : 100.0), unit: order.currency, precision: order.display_precision) %>
         </div>
         <div class="col-span-2 text-xs text-gray-500">
           <% if order.coupon.present? %>
             <div class="font-semibold text-gray-900"><%= order.coupon.code %></div>
-            <div><%= number_to_currency(order.discount_amount / (order.currency == "CZK" ? 1.0 : 100.0), unit: order.currency, precision: order.currency == "CZK" ? 0 : 2) %></div>
+            <div><%= number_to_currency(order.discount_amount / (order.currency_precision.zero? ? 1.0 : 100.0), unit: order.currency, precision: order.display_precision) %></div>
           <% else %>
             —
           <% end %>

@@ -13,14 +13,17 @@ class CheckoutsController < ApplicationController
     end
 
     order = build_order!(cart, items)
-    session = Stripe::Checkout::Session.create(
+    stripe_coupon = build_stripe_coupon(order)
+    session_params = {
       mode: "payment",
       payment_method_types: ["card"],
       customer_email: current_user.email,
       line_items: build_line_items(order),
       success_url: checkout_success_url + "?session_id={CHECKOUT_SESSION_ID}",
       cancel_url: checkout_cancel_url
-    )
+    }
+    session_params[:discounts] = [{ coupon: stripe_coupon.id }] if stripe_coupon.present?
+    session = Stripe::Checkout::Session.create(session_params)
 
     order.update!(stripe_session_id: session.id)
     redirect_to session.url, allow_other_host: true
@@ -63,49 +66,41 @@ class CheckoutsController < ApplicationController
   end
 
   def build_line_items(order)
-    line_items = []
-    items = order.order_items.to_a
-    total_units = items.sum(&:quantity)
-    total_amount = items.sum { |item| item.unit_amount * item.quantity }
-    max_discount = total_amount - total_units
-    discount_remaining = [order.discount_amount, max_discount].min
-
-    discount_per_unit = total_units.positive? ? (discount_remaining / total_units) : 0
-    remainder = total_units.positive? ? (discount_remaining % total_units) : 0
-
-    items.each do |item|
-      description = item.course.description&.body&.present? ? item.course.description.body.to_plain_text.truncate(120) : nil
-      product_name = "#{item.course.course_type_label}: #{item.course.name}"
-
-      extra_units = [remainder, item.quantity].min
-      remainder -= extra_units
-
-      if discount_remaining.positive? && extra_units.positive?
-        unit_amount = [item.unit_amount - discount_per_unit - 1, 1].max
-        line_items << {
-          quantity: extra_units,
-          price_data: {
-            currency: item.currency.downcase,
-            unit_amount: unit_amount,
-            product_data: { name: product_name, description: description }
+    order.order_items.map do |item|
+      {
+        quantity: item.quantity,
+        price_data: {
+          currency: item.currency.downcase,
+          unit_amount: item.unit_amount,
+          product_data: {
+            name: "#{item.course.course_type_label}: #{item.course.name}",
+            description: item.course.description&.body&.present? ? item.course.description.body.to_plain_text.truncate(120) : nil
           }
         }
-      end
+      }
+    end
+  end
 
-      remaining_units = item.quantity - extra_units
-      if remaining_units.positive?
-        unit_amount = [item.unit_amount - discount_per_unit, 1].max
-        line_items << {
-          quantity: remaining_units,
-          price_data: {
-            currency: item.currency.downcase,
-            unit_amount: unit_amount,
-            product_data: { name: product_name, description: description }
-          }
-        }
-      end
+  def build_stripe_coupon(order)
+    return nil if order.coupon.blank?
+    return nil if order.discount_amount.to_i <= 0
+
+    attrs = {
+      duration: "once",
+      name: "Sleva #{order.coupon.code}",
+      metadata: {
+        order_id: order.id,
+        coupon_code: order.coupon.code
+      }
+    }
+
+    if order.coupon.percent?
+      attrs[:percent_off] = order.coupon.value
+    else
+      attrs[:amount_off] = order.discount_amount
+      attrs[:currency] = order.currency.downcase
     end
 
-    line_items
+    Stripe::Coupon.create(attrs)
   end
 end

@@ -21,10 +21,14 @@
         <div class="col-span-3">
           <div class="font-semibold text-gray-900"><%= coupon.code %></div>
           <div class="text-xs text-gray-500"><%= coupon.name.presence || "Bez názvu" %></div>
+          <% if coupon.notes.present? %>
+            <div class="text-xs text-gray-400"><%= coupon.notes %></div>
+          <% end %>
         </div>
         <div class="col-span-3">
           <div class="font-medium text-gray-900">
-            <%= coupon.percent? ? "#{coupon.value} %" : number_to_currency(coupon.value, unit: coupon.currency || "CZK", precision: 0) %>
+            <% precision = Course::ZERO_DECIMAL_CURRENCIES.include?((coupon.currency || "CZK").upcase) ? 0 : 2 %>
+            <%= coupon.percent? ? "#{coupon.value} %" : number_to_currency(coupon.value, unit: coupon.currency || "CZK", precision: precision) %>
           </div>
           <div class="text-xs text-gray-500"><%= coupon.percent? ? "Procenta" : "Částka" %></div>
         </div>
@@ -34,9 +38,16 @@
         </div>
         <div class="col-span-2 text-xs text-gray-500">
           <div><%= coupon.redemptions_count %> / <%= coupon.max_redemptions || "∞" %></div>
-          <div><%= coupon.active? ? "Aktivní" : "Neaktivní" %></div>
+          <div>
+            <% if coupon.active_now? %>
+              <span class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-800">Aktivní</span>
+            <% else %>
+              <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-600">Neaktivní</span>
+            <% end %>
+          </div>
         </div>
         <div class="col-span-2 flex justify-end gap-2">
+          <%= link_to "Detail", admin_coupon_path(coupon), class: "rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs font-semibold text-gray-900 hover:bg-gray-50" %>
           <%= link_to "Upravit", edit_admin_coupon_path(coupon), class: "rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs font-semibold text-gray-900 hover:bg-gray-50" %>
           <%= button_to "Smazat", admin_coupon_path(coupon), method: :delete, data: { turbo_confirm: "Smazat slevový kód?" }, class: "rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-900 hover:bg-rose-100" %>
         </div>

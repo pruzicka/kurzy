@@ -97,7 +97,7 @@ Rails.application.routes.draw do
     resources :media_assets, path: "media"
     resources :orders, only: %i[index show destroy]
     resources :users, only: %i[index show]
-    resources :coupons, except: %i[show]
+    resources :coupons
   end
 
   post "/auth/:provider/callback", to: "user_sessions#create"

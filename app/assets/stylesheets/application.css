@@ -8,3 +8,35 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+.pagy.nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.pagy.nav a,
+.pagy.nav span {
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #111827;
+  border-radius: 0.75rem;
+  padding: 0.35rem 0.65rem;
+  text-decoration: none;
+}
+
+.pagy.nav a:hover {
+  background: #f9fafb;
+}
+
+.pagy.nav .current {
+  background: #111827;
+  color: #ffffff;
+  border-color: #111827;
+}
+
+.pagy.nav .disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

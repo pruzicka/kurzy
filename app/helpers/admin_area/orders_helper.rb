@@ -17,7 +17,9 @@ module AdminArea
 
     def orders_sort_link(label, key)
       direction = params[:sort] == key && params[:direction] == "asc" ? "desc" : "asc"
-      link_to label, params.permit(:q, :page, :commit).merge(sort: key, direction: direction), class: "hover:underline"
+      link_to label,
+              params.permit(:q, :page, :commit, :status, :date_from, :date_to).merge(sort: key, direction: direction),
+              class: "hover:underline"
     end
   end
 end

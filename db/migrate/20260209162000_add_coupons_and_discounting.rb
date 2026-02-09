@@ -3,6 +3,7 @@ class AddCouponsAndDiscounting < ActiveRecord::Migration[8.1]
     create_table :coupons do |t|
       t.string :code, null: false
       t.string :name
+      t.string :notes
       t.string :discount_type, null: false
       t.integer :value, null: false
       t.string :currency

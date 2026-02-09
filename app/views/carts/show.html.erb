@@ -59,12 +59,13 @@
   <div class="mt-6 flex flex-col items-end gap-4">
     <div class="w-full max-w-xl rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
       <div class="text-xs font-semibold uppercase tracking-wide text-gray-500">Slevový kód</div>
+      <% precision = @items.first&.course&.display_precision || 2 %>
       <% if @cart.coupon.present? %>
         <div class="mt-2 flex items-center justify-between gap-3">
           <div class="text-sm font-semibold text-gray-900">
             <%= @cart.coupon.code %>
             <span class="ml-2 text-xs font-medium text-gray-500">
-              (<%= @cart.coupon.percent? ? "#{@cart.coupon.value} %" : number_to_currency(@cart.coupon.value, unit: @cart.currency, precision: 0) %>)
+              (<%= @cart.coupon.percent? ? "#{@cart.coupon.value} %" : number_to_currency(@cart.coupon.value, unit: @cart.currency, precision: precision) %>)
             </span>
           </div>
           <%= button_to "Odebrat", remove_coupon_cart_path, method: :delete, class: "rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-900 hover:bg-rose-100" %>
@@ -84,7 +85,6 @@
       <div class="flex items-center justify-between">
         <span>Mezisoučet</span>
         <span class="font-semibold text-gray-900">
-          <% precision = @items.first&.course&.display_precision || 2 %>
           <%= number_to_currency(@cart.subtotal_amount / (@cart.currency_precision.zero? ? 1 : 100.0), unit: @cart.currency, precision: precision) %>
         </span>
       </div>

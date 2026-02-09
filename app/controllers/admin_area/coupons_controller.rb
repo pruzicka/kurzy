@@ -1,6 +1,6 @@
 module AdminArea
   class CouponsController < BaseController
-    before_action :set_coupon, only: %i[edit update destroy]
+    before_action :set_coupon, only: %i[show edit update destroy]
 
     def index
       @coupons = Coupon.order(created_at: :desc)
@@ -17,6 +17,10 @@ module AdminArea
       else
         render :new, status: :unprocessable_entity
       end
+    end
+
+    def show
+      @redemptions = @coupon.coupon_redemptions.includes(:order, :user).order(redeemed_at: :desc)
     end
 
     def edit
@@ -42,7 +46,7 @@ module AdminArea
     end
 
     def coupon_params
-      params.require(:coupon).permit(:code, :name, :discount_type, :value, :currency, :starts_at, :ends_at, :max_redemptions, :active)
+      params.require(:coupon).permit(:code, :name, :notes, :discount_type, :value, :currency, :starts_at, :ends_at, :max_redemptions, :active)
     end
   end
 end

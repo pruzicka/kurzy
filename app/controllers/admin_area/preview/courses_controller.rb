@@ -10,6 +10,7 @@ module AdminArea
       def show
         @course = Course.includes(chapters: :segments).find(params[:id])
         @completions_by_segment_id = {}
+        @enrolled = true
         render "courses/show"
       end
     end

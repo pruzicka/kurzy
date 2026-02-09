@@ -74,7 +74,7 @@
             <div class="text-xs text-gray-500"><%= l(order.created_at, format: :short) %></div>
           </div>
           <div class="text-right">
-            <div class="font-semibold text-gray-900"><%= number_to_currency(order.total_amount / (order.currency == "CZK" ? 1.0 : 100.0), unit: order.currency, precision: order.currency == "CZK" ? 0 : 2) %></div>
+            <div class="font-semibold text-gray-900"><%= number_to_currency(order.total_amount / (order.currency_precision.zero? ? 1.0 : 100.0), unit: order.currency, precision: order.display_precision) %></div>
             <%= link_to "Detail", admin_order_path(order), class: "text-xs font-medium text-gray-900 hover:underline" %>
           </div>
         </div>

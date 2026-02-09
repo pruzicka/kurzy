@@ -15,4 +15,13 @@ class Order < ApplicationRecord
   def paid?
     status == "paid"
   end
+
+  def currency_precision
+    Course::ZERO_DECIMAL_CURRENCIES.include?(currency.to_s.upcase) ? 0 : 2
+  end
+
+  def display_precision
+    return 0 if currency.to_s.upcase == "CZK"
+    currency_precision
+  end
 end
