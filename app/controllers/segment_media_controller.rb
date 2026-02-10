@@ -5,7 +5,7 @@ class SegmentMediaController < ApplicationController
   before_action :set_course
   before_action :set_chapter
   before_action :set_segment
-  before_action :ensure_enrolled!
+  before_action :authorize_segment!
   before_action :ensure_unlocked!
 
   def video
@@ -41,18 +41,16 @@ class SegmentMediaController < ApplicationController
     @segment = @chapter.segments.find(params[:segment_id] || params[:id])
   end
 
+  def authorize_segment!
+    authorize @segment, :show?
+  end
+
   def ensure_unlocked!
     segment_ids = @course.chapters.flat_map { |c| c.segments.map(&:id) }
     completions_by_segment_id = current_user.segment_completions.where(segment_id: segment_ids).pluck(:segment_id).index_with(true)
 
     blocking = blocking_mandatory_chapter_for(@course, @chapter, completions_by_segment_id)
     head :forbidden if blocking.present?
-  end
-
-  def ensure_enrolled!
-    return if current_user&.enrollments&.exists?(course: @course)
-
-    head :forbidden
   end
 
   def redirect_to_service_url(blob, disposition:)

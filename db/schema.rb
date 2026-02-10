@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_09_163500) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_10_174120) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
+
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
@@ -158,12 +161,106 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_09_163500) do
     t.datetime "created_at", null: false
     t.datetime "granted_at", null: false
     t.integer "order_id", null: false
+    t.datetime "revoked_at"
+    t.string "status", default: "active", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["course_id"], name: "index_enrollments_on_course_id"
     t.index ["order_id"], name: "index_enrollments_on_order_id"
+    t.index ["status"], name: "index_enrollments_on_status"
     t.index ["user_id", "course_id"], name: "index_enrollments_on_user_id_and_course_id", unique: true
     t.index ["user_id"], name: "index_enrollments_on_user_id"
+  end
+
+  create_table "good_job_batches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.integer "callback_priority"
+    t.text "callback_queue_name"
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.datetime "discarded_at"
+    t.datetime "enqueued_at"
+    t.datetime "finished_at"
+    t.datetime "jobs_finished_at"
+    t.text "on_discard"
+    t.text "on_finish"
+    t.text "on_success"
+    t.jsonb "serialized_properties"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "good_job_executions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "active_job_id", null: false
+    t.datetime "created_at", null: false
+    t.interval "duration"
+    t.text "error"
+    t.text "error_backtrace", array: true
+    t.integer "error_event", limit: 2
+    t.datetime "finished_at"
+    t.text "job_class"
+    t.uuid "process_id"
+    t.text "queue_name"
+    t.datetime "scheduled_at"
+    t.jsonb "serialized_params"
+    t.datetime "updated_at", null: false
+    t.index ["active_job_id", "created_at"], name: "index_good_job_executions_on_active_job_id_and_created_at"
+    t.index ["process_id", "created_at"], name: "index_good_job_executions_on_process_id_and_created_at"
+  end
+
+  create_table "good_job_processes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "lock_type", limit: 2
+    t.jsonb "state"
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "good_job_settings", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "key"
+    t.datetime "updated_at", null: false
+    t.jsonb "value"
+    t.index ["key"], name: "index_good_job_settings_on_key", unique: true
+  end
+
+  create_table "good_jobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "active_job_id"
+    t.uuid "batch_callback_id"
+    t.uuid "batch_id"
+    t.text "concurrency_key"
+    t.datetime "created_at", null: false
+    t.datetime "cron_at"
+    t.text "cron_key"
+    t.text "error"
+    t.integer "error_event", limit: 2
+    t.integer "executions_count"
+    t.datetime "finished_at"
+    t.boolean "is_discrete"
+    t.text "job_class"
+    t.text "labels", array: true
+    t.datetime "locked_at"
+    t.uuid "locked_by_id"
+    t.datetime "performed_at"
+    t.integer "priority"
+    t.text "queue_name"
+    t.uuid "retried_good_job_id"
+    t.datetime "scheduled_at"
+    t.jsonb "serialized_params"
+    t.datetime "updated_at", null: false
+    t.index ["active_job_id", "created_at"], name: "index_good_jobs_on_active_job_id_and_created_at"
+    t.index ["batch_callback_id"], name: "index_good_jobs_on_batch_callback_id", where: "(batch_callback_id IS NOT NULL)"
+    t.index ["batch_id"], name: "index_good_jobs_on_batch_id", where: "(batch_id IS NOT NULL)"
+    t.index ["concurrency_key", "created_at"], name: "index_good_jobs_on_concurrency_key_and_created_at"
+    t.index ["concurrency_key"], name: "index_good_jobs_on_concurrency_key_when_unfinished", where: "(finished_at IS NULL)"
+    t.index ["cron_key", "created_at"], name: "index_good_jobs_on_cron_key_and_created_at_cond", where: "(cron_key IS NOT NULL)"
+    t.index ["cron_key", "cron_at"], name: "index_good_jobs_on_cron_key_and_cron_at_cond", unique: true, where: "(cron_key IS NOT NULL)"
+    t.index ["finished_at"], name: "index_good_jobs_jobs_on_finished_at_only", where: "(finished_at IS NOT NULL)"
+    t.index ["job_class"], name: "index_good_jobs_on_job_class"
+    t.index ["labels"], name: "index_good_jobs_on_labels", where: "(labels IS NOT NULL)", using: :gin
+    t.index ["locked_by_id"], name: "index_good_jobs_on_locked_by_id", where: "(locked_by_id IS NOT NULL)"
+    t.index ["priority", "created_at"], name: "index_good_job_jobs_for_candidate_lookup", where: "(finished_at IS NULL)"
+    t.index ["priority", "created_at"], name: "index_good_jobs_jobs_on_priority_created_at_when_unfinished", order: { priority: "DESC NULLS LAST" }, where: "(finished_at IS NULL)"
+    t.index ["priority", "scheduled_at"], name: "index_good_jobs_on_priority_scheduled_at_unfinished_unlocked", where: "((finished_at IS NULL) AND (locked_by_id IS NULL))"
+    t.index ["queue_name", "scheduled_at"], name: "index_good_jobs_on_queue_name_and_scheduled_at", where: "(finished_at IS NULL)"
+    t.index ["scheduled_at"], name: "index_good_jobs_on_scheduled_at", where: "(finished_at IS NULL)"
   end
 
   create_table "media_assets", force: :cascade do |t|
@@ -173,6 +270,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_09_163500) do
     t.string "title", null: false
     t.datetime "updated_at", null: false
     t.index ["media_type"], name: "index_media_assets_on_media_type"
+  end
+
+  create_table "oauth_identities", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.json "info", default: {}
+    t.string "provider", null: false
+    t.string "uid", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["email"], name: "index_oauth_identities_on_email"
+    t.index ["provider", "uid"], name: "index_oauth_identities_on_provider_and_uid", unique: true
+    t.index ["user_id"], name: "index_oauth_identities_on_user_id"
   end
 
   create_table "order_items", force: :cascade do |t|
@@ -230,18 +340,33 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_09_163500) do
     t.index ["video_asset_id"], name: "index_segments_on_video_asset_id"
   end
 
+  create_table "user_sessions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "ip_address"
+    t.datetime "last_active_at"
+    t.string "session_token", null: false
+    t.datetime "updated_at", null: false
+    t.string "user_agent"
+    t.integer "user_id", null: false
+    t.index ["last_active_at"], name: "index_user_sessions_on_last_active_at"
+    t.index ["session_token"], name: "index_user_sessions_on_session_token", unique: true
+    t.index ["user_id"], name: "index_user_sessions_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "avatar_url"
     t.datetime "created_at", null: false
     t.string "email", null: false
     t.string "first_name"
     t.string "last_name"
-    t.string "provider", null: false
-    t.string "uid", null: false
+    t.string "provider"
+    t.string "stripe_customer_id"
+    t.string "uid"
     t.datetime "updated_at", null: false
     t.string "username"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid", unique: true
+    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
@@ -261,6 +386,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_09_163500) do
   add_foreign_key "enrollments", "courses"
   add_foreign_key "enrollments", "orders"
   add_foreign_key "enrollments", "users"
+  add_foreign_key "oauth_identities", "users"
   add_foreign_key "order_items", "courses"
   add_foreign_key "order_items", "orders"
   add_foreign_key "orders", "coupons"
@@ -270,4 +396,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_09_163500) do
   add_foreign_key "segments", "chapters"
   add_foreign_key "segments", "media_assets", column: "cover_asset_id"
   add_foreign_key "segments", "media_assets", column: "video_asset_id"
+  add_foreign_key "user_sessions", "users"
 end

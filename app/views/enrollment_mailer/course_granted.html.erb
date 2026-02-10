@@ -1,0 +1,7 @@
+<p>Dobrý den, <%= @user.name %>!</p>
+
+<p>Máte nový přístup ke kurzu <strong><%= @course.name %></strong>.</p>
+
+<p>Můžete začít studovat hned.</p>
+
+<p><a href="<%= course_url(@course) %>" class="btn">Otevřít kurz</a></p>

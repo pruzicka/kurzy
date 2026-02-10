@@ -3,8 +3,8 @@ class EnrollmentsController < ApplicationController
 
   def destroy
     enrollment = current_user.enrollments.find(params[:id])
+    authorize enrollment
     enrollment.destroy
     redirect_to user_root_path, notice: "Kurz byl odebrán."
   end
 end
-

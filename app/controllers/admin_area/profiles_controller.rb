@@ -1,5 +1,7 @@
 module AdminArea
   class ProfilesController < BaseController
+    skip_after_action :verify_authorized
+
     def edit
       @admin = current_admin
     end
@@ -26,4 +28,3 @@ module AdminArea
     end
   end
 end
-

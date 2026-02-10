@@ -7,8 +7,7 @@ class SegmentsController < ApplicationController
   before_action :set_segment
 
   def show
-    require_enrollment!(@course)
-    return if performed?
+    authorize @segment
 
     segment_ids = @course.chapters.flat_map { |c| c.segments.map(&:id) }
     @completions_by_segment_id = current_user.segment_completions.where(segment_id: segment_ids).pluck(:segment_id).index_with(true)

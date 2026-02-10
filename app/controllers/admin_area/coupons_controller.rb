@@ -3,15 +3,18 @@ module AdminArea
     before_action :set_coupon, only: %i[show edit update destroy]
 
     def index
+      authorize Coupon
       @coupons = Coupon.order(created_at: :desc)
     end
 
     def new
       @coupon = Coupon.new
+      authorize @coupon
     end
 
     def create
       @coupon = Coupon.new(coupon_params)
+      authorize @coupon
       if @coupon.save
         redirect_to admin_coupons_path, notice: "Slevový kód byl vytvořen."
       else
@@ -20,13 +23,16 @@ module AdminArea
     end
 
     def show
+      authorize @coupon
       @redemptions = @coupon.coupon_redemptions.includes(:order, :user).order(redeemed_at: :desc)
     end
 
     def edit
+      authorize @coupon
     end
 
     def update
+      authorize @coupon
       if @coupon.update(coupon_params)
         redirect_to admin_coupons_path, notice: "Slevový kód byl uložen."
       else
@@ -35,6 +41,7 @@ module AdminArea
     end
 
     def destroy
+      authorize @coupon
       @coupon.destroy
       redirect_to admin_coupons_path, notice: "Slevový kód byl smazán."
     end

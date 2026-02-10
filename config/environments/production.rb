@@ -50,26 +50,32 @@ Rails.application.configure do
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
 
-  # Keep production bootable on Heroku without Solid* dependencies.
-  # We'll switch to Sidekiq + Heroku Redis when background jobs are introduced.
   config.cache_store = :memory_store
-  config.active_job.queue_adapter = :async
+  config.active_job.queue_adapter = :good_job
+  # Run jobs in the web process to avoid a separate worker dyno.
+  # Switch to :external once traffic justifies a dedicated worker.
+  config.good_job.execution_mode = :async
 
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
-  # config.action_mailer.raise_delivery_errors = false
+  # Raise delivery errors so failed emails surface in logs / error monitoring.
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method = :smtp
 
   # Set host to be used by links generated in mailer templates.
-  config.action_mailer.default_url_options = { host: "example.com" }
+  config.action_mailer.default_url_options = { host: "pohybjezivot.cz" }
 
-  # Specify outgoing SMTP server. Remember to add smtp/* credentials via bin/rails credentials:edit.
-  # config.action_mailer.smtp_settings = {
-  #   user_name: Rails.application.credentials.dig(:smtp, :user_name),
-  #   password: Rails.application.credentials.dig(:smtp, :password),
-  #   address: "smtp.example.com",
-  #   port: 587,
-  #   authentication: :plain
-  # }
+  # SendGrid SMTP. Store the API key via: bin/rails credentials:edit
+  #   sendgrid:
+  #     api_key: SG.xxxxx
+  config.action_mailer.smtp_settings = {
+    address: "smtp.sendgrid.net",
+    port: 587,
+    authentication: :plain,
+    user_name: "apikey",
+    password: Rails.application.credentials.dig(:sendgrid, :api_key),
+    domain: "pohybjezivot.cz",
+    enable_starttls_auto: true
+  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).

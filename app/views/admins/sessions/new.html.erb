@@ -18,11 +18,11 @@
 
         <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "flex flex-col gap-4" }) do |f| %>
           <div class="flex flex-col gap-2">
-            <%= f.label :username, class: "text-sm font-medium text-gray-900" %>
-            <%= f.text_field :username,
+            <%= f.label :login, "Uživatelské jméno nebo e-mail", class: "text-sm font-medium text-gray-900" %>
+            <%= f.text_field :login,
                              autofocus: true,
                              autocomplete: "username",
-                             placeholder: "napr. admin",
+                             placeholder: "admin nebo admin@example.com",
                              class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
           </div>
 

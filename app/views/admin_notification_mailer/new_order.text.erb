@@ -1,0 +1,8 @@
+Nová zaplacená objednávka.
+
+Objednávka #<%= @order.id %>
+Zákazník: <%= @user.name %> (<%= @user.email %>)
+<% @items.each do |item| %>
+- <%= item.course.name %>: <%= number_to_currency(item.total_amount / (@order.currency_precision.zero? ? 1.0 : 100.0), unit: @order.currency, precision: @order.display_precision) %>
+<% end %>
+Celkem: <%= number_to_currency(@order.total_amount / (@order.currency_precision.zero? ? 1.0 : 100.0), unit: @order.currency, precision: @order.display_precision) %>

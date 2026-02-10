@@ -7,10 +7,12 @@ module AdminArea
 
     def new
       @segment = @chapter.segments.new
+      authorize @segment
     end
 
     def create
       @segment = @chapter.segments.new(segment_params.except(:attachments))
+      authorize @segment
       attach_files(@segment)
       if @segment.save
         sync_media_library!(@segment)
@@ -21,9 +23,11 @@ module AdminArea
     end
 
     def edit
+      authorize @segment
     end
 
     def update
+      authorize @segment
       @segment.assign_attributes(segment_params.except(:attachments))
       attach_files(@segment)
 
@@ -36,32 +40,38 @@ module AdminArea
     end
 
     def destroy
+      authorize @segment
       @segment.destroy!
       redirect_to admin_course_path(@course), notice: "Segment smazán."
     end
 
     def move_up
+      authorize @segment
       @segment.move_up!
       redirect_to admin_course_path(@course)
     end
 
     def move_down
+      authorize @segment
       @segment.move_down!
       redirect_to admin_course_path(@course)
     end
 
     def destroy_attachment
+      authorize @segment
       attachment = @segment.attachments.attachments.find(params[:attachment_id])
       attachment.purge
       redirect_to edit_admin_course_chapter_segment_path(@course, @chapter, @segment), notice: "Příloha smazána."
     end
 
     def destroy_cover_image
+      authorize @segment
       @segment.cover_image.purge if @segment.cover_image.attached?
       redirect_to edit_admin_course_chapter_segment_path(@course, @chapter, @segment), notice: "Náhled smazán."
     end
 
     def destroy_video
+      authorize @segment
       @segment.video.purge if @segment.video.attached?
       redirect_to edit_admin_course_chapter_segment_path(@course, @chapter, @segment), notice: "Video smazáno."
     end

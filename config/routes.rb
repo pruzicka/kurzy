@@ -57,6 +57,10 @@ Rails.application.routes.draw do
   namespace :user, path: "user", module: "user_area" do
     root "dashboard#show"
     resource :settings, only: %i[edit update destroy]
+    resources :oauth_identities, only: [:destroy]
+    resources :user_sessions, only: [:destroy], path: "sessions" do
+      delete :destroy_all_other, on: :collection, path: "other"
+    end
   end
 
   namespace :admin, module: "admin_area", path: "admin" do

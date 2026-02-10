@@ -5,6 +5,8 @@ class SegmentCompletionsController < ApplicationController
   before_action :set_segment
 
   def create
+    authorize @segment, :show?
+
     completions_by_segment_id = current_user.segment_completions.where(segment_id: @course.chapters.flat_map { |c| c.segments.map(&:id) }).pluck(:segment_id).index_with(true)
     blocking = blocking_mandatory_chapter_for(@course, @chapter, completions_by_segment_id)
     if blocking.present?

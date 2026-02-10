@@ -4,7 +4,7 @@ class Order < ApplicationRecord
   has_many :order_items, dependent: :destroy
   has_many :enrollments, dependent: :destroy
 
-  STATUSES = %w[pending paid canceled].freeze
+  STATUSES = %w[pending paid canceled refunded].freeze
 
   validates :status, inclusion: { in: STATUSES }
   validates :currency, presence: true
