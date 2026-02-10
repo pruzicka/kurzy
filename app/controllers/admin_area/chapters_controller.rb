@@ -40,13 +40,13 @@ module AdminArea
     def move_up
       authorize @chapter
       @chapter.move_up!
-      redirect_to admin_course_path(@course)
+      respond_to_reorder
     end
 
     def move_down
       authorize @chapter
       @chapter.move_down!
-      redirect_to admin_course_path(@course)
+      respond_to_reorder
     end
 
     private
@@ -61,6 +61,14 @@ module AdminArea
 
     def chapter_params
       params.require(:chapter).permit(:title, :is_mandatory)
+    end
+
+    def respond_to_reorder
+      @course.chapters.reload
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("course_chapters", partial: "admin_area/courses/chapters_list", locals: { course: @course }) }
+        format.html { redirect_to admin_course_path(@course) }
+      end
     end
   end
 end

@@ -21,18 +21,20 @@
         <div class="grid grid-cols-12 items-center gap-0 px-4 py-4">
           <div class="col-span-6">
             <div class="flex items-center gap-3">
-              <% if course.cover_image.attached? %>
-                <% thumb = (course.cover_image.variant(resize_to_fill: [96, 54]).processed rescue nil) %>
-                <% if thumb %>
-                  <%= image_tag thumb, class: "h-12 w-20 rounded-xl border border-gray-200 object-cover bg-white" %>
+              <%= link_to course_show_path(course), class: "shrink-0" do %>
+                <% if course.cover_image.attached? %>
+                  <% thumb = (course.cover_image.variant(resize_to_fill: [96, 54]).processed rescue nil) %>
+                  <% if thumb %>
+                    <%= image_tag thumb, class: "h-12 w-20 rounded-xl border border-gray-200 object-cover bg-white" %>
+                  <% else %>
+                    <%= image_tag rails_blob_path(course.cover_image, disposition: "inline"), class: "h-12 w-20 rounded-xl border border-gray-200 object-cover bg-white" %>
+                  <% end %>
                 <% else %>
-                  <%= image_tag rails_blob_path(course.cover_image, disposition: "inline"), class: "h-12 w-20 rounded-xl border border-gray-200 object-cover bg-white" %>
+                  <div class="flex h-12 w-20 items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50 text-[10px] font-semibold text-gray-500">NO IMG</div>
                 <% end %>
-              <% else %>
-                <div class="flex h-12 w-20 items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50 text-[10px] font-semibold text-gray-500">NO IMG</div>
               <% end %>
               <div class="min-w-0">
-                <div class="truncate font-medium text-gray-900"><%= course.name %></div>
+                <%= link_to course.name, course_show_path(course), class: "truncate font-medium text-gray-900 hover:underline" %>
               </div>
             </div>
           </div>

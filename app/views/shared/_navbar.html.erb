@@ -28,15 +28,16 @@
         <details class="relative">
           <summary class="list-none">
             <div class="flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-2.5 py-1.5 hover:bg-gray-50">
-              <% if current_user.avatar.attached? %>
-                <%= image_tag current_user.avatar.variant(resize_to_fill: [36, 36]), class: "h-9 w-9 rounded-full border border-gray-200 object-cover" %>
-              <% elsif current_user.avatar_url.present? %>
-                <%= image_tag current_user.avatar_url, class: "h-9 w-9 rounded-full border border-gray-200 object-cover", referrerpolicy: "no-referrer", crossorigin: "anonymous" %>
-              <% else %>
+              <div class="relative h-9 w-9 shrink-0">
                 <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gray-900 text-sm font-semibold text-white">
                   <%= current_user.name.to_s.split.first.to_s.first&.upcase || "U" %>
                 </span>
-              <% end %>
+                <% if current_user.avatar.attached? %>
+                  <%= image_tag current_user.avatar.variant(resize_to_fill: [36, 36]), class: "absolute inset-0 h-9 w-9 rounded-full border border-gray-200 object-cover", onerror: "this.remove()" %>
+                <% elsif current_user.avatar_url.present? %>
+                  <%= image_tag current_user.avatar_url, class: "absolute inset-0 h-9 w-9 rounded-full border border-gray-200 object-cover", referrerpolicy: "no-referrer", loading: "lazy", onerror: "this.remove()" %>
+                <% end %>
+              </div>
               <span class="hidden text-sm font-medium text-gray-900 sm:inline"><%= current_user.name %></span>
               <svg class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                 <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 11.168l3.71-3.94a.75.75 0 1 1 1.08 1.04l-4.24 4.5a.75.75 0 0 1-1.08 0l-4.24-4.5a.75.75 0 0 1 .02-1.06Z" clip-rule="evenodd" />

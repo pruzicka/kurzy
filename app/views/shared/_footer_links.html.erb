@@ -1,8 +1,8 @@
-<div class="flex w-full flex-wrap items-center justify-between gap-2 text-xs text-gray-500">
-  <div class="flex flex-wrap items-center gap-3">
-    <%= link_to "Vyloučení odpovědnosti", disclaimer_path, class: "hover:text-gray-900 hover:underline" %>
-    <%= link_to "Všeobecné obchodní podmínky", terms_path, class: "hover:text-gray-900 hover:underline" %>
-    <%= link_to "Zpracování osobních údajů", privacy_path, class: "hover:text-gray-900 hover:underline" %>
+<div class="flex flex-col items-center justify-between gap-3 text-xs text-gray-600 sm:flex-row">
+  <div class="text-gray-500">&copy; <%= Time.current.year %> Kurzy</div>
+  <div class="flex flex-wrap items-center gap-4">
+    <%= link_to "Vyloučení odpovědnosti", disclaimer_path, class: "font-medium text-gray-700 hover:text-gray-900 hover:underline" %>
+    <%= link_to "Všeobecné obchodní podmínky", terms_path, class: "font-medium text-gray-700 hover:text-gray-900 hover:underline" %>
+    <%= link_to "Zpracování osobních údajů", privacy_path, class: "font-medium text-gray-700 hover:text-gray-900 hover:underline" %>
   </div>
-  <div class="text-gray-400">© <%= Time.current.year %> Kurzy</div>
 </div>

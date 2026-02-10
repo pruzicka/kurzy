@@ -73,7 +73,10 @@
         </div>
       <% elsif @user.avatar_url.present? %>
         <div class="mt-2 flex items-center gap-3 text-xs text-gray-600">
-          <%= image_tag @user.avatar_url, class: "h-12 w-12 rounded-full border border-gray-200 object-cover", referrerpolicy: "no-referrer", crossorigin: "anonymous" %>
+          <div class="relative h-12 w-12 shrink-0">
+            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100 text-sm font-semibold text-gray-500"><%= @user.name.first.upcase %></div>
+            <%= image_tag @user.avatar_url, class: "absolute inset-0 h-12 w-12 rounded-full border border-gray-200 object-cover", referrerpolicy: "no-referrer", loading: "lazy", onerror: "this.remove()" %>
+          </div>
           <span>Fotka z OAuth profilu</span>
         </div>
       <% end %>

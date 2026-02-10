@@ -1,5 +1,5 @@
 <%= turbo_stream.update "course_sidebar" do %>
-  <%= render "courses/sidebar", course: @course, current_segment: @segment, completions_by_segment_id: @completions_by_segment_id %>
+  <%= render "courses/sidebar", course: @course, current_segment: @segment, completions_by_segment_id: @completions_by_segment_id, enrolled: @enrolled %>
 <% end %>
 
 <%= turbo_stream.update "course_main" do %>

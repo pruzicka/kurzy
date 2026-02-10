@@ -48,13 +48,13 @@ module AdminArea
     def move_up
       authorize @segment
       @segment.move_up!
-      redirect_to admin_course_path(@course)
+      respond_to_reorder
     end
 
     def move_down
       authorize @segment
       @segment.move_down!
-      redirect_to admin_course_path(@course)
+      respond_to_reorder
     end
 
     def destroy_attachment
@@ -102,6 +102,14 @@ module AdminArea
     def load_media_assets
       @video_assets = MediaAsset.where(media_type: "video").order(created_at: :desc)
       @image_assets = MediaAsset.where(media_type: "image").order(created_at: :desc)
+    end
+
+    def respond_to_reorder
+      @course.chapters.reload.each { |c| c.segments.reload }
+      respond_to do |format|
+        format.turbo_stream { render turbo_stream: turbo_stream.replace("course_chapters", partial: "admin_area/courses/chapters_list", locals: { course: @course }) }
+        format.html { redirect_to admin_course_path(@course) }
+      end
     end
 
     def sync_media_library!(segment)

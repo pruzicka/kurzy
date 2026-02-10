@@ -30,9 +30,11 @@
         </div>
       </div>
     </div>
-    <div class="border-t border-gray-200 bg-white px-6 py-4">
-      <%= render "shared/footer_links" %>
-    </div>
+    <footer class="mt-auto border-t border-gray-200 bg-white/80 backdrop-blur">
+      <div class="px-5 py-6">
+        <%= render "shared/footer_links" %>
+      </div>
+    </footer>
   <% else %>
     <div class="mx-auto max-w-4xl px-6 py-12">
       <div class="rounded-3xl border border-gray-200 bg-white shadow-sm">
@@ -42,10 +44,10 @@
         Nákupem získáte neomezený přístup ke všem lekcím a materiálům kurzu.
       </div>
     </div>
-    <div class="border-t border-gray-200 bg-white px-6 py-4">
-      <div class="mx-auto max-w-4xl">
+    <footer class="mt-auto border-t border-gray-200 bg-white/80 backdrop-blur">
+      <div class="mx-auto max-w-4xl px-5 py-6">
         <%= render "shared/footer_links" %>
       </div>
-    </div>
+    </footer>
   <% end %>
 </div>

@@ -51,6 +51,44 @@
                           class: "inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-black" %>
           </div>
         </div>
+
+        <% if course.chapters.any? %>
+          <div class="mt-8">
+            <h2 class="text-lg font-semibold text-gray-900">Obsah kurzu</h2>
+            <div class="mt-4 space-y-3">
+              <% course.chapters.each do |chapter| %>
+                <div class="rounded-2xl border border-gray-200 bg-white">
+                  <div class="px-4 py-3 text-sm font-semibold text-gray-900"><%= chapter.title %></div>
+                  <% if chapter.segments.any? %>
+                    <div class="border-t border-gray-100">
+                      <% chapter.segments.each do |segment| %>
+                        <div class="flex items-center justify-between gap-3 border-b border-gray-50 px-4 py-2.5 last:border-b-0">
+                          <% if segment.is_free_preview? %>
+                            <%= link_to course_chapter_segment_path(course, chapter, segment),
+                                        class: "flex items-center gap-2 text-sm font-medium text-gray-900 hover:underline" do %>
+                              <svg class="h-4 w-4 shrink-0 text-emerald-600" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M6.3 2.84A1.5 1.5 0 0 0 4 4.11v11.78a1.5 1.5 0 0 0 2.3 1.27l9.344-5.891a1.5 1.5 0 0 0 0-2.538L6.3 2.841Z" />
+                              </svg>
+                              <span><%= segment.title %></span>
+                            <% end %>
+                            <span class="shrink-0 rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-800">Zdarma</span>
+                          <% else %>
+                            <div class="flex items-center gap-2 text-sm text-gray-400">
+                              <svg class="h-4 w-4 shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 0 0-4.5 4.5V9H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2h-.5V5.5A4.5 4.5 0 0 0 10 1Zm3 8V5.5a3 3 0 1 0-6 0V9h6Z" clip-rule="evenodd" />
+                              </svg>
+                              <span><%= segment.title %></span>
+                            </div>
+                          <% end %>
+                        </div>
+                      <% end %>
+                    </div>
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
       <% end %>
     </div>
   </div>
