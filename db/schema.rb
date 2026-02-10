@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_10_174120) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_10_182420) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -291,6 +291,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_10_174120) do
     t.string "currency", default: "CZK", null: false
     t.integer "order_id", null: false
     t.integer "quantity", default: 1, null: false
+    t.string "title_snapshot"
     t.integer "unit_amount", null: false
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_order_items_on_course_id"
@@ -330,6 +331,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_10_174120) do
     t.text "content"
     t.integer "cover_asset_id"
     t.datetime "created_at", null: false
+    t.boolean "is_free_preview", default: false, null: false
     t.integer "position", null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false

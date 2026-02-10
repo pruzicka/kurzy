@@ -1,6 +1,7 @@
 class SegmentPolicy < ApplicationPolicy
   def show?
     return true if user.is_a?(Admin)
+    return true if record.is_free_preview?
 
     user.is_a?(User) && user.enrollments.active.exists?(course: record.chapter.course)
   end

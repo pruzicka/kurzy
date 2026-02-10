@@ -91,7 +91,7 @@ module AdminArea
     end
 
     def segment_params
-      params.require(:segment).permit(:title, :content, :video, :cover_image, :video_asset_id, :cover_asset_id, attachments: [])
+      params.require(:segment).permit(:title, :content, :video, :cover_image, :video_asset_id, :cover_asset_id, :is_free_preview, attachments: [])
     end
 
     def attach_files(segment)

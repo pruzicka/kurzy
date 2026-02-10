@@ -472,7 +472,7 @@ Based on Teachable, Thinkific, Udemy, Kajabi patterns.
 | 10 | Switch dev/test to PostgreSQL | Small | DONE |
 | 11 | Add account linking strategy for OAuth providers | Medium | DONE |
 | 12 | Real content for legal pages (terms, privacy, GDPR) | Medium | DONE |
-| 13 | Add `title_snapshot` to OrderItem | Small | TODO |
+| 13 | Add `title_snapshot` to OrderItem | Small | DONE |
 
 ### Post-MVP (High Impact)
 
@@ -481,7 +481,7 @@ Based on Teachable, Thinkific, Udemy, Kajabi patterns.
 | 1 | HLS streaming with video.js + Cloudflare Worker | Large | TODO |
 | 2 | Dynamic watermark on videos | Medium | TODO |
 | 3 | Session concurrency limits | Medium | DONE |
-| 4 | Free preview segments (`is_free_preview` on Segment) | Small | TODO |
+| 4 | Free preview segments (`is_free_preview` on Segment) | Small | DONE |
 | 5 | Fakturoid integration | Large | TODO |
 | 6 | Course bundles | Medium | TODO |
 | 7 | Certificate of completion (PDF) | Medium | TODO |
@@ -489,5 +489,6 @@ Based on Teachable, Thinkific, Udemy, Kajabi patterns.
 | 9 | Course tags / categories | Small | TODO |
 | 10 | Course ratings / reviews | Medium | TODO |
 | 11 | Gifted courses flow | Medium | TODO |
-| 12 | SEO (structured data, sitemap, OG tags) | Small | TODO |
+| 12 | SEO (structured data, sitemap, OG tags) | Small | DONE |
 | 13 | CI/CD (GitHub Actions) | Small | TODO |
+| 14 | Dark mode (day/night/system toggle in navbar, works for both admin and user) | Medium | TODO |

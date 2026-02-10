@@ -29,6 +29,8 @@ class Segment < ApplicationRecord
     video/mp4
   ].freeze
 
+  scope :free_preview, -> { where(is_free_preview: true) }
+
   validates :title, presence: true
   validates :position, numericality: { only_integer: true, greater_than: 0 }
 

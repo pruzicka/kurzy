@@ -33,8 +33,13 @@
                             data: { turbo_stream: true },
                             class: "flex items-center justify-between gap-3 rounded-xl px-3 py-2 text-sm #{active ? "bg-gray-900 text-white" : "text-gray-800 hover:bg-gray-50"}" do %>
                   <span class="min-w-0 truncate font-medium"><%= segment.title %></span>
-                  <span class="shrink-0 text-xs <%= active ? "text-white/70" : "text-gray-400" %>">
-                    <%= done ? "✓" : "" %>
+                  <span class="flex shrink-0 items-center gap-1.5">
+                    <% if segment.is_free_preview? && !enrolled %>
+                      <span class="rounded-full bg-emerald-100 px-2 py-0.5 text-[10px] font-semibold text-emerald-800">Zdarma</span>
+                    <% end %>
+                    <span class="text-xs <%= active ? "text-white/70" : "text-gray-400" %>">
+                      <%= done ? "✓" : "" %>
+                    </span>
                   </span>
                 <% end %>
               <% end %>

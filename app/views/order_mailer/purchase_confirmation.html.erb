@@ -14,7 +14,7 @@
   <tbody>
     <% @items.each do |item| %>
       <tr>
-        <td><%= item.course.name %></td>
+        <td><%= item.display_name %></td>
         <td class="amount"><%= number_to_currency(item.total_amount / (@order.currency_precision.zero? ? 1.0 : 100.0), unit: @order.currency, precision: @order.display_precision) %></td>
       </tr>
     <% end %>

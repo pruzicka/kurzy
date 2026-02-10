@@ -13,7 +13,7 @@
       <% @order.order_items.each do |item| %>
         <div class="flex items-center justify-between rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm">
           <div>
-            <div class="font-medium text-gray-900"><%= item.course.name %></div>
+            <div class="font-medium text-gray-900"><%= item.display_name %></div>
             <div class="text-xs text-gray-500"><%= item.course.course_type_label %></div>
           </div>
           <div class="text-right">

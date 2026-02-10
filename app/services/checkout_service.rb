@@ -59,7 +59,8 @@ class CheckoutService
           course: item.course,
           quantity: item.quantity,
           unit_amount: item.unit_amount,
-          currency: item.course.currency
+          currency: item.course.currency,
+          title_snapshot: item.course.name
         )
       end
     )
@@ -73,7 +74,7 @@ class CheckoutService
           currency: item.currency.downcase,
           unit_amount: item.unit_amount,
           product_data: {
-            name: "#{item.course.course_type_label}: #{item.course.name}",
+            name: "#{item.course.course_type_label}: #{item.display_name}",
             description: item.course.description&.body&.present? ? item.course.description.body.to_plain_text.truncate(120) : nil
           }
         }

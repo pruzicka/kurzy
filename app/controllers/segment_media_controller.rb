@@ -1,10 +1,10 @@
 class SegmentMediaController < ApplicationController
   include MandatoryChapterLock
 
-  before_action :require_user!
   before_action :set_course
   before_action :set_chapter
   before_action :set_segment
+  before_action :require_user!, unless: -> { @segment.is_free_preview? }
   before_action :authorize_segment!
   before_action :ensure_unlocked!
 
@@ -46,6 +46,9 @@ class SegmentMediaController < ApplicationController
   end
 
   def ensure_unlocked!
+    return if @segment.is_free_preview?
+    return unless user_signed_in?
+
     segment_ids = @course.chapters.flat_map { |c| c.segments.map(&:id) }
     completions_by_segment_id = current_user.segment_completions.where(segment_id: segment_ids).pluck(:segment_id).index_with(true)
 
