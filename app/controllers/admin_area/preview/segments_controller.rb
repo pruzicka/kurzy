@@ -6,6 +6,7 @@ module AdminArea
       before_action :set_segment
 
       def show
+        authorize @segment
         @next_segment = next_segment_for(@course, @segment)
         @completions_by_segment_id = {}
         @segment_completed = false

@@ -6,11 +6,13 @@ class User < ApplicationRecord
   has_many :orders, dependent: :destroy
   has_many :enrollments, dependent: :destroy
   has_many :enrolled_courses, through: :enrollments, source: :course
+  has_many :oauth_identities, dependent: :destroy
+  has_many :user_sessions, dependent: :destroy
+
+  MAX_CONCURRENT_SESSIONS = 2
 
   validates :email, presence: true, uniqueness: true
   validates :username, uniqueness: true, allow_blank: true
-  validates :provider, presence: true
-  validates :uid, presence: true
   validate :avatar_must_be_image
   validate :avatar_must_be_under_size_limit
 
@@ -31,13 +33,26 @@ class User < ApplicationRecord
     email = info["email"].to_s
     raise ArgumentError, "OmniAuth did not provide an email" if email.blank?
 
-    where(provider:, uid:).first_or_initialize.tap do |user|
-      user.email = email
-      user.first_name = info["first_name"]
-      user.last_name = info["last_name"]
-      user.avatar_url ||= info["image"]
-      user.save!
+    # 1. Find by OauthIdentity
+    identity = OauthIdentity.find_by(provider: provider, uid: uid)
+    return update_from_omniauth!(identity.user, info) if identity
+
+    # 2. Find by email — link to existing user
+    user = User.find_by(email: email)
+    if user
+      user.oauth_identities.create!(provider: provider, uid: uid, email: email, info: info.to_h)
+      return update_from_omniauth!(user, info)
     end
+
+    # 3. Create new user + identity
+    user = User.create!(
+      email: email,
+      first_name: info["first_name"],
+      last_name: info["last_name"],
+      avatar_url: info["image"]
+    )
+    user.oauth_identities.create!(provider: provider, uid: uid, email: email, info: info.to_h)
+    user
   end
 
   def name
@@ -48,7 +63,32 @@ class User < ApplicationRecord
     cart || create_cart!
   end
 
+  def find_or_create_stripe_customer!
+    return stripe_customer_id if stripe_customer_id.present?
+
+    customer = Stripe::Customer.create(
+      email: email,
+      name: name,
+      metadata: { user_id: id }
+    )
+    update!(stripe_customer_id: customer.id)
+    customer.id
+  end
+
+  def enforce_session_limit!
+    excess = user_sessions.order(created_at: :desc).offset(MAX_CONCURRENT_SESSIONS)
+    excess.destroy_all
+  end
+
   private
+
+  def self.update_from_omniauth!(user, info)
+    user.first_name = info["first_name"] if info["first_name"].present?
+    user.last_name = info["last_name"] if info["last_name"].present?
+    user.avatar_url ||= info["image"]
+    user.save! if user.changed?
+    user
+  end
 
   def avatar_must_be_image
     return unless avatar.attached?

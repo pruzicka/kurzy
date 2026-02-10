@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
+  get "sitemap", to: "sitemaps#show", defaults: { format: :xml }, as: :sitemap
+
   # Defines the root path route ("/")
   root "home#index"
 
@@ -57,6 +59,14 @@ Rails.application.routes.draw do
   namespace :user, path: "user", module: "user_area" do
     root "dashboard#show"
     resource :settings, only: %i[edit update destroy]
+    resources :oauth_identities, only: [:destroy]
+    resources :user_sessions, only: [:destroy], path: "sessions" do
+      delete :destroy_all_other, on: :collection, path: "other"
+    end
+  end
+
+  authenticate :admin do
+    mount GoodJob::Engine, at: "admin/jobs"
   end
 
   namespace :admin, module: "admin_area", path: "admin" do

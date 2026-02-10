@@ -49,6 +49,7 @@
                 <div class="px-3 pb-2 text-sm font-medium text-gray-900"><%= current_admin.username %></div>
                 <div class="h-px bg-gray-100"></div>
                 <%= link_to "Můj profil", edit_admin_profile_path, class: "mt-2 block rounded-xl px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+                <%= link_to "Jobs", good_job_path, target: "_blank", rel: "noopener", class: "block rounded-xl px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
                 <%= button_to "Odhlásit", destroy_admin_session_path, method: :delete, class: "mt-1 w-full rounded-xl bg-gray-900 px-3 py-2 text-sm font-medium text-white hover:bg-black" %>
               </div>
             </details>

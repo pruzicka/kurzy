@@ -1,5 +1,17 @@
 <% content_for :layout_fullscreen, true %>
 <% content_for :title, @course.name %>
+<% og_title @course.name %>
+<% og_type "product" %>
+<% canonical_url course_url(@course) %>
+<% if @course.description&.body&.present? %>
+  <% description_text = @course.description.body.to_plain_text %>
+  <% meta_description description_text %>
+  <% og_description description_text %>
+<% end %>
+<% if @course.cover_image.attached? %>
+  <% og_image rails_blob_url(@course.cover_image) %>
+<% end %>
+<%= course_structured_data(@course) %>
 
 <div class="min-h-screen w-full">
   <%= render "shared/navbar", course: @course %>

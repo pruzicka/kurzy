@@ -5,10 +5,12 @@ module AdminArea
 
     def new
       @chapter = @course.chapters.new
+      authorize @chapter
     end
 
     def create
       @chapter = @course.chapters.new(chapter_params)
+      authorize @chapter
       if @chapter.save
         redirect_to admin_course_path(@course), notice: "Kapitola vytvořena."
       else
@@ -17,9 +19,11 @@ module AdminArea
     end
 
     def edit
+      authorize @chapter
     end
 
     def update
+      authorize @chapter
       if @chapter.update(chapter_params)
         redirect_to admin_course_path(@course), notice: "Kapitola upravena."
       else
@@ -28,16 +32,19 @@ module AdminArea
     end
 
     def destroy
+      authorize @chapter
       @chapter.destroy!
       redirect_to admin_course_path(@course), notice: "Kapitola smazána."
     end
 
     def move_up
+      authorize @chapter
       @chapter.move_up!
       redirect_to admin_course_path(@course)
     end
 
     def move_down
+      authorize @chapter
       @chapter.move_down!
       redirect_to admin_course_path(@course)
     end

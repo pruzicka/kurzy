@@ -2,12 +2,39 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-      /* Email styles need to be inline */
+      body { margin: 0; padding: 0; background-color: #f4f4f5; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+      .wrapper { max-width: 600px; margin: 0 auto; padding: 24px 16px; }
+      .card { background-color: #ffffff; border-radius: 16px; padding: 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+      .header { text-align: center; padding-bottom: 24px; border-bottom: 1px solid #e4e4e7; margin-bottom: 24px; }
+      .header-logo { display: inline-block; background-color: #18181b; color: #ffffff; font-weight: 700; font-size: 14px; width: 36px; height: 36px; line-height: 36px; text-align: center; border-radius: 12px; }
+      .header-title { font-size: 18px; font-weight: 600; color: #18181b; margin: 8px 0 0 0; }
+      .content { color: #3f3f46; font-size: 15px; line-height: 1.6; }
+      .content h2 { color: #18181b; font-size: 16px; margin: 24px 0 8px 0; }
+      .content p { margin: 0 0 12px 0; }
+      .btn { display: inline-block; background-color: #18181b; color: #ffffff; text-decoration: none; padding: 10px 20px; border-radius: 12px; font-size: 14px; font-weight: 500; margin: 8px 0; }
+      .footer { text-align: center; padding-top: 24px; font-size: 13px; color: #a1a1aa; }
+      .table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+      .table th { text-align: left; font-size: 13px; color: #71717a; font-weight: 500; padding: 6px 0; border-bottom: 1px solid #e4e4e7; }
+      .table td { padding: 8px 0; font-size: 14px; color: #3f3f46; border-bottom: 1px solid #f4f4f5; }
+      .table .amount { text-align: right; font-variant-numeric: tabular-nums; }
     </style>
   </head>
-
   <body>
-    <%= yield %>
+    <div class="wrapper">
+      <div class="card">
+        <div class="header">
+          <span class="header-logo">K</span>
+          <p class="header-title">Kurzy</p>
+        </div>
+        <div class="content">
+          <%= yield %>
+        </div>
+      </div>
+      <div class="footer">
+        <p>&copy; <%= Date.current.year %> pohybjezivot.cz</p>
+      </div>
+    </div>
   </body>
 </html>

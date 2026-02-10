@@ -1,4 +1,6 @@
 class PagesController < ApplicationController
+  skip_after_action :verify_authorized
+
   # Public pages; keep them accessible even when the app is otherwise "private".
 
   def disclaimer

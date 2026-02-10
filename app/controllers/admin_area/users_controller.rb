@@ -1,11 +1,13 @@
 module AdminArea
   class UsersController < BaseController
     def index
+      authorize User
       @users = User.order(created_at: :desc).includes(:enrollments, :orders)
     end
 
     def show
       @user = User.find(params[:id])
+      authorize @user
       @orders = @user.orders.order(created_at: :desc)
       @enrollments = @user.enrollments.includes(course: { chapters: :segments }).order(created_at: :desc)
 

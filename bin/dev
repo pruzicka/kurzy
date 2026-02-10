@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
+set -eu
 
 if ! gem list foreman -i --silent; then
   echo "Installing foreman..."
@@ -12,5 +13,45 @@ export PORT="${PORT:-3001}"
 # but avoid loading until `debugger` is called
 export RUBY_DEBUG_OPEN="true"
 export RUBY_DEBUG_LAZY="true"
+
+# Resolve paths relative to this script
+SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+REPO_ROOT=$(CDPATH= cd -- "$SCRIPT_DIR/.." && pwd)
+SERVICES_DIR=${SERVICES_DIR:-"$REPO_ROOT/../../docker_shared_services"}
+
+# Choose docker compose command
+dc() {
+  if command -v docker >/dev/null 2>&1 && docker compose version >/dev/null 2>&1; then
+    docker compose "$@"
+  elif command -v docker-compose >/dev/null 2>&1; then
+    docker-compose "$@"
+  else
+    return 127
+  fi
+}
+
+manage_services() {
+  [ -d "$SERVICES_DIR" ] || return 0
+
+  if ! dc version >/dev/null 2>&1; then
+    echo "[bin/dev] Warning: docker compose not available; skipping services" >&2
+    return 0
+  fi
+
+  total_services=$( (cd "$SERVICES_DIR" && dc config --services 2>/dev/null) | wc -l | tr -d ' ')
+  running_services=$( (cd "$SERVICES_DIR" && dc ps --services --filter status=running 2>/dev/null) | wc -l | tr -d ' ')
+
+  if [ "${total_services:-0}" -gt 0 ] && [ "${running_services:-0}" -lt "${total_services:-0}" ]; then
+    if (cd "$SERVICES_DIR" && dc up -d --no-build >/dev/null 2>&1); then
+      :
+    else
+      (cd "$SERVICES_DIR" && dc up -d --no-build)
+    fi
+
+    trap '(cd "$SERVICES_DIR" 2>/dev/null && dc stop >/dev/null 2>&1) || true' EXIT INT TERM HUP
+  fi
+}
+
+manage_services || true
 
 exec foreman start -f Procfile.dev "$@"

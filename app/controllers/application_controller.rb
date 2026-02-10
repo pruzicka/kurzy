@@ -1,13 +1,20 @@
 class ApplicationController < ActionController::Base
   include Pagy::Backend
+  include Pundit::Authorization
+
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
 
   # Changes to the importmap will invalidate the etag for HTML responses
   stale_when_importmap_changes
 
+  after_action :verify_authorized, unless: -> { devise_controller? }
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   helper_method :current_user, :user_signed_in?
   before_action :set_active_storage_url_options
+  before_action :validate_session
 
   private
 
@@ -25,9 +32,30 @@ class ApplicationController < ActionController::Base
   end
 
   def require_enrollment!(course)
-    return if current_user&.enrollments&.exists?(course: course)
+    return if current_user&.enrollments&.active&.exists?(course: course)
 
     redirect_to courses_path, alert: "Tento kurz je dostupný pouze po zakoupení."
+  end
+
+  def validate_session
+    return unless session[:user_id].present?
+    return unless session[:session_token].present?
+
+    user_session = ::UserSession.find_by(session_token: session[:session_token])
+
+    if user_session.nil?
+      reset_session
+      redirect_to login_path, alert: "Vaše relace byla ukončena."
+      return
+    end
+
+    if user_session.last_active_at.nil? || user_session.last_active_at < 5.minutes.ago
+      user_session.update_columns(
+        last_active_at: Time.current,
+        ip_address: request.remote_ip,
+        user_agent: request.user_agent
+      )
+    end
   end
 
   # Needed for Active Storage disk service URLs (dev/test).
@@ -42,5 +70,9 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     return admin_root_path if resource.is_a?(Admin)
     super
+  end
+
+  def user_not_authorized
+    redirect_back fallback_location: root_path, alert: "K této akci nemáte oprávnění."
   end
 end

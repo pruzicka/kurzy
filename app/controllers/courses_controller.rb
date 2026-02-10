@@ -1,4 +1,5 @@
 class CoursesController < ApplicationController
+  skip_after_action :verify_authorized
 
   def index
     @courses = Course.publicly_visible.order(created_at: :desc)
@@ -6,7 +7,7 @@ class CoursesController < ApplicationController
 
   def show
     @course = Course.publicly_visible.includes(chapters: :segments).find(params[:id])
-    @enrolled = user_signed_in? && current_user.enrollments.exists?(course: @course)
+    @enrolled = user_signed_in? && current_user.enrollments.active.exists?(course: @course)
     @completions_by_segment_id = {}
 
     return unless @enrolled

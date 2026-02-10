@@ -1,6 +1,7 @@
 module AdminArea
   class OrdersController < BaseController
     def index
+      authorize Order
       @query = params[:q].to_s.strip
       @status = params[:status].to_s.strip
       @date_from = parse_date(params[:date_from])
@@ -8,18 +9,10 @@ module AdminArea
       scope = Order.includes(:user, :coupon).left_joins(:user)
       if @query.present?
         like = "%#{@query}%"
-        adapter = ActiveRecord::Base.connection.adapter_name.downcase
-        if adapter.include?("sqlite")
-          scope = scope.where(
-            "LOWER(users.email) LIKE :q OR LOWER(users.first_name) LIKE :q OR LOWER(users.last_name) LIKE :q OR CAST(orders.id AS TEXT) LIKE :q OR LOWER(orders.status) LIKE :q",
-            q: like.downcase
-          )
-        else
-          scope = scope.where(
-            "users.email ILIKE :q OR users.first_name ILIKE :q OR users.last_name ILIKE :q OR orders.id::text ILIKE :q OR orders.status ILIKE :q",
-            q: like
-          )
-        end
+        scope = scope.where(
+          "users.email ILIKE :q OR users.first_name ILIKE :q OR users.last_name ILIKE :q OR orders.id::text ILIKE :q OR orders.status ILIKE :q",
+          q: like
+        )
       end
 
       if @status.present? && Order::STATUSES.include?(@status)
@@ -40,15 +33,12 @@ module AdminArea
 
     def show
       @order = Order.includes(order_items: :course).find(params[:id])
+      authorize @order
     end
 
     def destroy
       @order = Order.find(params[:id])
-      unless @order.status == "pending" || @order.status == "canceled"
-        redirect_to admin_orders_path, alert: "Smazat lze pouze neuhrazené objednávky."
-        return
-      end
-
+      authorize @order
       @order.destroy
       redirect_to admin_orders_path, notice: "Objednávka byla smazána."
     end

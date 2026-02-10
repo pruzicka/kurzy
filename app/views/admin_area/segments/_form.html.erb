@@ -20,6 +20,12 @@
     <%= f.rich_text_area :content, placeholder: "Obsah segmentu..." %>
   </div>
 
+  <label class="flex items-center gap-2.5 text-sm text-gray-700">
+    <%= f.check_box :is_free_preview, class: "h-4 w-4 rounded border-gray-300 text-gray-900 focus:ring-gray-900/20" %>
+    <span class="font-medium">Bezplatný náhled</span>
+    <span class="text-xs text-gray-500">— přístupný bez přihlášení a bez zakoupení kurzu</span>
+  </label>
+
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
     <div class="flex flex-col gap-2" data-controller="media-picker">
       <%= f.label :video_asset_id, "Video z knihovny (volitelné)", class: "text-sm font-medium text-gray-900" %>

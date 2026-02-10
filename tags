@@ -5,41 +5,57 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
 ActiveSupport	test/test_helper.rb	/^module ActiveSupport$/;"	m
+AddCouponsAndDiscounting	db/migrate/20260209162000_add_coupons_and_discounting.rb	/^class AddCouponsAndDiscounting < ActiveRecord::Migration[8.1]$/;"	c
 AddCourseTypeToCourses	db/migrate/20260209153917_add_course_type_to_courses.rb	/^class AddCourseTypeToCourses < ActiveRecord::Migration[8.1]$/;"	c
 AddMediaAssetRefsToSegments	db/migrate/20260209000908_add_media_asset_refs_to_segments.rb	/^class AddMediaAssetRefsToSegments < ActiveRecord::Migration[8.1]$/;"	c
 AddNamesToAdmins	db/migrate/20260209152352_add_names_to_admins.rb	/^class AddNamesToAdmins < ActiveRecord::Migration[8.1]$/;"	c
+AddNotesToCoupons	db/migrate/20260209163500_add_notes_to_coupons.rb	/^class AddNotesToCoupons < ActiveRecord::Migration[8.1]$/;"	c
+AddStripeCustomerIdToUsers	db/migrate/20260210100000_add_stripe_customer_id_to_users.rb	/^class AddStripeCustomerIdToUsers < ActiveRecord::Migration[8.1]$/;"	c
 AddUsernameToAdmins	db/migrate/20260208153221_add_username_to_admins.rb	/^class AddUsernameToAdmins < ActiveRecord::Migration[8.1]$/;"	c
 AddUsernameToUsers	db/migrate/20260209152236_add_username_to_users.rb	/^class AddUsernameToUsers < ActiveRecord::Migration[8.1]$/;"	c
 Admin	app/models/admin.rb	/^class Admin < ApplicationRecord$/;"	c
 AdminArea	app/controllers/admin_area/base_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/chapters_controller.rb	/^module AdminArea$/;"	m
+AdminArea	app/controllers/admin_area/coupons_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/courses_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/dashboard_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/media_assets_controller.rb	/^module AdminArea$/;"	m
+AdminArea	app/controllers/admin_area/orders_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/preview/base_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/preview/courses_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/preview/segments_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/profiles_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/segments_controller.rb	/^module AdminArea$/;"	m
+AdminArea	app/controllers/admin_area/users_controller.rb	/^module AdminArea$/;"	m
+AdminArea	app/helpers/admin_area/orders_helper.rb	/^module AdminArea$/;"	m
 AdminTest	test/models/admin_test.rb	/^class AdminTest < ActiveSupport::TestCase$/;"	c
 Application	config/application.rb	/^  class Application < Rails::Application$/;"	c	class:Kurzy
 ApplicationController	app/controllers/application_controller.rb	/^class ApplicationController < ActionController::Base$/;"	c
 ApplicationHelper	app/helpers/application_helper.rb	/^module ApplicationHelper$/;"	m
 ApplicationJob	app/jobs/application_job.rb	/^class ApplicationJob < ActiveJob::Base$/;"	c
 ApplicationMailer	app/mailers/application_mailer.rb	/^class ApplicationMailer < ActionMailer::Base$/;"	c
+ApplicationPolicy	app/policies/application_policy.rb	/^class ApplicationPolicy$/;"	c
 ApplicationRecord	app/models/application_record.rb	/^class ApplicationRecord < ActiveRecord::Base$/;"	c
 BaseController	app/controllers/admin_area/base_controller.rb	/^  class BaseController < ApplicationController$/;"	c	class:AdminArea
 BaseController	app/controllers/admin_area/preview/base_controller.rb	/^    class BaseController < ApplicationController$/;"	c	class:AdminArea.Preview
 BaseController	app/controllers/user_area/base_controller.rb	/^  class BaseController < ApplicationController$/;"	c	class:UserArea
 Cart	app/models/cart.rb	/^class Cart < ApplicationRecord$/;"	c
 CartItem	app/models/cart_item.rb	/^class CartItem < ApplicationRecord$/;"	c
+CartItemPolicy	app/policies/cart_item_policy.rb	/^class CartItemPolicy < ApplicationPolicy$/;"	c
 CartItemsController	app/controllers/cart_items_controller.rb	/^class CartItemsController < ApplicationController$/;"	c
+CartPolicy	app/policies/cart_policy.rb	/^class CartPolicy < ApplicationPolicy$/;"	c
 CartsController	app/controllers/carts_controller.rb	/^class CartsController < ApplicationController$/;"	c
 Chapter	app/models/chapter.rb	/^class Chapter < ApplicationRecord$/;"	c
+ChapterPolicy	app/policies/chapter_policy.rb	/^class ChapterPolicy < ApplicationPolicy$/;"	c
 ChapterTest	test/models/chapter_test.rb	/^class ChapterTest < ActiveSupport::TestCase$/;"	c
 ChaptersController	app/controllers/admin_area/chapters_controller.rb	/^  class ChaptersController < BaseController$/;"	c	class:AdminArea
 CheckoutsController	app/controllers/checkouts_controller.rb	/^class CheckoutsController < ApplicationController$/;"	c
+Coupon	app/models/coupon.rb	/^class Coupon < ApplicationRecord$/;"	c
+CouponPolicy	app/policies/coupon_policy.rb	/^class CouponPolicy < ApplicationPolicy$/;"	c
+CouponRedemption	app/models/coupon_redemption.rb	/^class CouponRedemption < ApplicationRecord$/;"	c
+CouponsController	app/controllers/admin_area/coupons_controller.rb	/^  class CouponsController < BaseController$/;"	c	class:AdminArea
 Course	app/models/course.rb	/^class Course < ApplicationRecord$/;"	c
+CoursePolicy	app/policies/course_policy.rb	/^class CoursePolicy < ApplicationPolicy$/;"	c
 CourseProgress	app/models/course_progress.rb	/^class CourseProgress < ApplicationRecord$/;"	c
 CourseProgressTest	test/models/course_progress_test.rb	/^class CourseProgressTest < ActiveSupport::TestCase$/;"	c
 CourseTest	test/models/course_test.rb	/^class CourseTest < ActiveSupport::TestCase$/;"	c
@@ -54,26 +70,38 @@ CreateCourseProgresses	db/migrate/20260208212535_create_course_progresses.rb	/^c
 CreateCourses	db/migrate/20260208152842_create_courses.rb	/^class CreateCourses < ActiveRecord::Migration[8.1]$/;"	c
 CreateEnrollments	db/migrate/20260209091510_create_enrollments.rb	/^class CreateEnrollments < ActiveRecord::Migration[8.1]$/;"	c
 CreateMediaAssets	db/migrate/20260209000907_create_media_assets.rb	/^class CreateMediaAssets < ActiveRecord::Migration[8.1]$/;"	c
+CreateOauthIdentities	db/migrate/20260210100100_create_oauth_identities.rb	/^class CreateOauthIdentities < ActiveRecord::Migration[8.1]$/;"	c
 CreateOrderItems	db/migrate/20260209091457_create_order_items.rb	/^class CreateOrderItems < ActiveRecord::Migration[8.1]$/;"	c
 CreateOrders	db/migrate/20260209091443_create_orders.rb	/^class CreateOrders < ActiveRecord::Migration[8.1]$/;"	c
 CreateSegmentCompletions	db/migrate/20260208205452_create_segment_completions.rb	/^class CreateSegmentCompletions < ActiveRecord::Migration[8.1]$/;"	c
 CreateSegments	db/migrate/20260208165425_create_segments.rb	/^class CreateSegments < ActiveRecord::Migration[8.1]$/;"	c
 CreateSteps	db/migrate/20260208165426_create_steps.rb	/^class CreateSteps < ActiveRecord::Migration[8.1]$/;"	c
+CreateUserSessions	db/migrate/20260210100300_create_user_sessions.rb	/^class CreateUserSessions < ActiveRecord::Migration[8.1]$/;"	c
 CreateUsers	db/migrate/20260208152837_create_users.rb	/^class CreateUsers < ActiveRecord::Migration[8.1]$/;"	c
 DashboardController	app/controllers/admin_area/dashboard_controller.rb	/^  class DashboardController < BaseController$/;"	c	class:AdminArea
 DashboardController	app/controllers/user_area/dashboard_controller.rb	/^  class DashboardController < BaseController$/;"	c	class:UserArea
 DeviseCreateAdmins	db/migrate/20260208152833_devise_create_admins.rb	/^class DeviseCreateAdmins < ActiveRecord::Migration[8.1]$/;"	c
 Enrollment	app/models/enrollment.rb	/^class Enrollment < ApplicationRecord$/;"	c
+EnrollmentPolicy	app/policies/enrollment_policy.rb	/^class EnrollmentPolicy < ApplicationPolicy$/;"	c
 EnrollmentsController	app/controllers/enrollments_controller.rb	/^class EnrollmentsController < ApplicationController$/;"	c
 HomeController	app/controllers/home_controller.rb	/^class HomeController < ApplicationController$/;"	c
 Kurzy	config/application.rb	/^module Kurzy$/;"	m
 LoginController	app/controllers/login_controller.rb	/^class LoginController < ApplicationController$/;"	c
 MandatoryChapterLock	app/controllers/concerns/mandatory_chapter_lock.rb	/^module MandatoryChapterLock$/;"	m
 MediaAsset	app/models/media_asset.rb	/^class MediaAsset < ApplicationRecord$/;"	c
+MediaAssetPolicy	app/policies/media_asset_policy.rb	/^class MediaAssetPolicy < ApplicationPolicy$/;"	c
 MediaAssetsController	app/controllers/admin_area/media_assets_controller.rb	/^  class MediaAssetsController < BaseController$/;"	c	class:AdminArea
+MigrateOauthDataToIdentities	db/migrate/20260210100200_migrate_oauth_data_to_identities.rb	/^class MigrateOauthDataToIdentities < ActiveRecord::Migration[8.1]$/;"	c
+OauthIdentitiesController	app/controllers/user_area/oauth_identities_controller.rb	/^  class OauthIdentitiesController < BaseController$/;"	c	class:UserArea
+OauthIdentity	app/models/oauth_identity.rb	/^class OauthIdentity < ApplicationRecord$/;"	c
+OauthIdentityPolicy	app/policies/oauth_identity_policy.rb	/^class OauthIdentityPolicy < ApplicationPolicy$/;"	c
 Order	app/models/order.rb	/^class Order < ApplicationRecord$/;"	c
 OrderItem	app/models/order_item.rb	/^class OrderItem < ApplicationRecord$/;"	c
+OrderPolicy	app/policies/order_policy.rb	/^class OrderPolicy < ApplicationPolicy$/;"	c
+OrdersController	app/controllers/admin_area/orders_controller.rb	/^  class OrdersController < BaseController$/;"	c	class:AdminArea
+OrdersHelper	app/helpers/admin_area/orders_helper.rb	/^  module OrdersHelper$/;"	m	class:AdminArea
 PagesController	app/controllers/pages_controller.rb	/^class PagesController < ApplicationController$/;"	c
+PagyHelper	app/helpers/pagy_helper.rb	/^module PagyHelper$/;"	m
 Preview	app/controllers/admin_area/preview/base_controller.rb	/^  module Preview$/;"	m	class:AdminArea
 Preview	app/controllers/admin_area/preview/courses_controller.rb	/^  module Preview$/;"	m	class:AdminArea
 Preview	app/controllers/admin_area/preview/segments_controller.rb	/^  module Preview$/;"	m	class:AdminArea
@@ -82,43 +110,63 @@ ProfilesController	app/controllers/admin_area/profiles_controller.rb	/^  class P
 RecreateCourseProgressesWithCorrectForeignKey	db/migrate/20260208212757_recreate_course_progresses_with_correct_foreign_key.rb	/^class RecreateCourseProgressesWithCorrectForeignKey < ActiveRecord::Migration[8.1]$/;"	c
 RenameCourseTitleToNameAndPriceCentsToPrice	db/migrate/20260208162211_rename_course_title_to_name_and_price_cents_to_price.rb	/^class RenameCourseTitleToNameAndPriceCentsToPrice < ActiveRecord::Migration[8.1]$/;"	c
 RenameSegmentsToChaptersAndStepsToSegments	db/migrate/20260208172058_rename_segments_to_chapters_and_steps_to_segments.rb	/^class RenameSegmentsToChaptersAndStepsToSegments < ActiveRecord::Migration[8.1]$/;"	c
+Scope	app/policies/application_policy.rb	/^  class Scope$/;"	c	class:ApplicationPolicy
 Segment	app/models/segment.rb	/^class Segment < ApplicationRecord$/;"	c
 SegmentCompletion	app/models/segment_completion.rb	/^class SegmentCompletion < ApplicationRecord$/;"	c
 SegmentCompletionTest	test/models/segment_completion_test.rb	/^class SegmentCompletionTest < ActiveSupport::TestCase$/;"	c
 SegmentCompletionsController	app/controllers/segment_completions_controller.rb	/^class SegmentCompletionsController < ApplicationController$/;"	c
 SegmentMediaController	app/controllers/segment_media_controller.rb	/^class SegmentMediaController < ApplicationController$/;"	c
+SegmentPolicy	app/policies/segment_policy.rb	/^class SegmentPolicy < ApplicationPolicy$/;"	c
 SegmentTest	test/models/segment_test.rb	/^class SegmentTest < ActiveSupport::TestCase$/;"	c
 SegmentsController	app/controllers/admin_area/preview/segments_controller.rb	/^    class SegmentsController < BaseController$/;"	c	class:AdminArea.Preview
 SegmentsController	app/controllers/admin_area/segments_controller.rb	/^  class SegmentsController < BaseController$/;"	c	class:AdminArea
 SegmentsController	app/controllers/segments_controller.rb	/^class SegmentsController < ApplicationController$/;"	c
+SessionsHelper	app/helpers/sessions_helper.rb	/^module SessionsHelper$/;"	m
 SettingsController	app/controllers/user_area/settings_controller.rb	/^  class SettingsController < BaseController$/;"	c	class:UserArea
 StripeWebhooksController	app/controllers/stripe_webhooks_controller.rb	/^class StripeWebhooksController < ActionController::Base$/;"	c
 TestCase	test/test_helper.rb	/^  class TestCase$/;"	c	class:ActiveSupport
 User	app/models/user.rb	/^class User < ApplicationRecord$/;"	c
 UserArea	app/controllers/user_area/base_controller.rb	/^module UserArea$/;"	m
 UserArea	app/controllers/user_area/dashboard_controller.rb	/^module UserArea$/;"	m
+UserArea	app/controllers/user_area/oauth_identities_controller.rb	/^module UserArea$/;"	m
 UserArea	app/controllers/user_area/settings_controller.rb	/^module UserArea$/;"	m
+UserArea	app/controllers/user_area/user_sessions_controller.rb	/^module UserArea$/;"	m
+UserPolicy	app/policies/user_policy.rb	/^class UserPolicy < ApplicationPolicy$/;"	c
+UserSession	app/models/user_session.rb	/^class UserSession < ApplicationRecord$/;"	c
+UserSessionPolicy	app/policies/user_session_policy.rb	/^class UserSessionPolicy < ApplicationPolicy$/;"	c
+UserSessionsController	app/controllers/user_area/user_sessions_controller.rb	/^  class UserSessionsController < BaseController$/;"	c	class:UserArea
 UserSessionsController	app/controllers/user_sessions_controller.rb	/^class UserSessionsController < ApplicationController$/;"	c
 UserTest	test/models/user_test.rb	/^class UserTest < ActiveSupport::TestCase$/;"	c
+UsersController	app/controllers/admin_area/users_controller.rb	/^  class UsersController < BaseController$/;"	c	class:AdminArea
+active_now?	app/models/coupon.rb	/^  def active_now?(time = Time.current)$/;"	f	class:Coupon
 add_course!	app/models/cart.rb	/^  def add_course!(course, quantity = 1)$/;"	f	class:Cart
 admin_params	app/controllers/admin_area/profiles_controller.rb	/^    def admin_params$/;"	f	class:AdminArea.ProfilesController
 admin_preview?	app/helpers/preview_paths_helper.rb	/^  def admin_preview?$/;"	f	class:PreviewPathsHelper
 after_sign_in_path_for	app/controllers/application_controller.rb	/^  def after_sign_in_path_for(resource)$/;"	f	class:ApplicationController
 allowNewlines	app/javascript/controllers/dropzone_controller.js	/^function allowNewlines(count) {$/;"	f
+amount?	app/models/coupon.rb	/^  def amount?$/;"	f	class:Coupon
+amount_in_minor_units	app/models/coupon.rb	/^  def amount_in_minor_units(currency)$/;"	f	class:Coupon
+apply_coupon	app/controllers/carts_controller.rb	/^  def apply_coupon$/;"	f	class:CartsController
+apply_coupon!	app/models/cart.rb	/^  def apply_coupon!(code)$/;"	f	class:Cart
+apply_coupon?	app/policies/cart_policy.rb	/^  def apply_coupon?$/;"	f	class:CartPolicy
 assign_position	app/models/chapter.rb	/^  def assign_position$/;"	f	class:Chapter
 assign_position	app/models/segment.rb	/^  def assign_position$/;"	f	class:Segment
 attach_files	app/controllers/admin_area/segments_controller.rb	/^    def attach_files(segment)$/;"	f	class:AdminArea.SegmentsController
 attachment	app/controllers/segment_media_controller.rb	/^  def attachment$/;"	f	class:SegmentMediaController
 attachments_must_be_pdf_or_image	app/models/segment.rb	/^  def attachments_must_be_pdf_or_image$/;"	f	class:Segment
 attachments_must_be_under_size_limit	app/models/segment.rb	/^  def attachments_must_be_under_size_limit$/;"	f	class:Segment
+authorize_segment!	app/controllers/segment_media_controller.rb	/^  def authorize_segment!$/;"	f	class:SegmentMediaController
+available_for?	app/models/coupon.rb	/^  def available_for?(currency, time: Time.current)$/;"	f	class:Coupon
 avatar_must_be_image	app/models/user.rb	/^  def avatar_must_be_image$/;"	f	class:User
 avatar_must_be_under_size_limit	app/models/user.rb	/^  def avatar_must_be_under_size_limit$/;"	f	class:User
 blocking_mandatory_chapter_for	app/controllers/concerns/mandatory_chapter_lock.rb	/^  def blocking_mandatory_chapter_for(course, current_chapter, completions_by_segment_id)$/;"	f	class:MandatoryChapterLock
 blocking_mandatory_chapter_for	app/controllers/segment_completions_controller.rb	/^  def blocking_mandatory_chapter_for(course, current_chapter, completions_by_segment_id)$/;"	f	class:SegmentCompletionsController
+browser_name	app/helpers/sessions_helper.rb	/^  def browser_name(user_agent)$/;"	f	class:SessionsHelper
 build_course	test/models/course_test.rb	/^  def build_course$/;"	f	class:CourseTest
 build_line_items	app/controllers/checkouts_controller.rb	/^  def build_line_items(order)$/;"	f	class:CheckoutsController
-build_order!	app/controllers/checkouts_controller.rb	/^  def build_order!(items)$/;"	f	class:CheckoutsController
+build_order!	app/controllers/checkouts_controller.rb	/^  def build_order!(cart, items)$/;"	f	class:CheckoutsController
 build_segment	test/models/segment_test.rb	/^  def build_segment$/;"	f	class:SegmentTest
+build_stripe_coupon	app/controllers/checkouts_controller.rb	/^  def build_stripe_coupon(order)$/;"	f	class:CheckoutsController
 cancel	app/controllers/checkouts_controller.rb	/^  def cancel$/;"	f	class:CheckoutsController
 cart!	app/models/user.rb	/^  def cart!$/;"	f	class:User
 change	db/migrate/20260208152833_devise_create_admins.rb	/^  def change$/;"	f	class:DeviseCreateAdmins
@@ -143,7 +191,13 @@ change	db/migrate/20260209091510_create_enrollments.rb	/^  def change$/;"	f	clas
 change	db/migrate/20260209152236_add_username_to_users.rb	/^  def change$/;"	f	class:AddUsernameToUsers
 change	db/migrate/20260209152352_add_names_to_admins.rb	/^  def change$/;"	f	class:AddNamesToAdmins
 change	db/migrate/20260209153917_add_course_type_to_courses.rb	/^  def change$/;"	f	class:AddCourseTypeToCourses
+change	db/migrate/20260209162000_add_coupons_and_discounting.rb	/^  def change$/;"	f	class:AddCouponsAndDiscounting
+change	db/migrate/20260209163500_add_notes_to_coupons.rb	/^  def change$/;"	f	class:AddNotesToCoupons
+change	db/migrate/20260210100000_add_stripe_customer_id_to_users.rb	/^  def change$/;"	f	class:AddStripeCustomerIdToUsers
+change	db/migrate/20260210100100_create_oauth_identities.rb	/^  def change$/;"	f	class:CreateOauthIdentities
+change	db/migrate/20260210100300_create_user_sessions.rb	/^  def change$/;"	f	class:CreateUserSessions
 chapter_params	app/controllers/admin_area/chapters_controller.rb	/^    def chapter_params$/;"	f	class:AdminArea.ChaptersController
+coupon_params	app/controllers/admin_area/coupons_controller.rb	/^    def coupon_params$/;"	f	class:AdminArea.CouponsController
 course_params	app/controllers/admin_area/courses_controller.rb	/^    def course_params$/;"	f	class:AdminArea.CoursesController
 course_show_path	app/helpers/preview_paths_helper.rb	/^  def course_show_path(course, **params)$/;"	f	class:PreviewPathsHelper
 course_type_label	app/models/course.rb	/^  def course_type_label$/;"	f	class:Course
@@ -156,6 +210,7 @@ cover_image_must_be_image	app/models/segment.rb	/^  def cover_image_must_be_imag
 cover_image_must_be_under_size_limit	app/models/course.rb	/^  def cover_image_must_be_under_size_limit$/;"	f	class:Course
 cover_image_must_be_under_size_limit	app/models/segment.rb	/^  def cover_image_must_be_under_size_limit$/;"	f	class:Segment
 create	app/controllers/admin_area/chapters_controller.rb	/^    def create$/;"	f	class:AdminArea.ChaptersController
+create	app/controllers/admin_area/coupons_controller.rb	/^    def create$/;"	f	class:AdminArea.CouponsController
 create	app/controllers/admin_area/courses_controller.rb	/^    def create$/;"	f	class:AdminArea.CoursesController
 create	app/controllers/admin_area/media_assets_controller.rb	/^    def create$/;"	f	class:AdminArea.MediaAssetsController
 create	app/controllers/admin_area/segments_controller.rb	/^    def create$/;"	f	class:AdminArea.SegmentsController
@@ -164,78 +219,150 @@ create	app/controllers/checkouts_controller.rb	/^  def create$/;"	f	class:Checko
 create	app/controllers/segment_completions_controller.rb	/^  def create$/;"	f	class:SegmentCompletionsController
 create	app/controllers/stripe_webhooks_controller.rb	/^  def create$/;"	f	class:StripeWebhooksController
 create	app/controllers/user_sessions_controller.rb	/^  def create$/;"	f	class:UserSessionsController
+create?	app/policies/application_policy.rb	/^  def create?$/;"	f	class:ApplicationPolicy
+create?	app/policies/cart_item_policy.rb	/^  def create?$/;"	f	class:CartItemPolicy
+create?	app/policies/chapter_policy.rb	/^  def create?$/;"	f	class:ChapterPolicy
+create?	app/policies/coupon_policy.rb	/^  def create?$/;"	f	class:CouponPolicy
+create?	app/policies/course_policy.rb	/^  def create?$/;"	f	class:CoursePolicy
+create?	app/policies/media_asset_policy.rb	/^  def create?$/;"	f	class:MediaAssetPolicy
+create?	app/policies/segment_policy.rb	/^  def create?$/;"	f	class:SegmentPolicy
 currency	app/models/cart.rb	/^  def currency$/;"	f	class:Cart
 currency_precision	app/models/cart.rb	/^  def currency_precision$/;"	f	class:Cart
 currency_precision	app/models/course.rb	/^  def currency_precision$/;"	f	class:Course
+currency_precision	app/models/order.rb	/^  def currency_precision$/;"	f	class:Order
 current_user	app/controllers/application_controller.rb	/^  def current_user$/;"	f	class:ApplicationController
+data_deletion	app/controllers/pages_controller.rb	/^  def data_deletion$/;"	f	class:PagesController
+dc	bin/dev	/^dc() {$/;"	f
 destroy	app/controllers/admin_area/chapters_controller.rb	/^    def destroy$/;"	f	class:AdminArea.ChaptersController
+destroy	app/controllers/admin_area/coupons_controller.rb	/^    def destroy$/;"	f	class:AdminArea.CouponsController
 destroy	app/controllers/admin_area/courses_controller.rb	/^    def destroy$/;"	f	class:AdminArea.CoursesController
 destroy	app/controllers/admin_area/media_assets_controller.rb	/^    def destroy$/;"	f	class:AdminArea.MediaAssetsController
+destroy	app/controllers/admin_area/orders_controller.rb	/^    def destroy$/;"	f	class:AdminArea.OrdersController
 destroy	app/controllers/admin_area/segments_controller.rb	/^    def destroy$/;"	f	class:AdminArea.SegmentsController
 destroy	app/controllers/cart_items_controller.rb	/^  def destroy$/;"	f	class:CartItemsController
 destroy	app/controllers/enrollments_controller.rb	/^  def destroy$/;"	f	class:EnrollmentsController
+destroy	app/controllers/user_area/oauth_identities_controller.rb	/^    def destroy$/;"	f	class:UserArea.OauthIdentitiesController
+destroy	app/controllers/user_area/settings_controller.rb	/^    def destroy$/;"	f	class:UserArea.SettingsController
+destroy	app/controllers/user_area/user_sessions_controller.rb	/^    def destroy$/;"	f	class:UserArea.UserSessionsController
 destroy	app/controllers/user_sessions_controller.rb	/^  def destroy$/;"	f	class:UserSessionsController
+destroy?	app/policies/application_policy.rb	/^  def destroy?$/;"	f	class:ApplicationPolicy
+destroy?	app/policies/cart_item_policy.rb	/^  def destroy?$/;"	f	class:CartItemPolicy
+destroy?	app/policies/chapter_policy.rb	/^  def destroy?$/;"	f	class:ChapterPolicy
+destroy?	app/policies/coupon_policy.rb	/^  def destroy?$/;"	f	class:CouponPolicy
+destroy?	app/policies/course_policy.rb	/^  def destroy?$/;"	f	class:CoursePolicy
+destroy?	app/policies/enrollment_policy.rb	/^  def destroy?$/;"	f	class:EnrollmentPolicy
+destroy?	app/policies/media_asset_policy.rb	/^  def destroy?$/;"	f	class:MediaAssetPolicy
+destroy?	app/policies/oauth_identity_policy.rb	/^  def destroy?$/;"	f	class:OauthIdentityPolicy
+destroy?	app/policies/order_policy.rb	/^  def destroy?$/;"	f	class:OrderPolicy
+destroy?	app/policies/segment_policy.rb	/^  def destroy?$/;"	f	class:SegmentPolicy
+destroy?	app/policies/user_policy.rb	/^  def destroy?$/;"	f	class:UserPolicy
+destroy?	app/policies/user_session_policy.rb	/^  def destroy?$/;"	f	class:UserSessionPolicy
+destroy_all_other	app/controllers/user_area/user_sessions_controller.rb	/^    def destroy_all_other$/;"	f	class:UserArea.UserSessionsController
 destroy_attachment	app/controllers/admin_area/segments_controller.rb	/^    def destroy_attachment$/;"	f	class:AdminArea.SegmentsController
+destroy_attachment?	app/policies/segment_policy.rb	/^  def destroy_attachment?$/;"	f	class:SegmentPolicy
 destroy_cover_image	app/controllers/admin_area/courses_controller.rb	/^    def destroy_cover_image$/;"	f	class:AdminArea.CoursesController
 destroy_cover_image	app/controllers/admin_area/segments_controller.rb	/^    def destroy_cover_image$/;"	f	class:AdminArea.SegmentsController
+destroy_cover_image?	app/policies/course_policy.rb	/^  def destroy_cover_image?$/;"	f	class:CoursePolicy
+destroy_cover_image?	app/policies/segment_policy.rb	/^  def destroy_cover_image?$/;"	f	class:SegmentPolicy
 destroy_video	app/controllers/admin_area/segments_controller.rb	/^    def destroy_video$/;"	f	class:AdminArea.SegmentsController
+destroy_video?	app/policies/segment_policy.rb	/^  def destroy_video?$/;"	f	class:SegmentPolicy
 detach_from_segments	app/models/media_asset.rb	/^  def detach_from_segments$/;"	f	class:MediaAsset
 disclaimer	app/controllers/pages_controller.rb	/^  def disclaimer$/;"	f	class:PagesController
+discount_amount	app/models/cart.rb	/^  def discount_amount$/;"	f	class:Cart
+discount_for	app/models/coupon.rb	/^  def discount_for(subtotal_amount, currency)$/;"	f	class:Coupon
 display_precision	app/models/course.rb	/^  def display_precision$/;"	f	class:Course
+display_precision	app/models/order.rb	/^  def display_precision$/;"	f	class:Order
 down	db/migrate/20260208172058_rename_segments_to_chapters_and_steps_to_segments.rb	/^  def down$/;"	f	class:RenameSegmentsToChaptersAndStepsToSegments
+down	db/migrate/20260210100200_migrate_oauth_data_to_identities.rb	/^  def down$/;"	f	class:MigrateOauthDataToIdentities
 edit	app/controllers/admin_area/chapters_controller.rb	/^    def edit$/;"	f	class:AdminArea.ChaptersController
+edit	app/controllers/admin_area/coupons_controller.rb	/^    def edit$/;"	f	class:AdminArea.CouponsController
 edit	app/controllers/admin_area/courses_controller.rb	/^    def edit$/;"	f	class:AdminArea.CoursesController
 edit	app/controllers/admin_area/media_assets_controller.rb	/^    def edit$/;"	f	class:AdminArea.MediaAssetsController
 edit	app/controllers/admin_area/profiles_controller.rb	/^    def edit$/;"	f	class:AdminArea.ProfilesController
 edit	app/controllers/admin_area/segments_controller.rb	/^    def edit$/;"	f	class:AdminArea.SegmentsController
 edit	app/controllers/user_area/settings_controller.rb	/^    def edit$/;"	f	class:UserArea.SettingsController
+edit?	app/policies/application_policy.rb	/^  def edit?$/;"	f	class:ApplicationPolicy
 effective_cover_blob	app/models/segment.rb	/^  def effective_cover_blob$/;"	f	class:Segment
 effective_video_blob	app/models/segment.rb	/^  def effective_video_blob$/;"	f	class:Segment
+enforce_session_limit!	app/models/user.rb	/^  def enforce_session_limit!$/;"	f	class:User
 ensure_completion_for_non_video_segment!	app/controllers/segments_controller.rb	/^  def ensure_completion_for_non_video_segment!$/;"	f	class:SegmentsController
-ensure_enrolled!	app/controllers/segment_media_controller.rb	/^  def ensure_enrolled!$/;"	f	class:SegmentMediaController
 ensure_unlocked!	app/controllers/segment_media_controller.rb	/^  def ensure_unlocked!$/;"	f	class:SegmentMediaController
 failure	app/controllers/user_sessions_controller.rb	/^  def failure$/;"	f	class:UserSessionsController
 file_presence	app/models/media_asset.rb	/^  def file_presence$/;"	f	class:MediaAsset
 file_type_is_allowed	app/models/media_asset.rb	/^  def file_type_is_allowed$/;"	f	class:MediaAsset
+find_for_database_authentication	app/models/admin.rb	/^  def self.find_for_database_authentication(warden_conditions)$/;"	F	class:Admin
+find_or_create_stripe_customer!	app/models/user.rb	/^  def find_or_create_stripe_customer!$/;"	f	class:User
 from.completeUrl	app/javascript/controllers/video_completion_controller.js	/^    completeUrl: String,$/;"	p
 from.completed	app/javascript/controllers/video_completion_controller.js	/^    completed: Boolean,$/;"	p
 from_omniauth	app/models/user.rb	/^  def self.from_omniauth(auth)$/;"	F	class:User
 handle_checkout_completed	app/controllers/stripe_webhooks_controller.rb	/^  def handle_checkout_completed(session)$/;"	f
 image?	app/models/media_asset.rb	/^  def image?$/;"	f	class:MediaAsset
 image_size_under_limit	app/models/media_asset.rb	/^  def image_size_under_limit$/;"	f	class:MediaAsset
+index	app/controllers/admin_area/coupons_controller.rb	/^    def index$/;"	f	class:AdminArea.CouponsController
 index	app/controllers/admin_area/courses_controller.rb	/^    def index$/;"	f	class:AdminArea.CoursesController
 index	app/controllers/admin_area/media_assets_controller.rb	/^    def index$/;"	f	class:AdminArea.MediaAssetsController
+index	app/controllers/admin_area/orders_controller.rb	/^    def index$/;"	f	class:AdminArea.OrdersController
 index	app/controllers/admin_area/preview/courses_controller.rb	/^      def index$/;"	f	class:AdminArea.Preview.CoursesController
+index	app/controllers/admin_area/users_controller.rb	/^    def index$/;"	f	class:AdminArea.UsersController
 index	app/controllers/courses_controller.rb	/^  def index$/;"	f	class:CoursesController
 index	app/controllers/home_controller.rb	/^  def index$/;"	f	class:HomeController
+index?	app/policies/application_policy.rb	/^  def index?$/;"	f	class:ApplicationPolicy
+index?	app/policies/coupon_policy.rb	/^  def index?$/;"	f	class:CouponPolicy
+index?	app/policies/course_policy.rb	/^  def index?$/;"	f	class:CoursePolicy
+index?	app/policies/media_asset_policy.rb	/^  def index?$/;"	f	class:MediaAssetPolicy
+index?	app/policies/order_policy.rb	/^  def index?$/;"	f	class:OrderPolicy
+index?	app/policies/user_policy.rb	/^  def index?$/;"	f	class:UserPolicy
 infer_media_type	app/models/media_asset.rb	/^  def infer_media_type$/;"	f	class:MediaAsset
+initialize	app/policies/application_policy.rb	/^    def initialize(user, scope)$/;"	f	class:ApplicationPolicy.Scope
+initialize	app/policies/application_policy.rb	/^  def initialize(user, record)$/;"	f	class:ApplicationPolicy
 load_media_assets	app/controllers/admin_area/segments_controller.rb	/^    def load_media_assets$/;"	f	class:AdminArea.SegmentsController
+manage_services	bin/dev	/^manage_services() {$/;"	f
+max_discount_amount	app/models/cart.rb	/^  def max_discount_amount$/;"	f	class:Cart
 media_asset_params	app/controllers/admin_area/media_assets_controller.rb	/^    def media_asset_params$/;"	f	class:AdminArea.MediaAssetsController
 move_down	app/controllers/admin_area/chapters_controller.rb	/^    def move_down$/;"	f	class:AdminArea.ChaptersController
 move_down	app/controllers/admin_area/segments_controller.rb	/^    def move_down$/;"	f	class:AdminArea.SegmentsController
 move_down!	app/models/chapter.rb	/^  def move_down!$/;"	f	class:Chapter
 move_down!	app/models/segment.rb	/^  def move_down!$/;"	f	class:Segment
+move_down?	app/policies/chapter_policy.rb	/^  def move_down?$/;"	f	class:ChapterPolicy
+move_down?	app/policies/segment_policy.rb	/^  def move_down?$/;"	f	class:SegmentPolicy
 move_up	app/controllers/admin_area/chapters_controller.rb	/^    def move_up$/;"	f	class:AdminArea.ChaptersController
 move_up	app/controllers/admin_area/segments_controller.rb	/^    def move_up$/;"	f	class:AdminArea.SegmentsController
 move_up!	app/models/chapter.rb	/^  def move_up!$/;"	f	class:Chapter
 move_up!	app/models/segment.rb	/^  def move_up!$/;"	f	class:Segment
+move_up?	app/policies/chapter_policy.rb	/^  def move_up?$/;"	f	class:ChapterPolicy
+move_up?	app/policies/segment_policy.rb	/^  def move_up?$/;"	f	class:SegmentPolicy
 name	app/models/user.rb	/^  def name$/;"	f	class:User
 new	app/controllers/admin_area/chapters_controller.rb	/^    def new$/;"	f	class:AdminArea.ChaptersController
+new	app/controllers/admin_area/coupons_controller.rb	/^    def new$/;"	f	class:AdminArea.CouponsController
 new	app/controllers/admin_area/courses_controller.rb	/^    def new$/;"	f	class:AdminArea.CoursesController
 new	app/controllers/admin_area/media_assets_controller.rb	/^    def new$/;"	f	class:AdminArea.MediaAssetsController
 new	app/controllers/admin_area/segments_controller.rb	/^    def new$/;"	f	class:AdminArea.SegmentsController
+new?	app/policies/application_policy.rb	/^  def new?$/;"	f	class:ApplicationPolicy
 next_segment_for	app/controllers/admin_area/preview/segments_controller.rb	/^      def next_segment_for(course, segment)$/;"	f	class:AdminArea.Preview.SegmentsController
 next_segment_for	app/controllers/segments_controller.rb	/^  def next_segment_for(course, segment)$/;"	f	class:SegmentsController
+normalize_code	app/models/coupon.rb	/^  def normalize_code$/;"	f	class:Coupon
+orders_sort_column	app/helpers/admin_area/orders_helper.rb	/^    def orders_sort_column$/;"	f	class:AdminArea.OrdersHelper
+orders_sort_direction	app/helpers/admin_area/orders_helper.rb	/^    def orders_sort_direction$/;"	f	class:AdminArea.OrdersHelper
+orders_sort_link	app/helpers/admin_area/orders_helper.rb	/^    def orders_sort_link(label, key)$/;"	f	class:AdminArea.OrdersHelper
+os_name	app/helpers/sessions_helper.rb	/^  def os_name(user_agent)$/;"	f	class:SessionsHelper
 paid?	app/models/order.rb	/^  def paid?$/;"	f	class:Order
+parse_date	app/controllers/admin_area/orders_controller.rb	/^    def parse_date(value)$/;"	f	class:AdminArea.OrdersController
+percent?	app/models/coupon.rb	/^  def percent?$/;"	f	class:Coupon
+percent_value_within_range	app/models/coupon.rb	/^  def percent_value_within_range$/;"	f	class:Coupon
 price_in_minor_units	app/models/course.rb	/^  def price_in_minor_units$/;"	f	class:Course
 primary_and_foreign_key_types	db/migrate/20260208175214_create_active_storage_tables.active_storage.rb	/^    def primary_and_foreign_key_types$/;"	f	class:CreateActiveStorageTables
 primary_and_foreign_key_types	db/migrate/20260208175215_create_action_text_tables.action_text.rb	/^    def primary_and_foreign_key_types$/;"	f	class:CreateActionTextTables
 privacy	app/controllers/pages_controller.rb	/^  def privacy$/;"	f	class:PagesController
+pundit_user	app/controllers/admin_area/base_controller.rb	/^    def pundit_user$/;"	f	class:AdminArea.BaseController
 purge_file	app/models/media_asset.rb	/^  def purge_file$/;"	f	class:MediaAsset
 redirect_to_service_url	app/controllers/segment_media_controller.rb	/^  def redirect_to_service_url(blob, disposition:)$/;"	f	class:SegmentMediaController
+remove_coupon	app/controllers/carts_controller.rb	/^  def remove_coupon$/;"	f	class:CartsController
+remove_coupon!	app/models/cart.rb	/^  def remove_coupon!$/;"	f	class:Cart
+remove_coupon?	app/policies/cart_policy.rb	/^  def remove_coupon?$/;"	f	class:CartPolicy
 remove_course!	app/models/cart.rb	/^  def remove_course!(course)$/;"	f	class:Cart
 require_enrollment!	app/controllers/application_controller.rb	/^  def require_enrollment!(course)$/;"	f	class:ApplicationController
 require_user!	app/controllers/application_controller.rb	/^  def require_user!$/;"	f	class:ApplicationController
+resolve	app/policies/application_policy.rb	/^    def resolve$/;"	f	class:ApplicationPolicy.Scope
 segment_params	app/controllers/admin_area/segments_controller.rb	/^    def segment_params$/;"	f	class:AdminArea.SegmentsController
 segment_show_path	app/helpers/preview_paths_helper.rb	/^  def segment_show_path(course, chapter, segment, **params)$/;"	f	class:PreviewPathsHelper
 set_active_storage_url_options	app/controllers/application_controller.rb	/^  def set_active_storage_url_options$/;"	f	class:ApplicationController
@@ -245,6 +372,7 @@ set_chapter	app/controllers/admin_area/segments_controller.rb	/^    def set_chap
 set_chapter	app/controllers/segment_completions_controller.rb	/^  def set_chapter$/;"	f	class:SegmentCompletionsController
 set_chapter	app/controllers/segment_media_controller.rb	/^  def set_chapter$/;"	f	class:SegmentMediaController
 set_chapter	app/controllers/segments_controller.rb	/^  def set_chapter$/;"	f	class:SegmentsController
+set_coupon	app/controllers/admin_area/coupons_controller.rb	/^    def set_coupon$/;"	f	class:AdminArea.CouponsController
 set_course	app/controllers/admin_area/chapters_controller.rb	/^    def set_course$/;"	f	class:AdminArea.ChaptersController
 set_course	app/controllers/admin_area/courses_controller.rb	/^    def set_course$/;"	f	class:AdminArea.CoursesController
 set_course	app/controllers/admin_area/preview/segments_controller.rb	/^      def set_course$/;"	f	class:AdminArea.Preview.SegmentsController
@@ -258,38 +386,64 @@ set_segment	app/controllers/admin_area/segments_controller.rb	/^    def set_segm
 set_segment	app/controllers/segment_completions_controller.rb	/^  def set_segment$/;"	f	class:SegmentCompletionsController
 set_segment	app/controllers/segment_media_controller.rb	/^  def set_segment$/;"	f	class:SegmentMediaController
 set_segment	app/controllers/segments_controller.rb	/^  def set_segment$/;"	f	class:SegmentsController
+show	app/controllers/admin_area/coupons_controller.rb	/^    def show$/;"	f	class:AdminArea.CouponsController
 show	app/controllers/admin_area/courses_controller.rb	/^    def show$/;"	f	class:AdminArea.CoursesController
 show	app/controllers/admin_area/dashboard_controller.rb	/^    def show$/;"	f	class:AdminArea.DashboardController
+show	app/controllers/admin_area/orders_controller.rb	/^    def show$/;"	f	class:AdminArea.OrdersController
 show	app/controllers/admin_area/preview/courses_controller.rb	/^      def show$/;"	f	class:AdminArea.Preview.CoursesController
 show	app/controllers/admin_area/preview/segments_controller.rb	/^      def show$/;"	f	class:AdminArea.Preview.SegmentsController
+show	app/controllers/admin_area/users_controller.rb	/^    def show$/;"	f	class:AdminArea.UsersController
 show	app/controllers/carts_controller.rb	/^  def show$/;"	f	class:CartsController
 show	app/controllers/courses_controller.rb	/^  def show$/;"	f	class:CoursesController
 show	app/controllers/login_controller.rb	/^  def show$/;"	f	class:LoginController
 show	app/controllers/segments_controller.rb	/^  def show$/;"	f	class:SegmentsController
 show	app/controllers/user_area/dashboard_controller.rb	/^    def show$/;"	f	class:UserArea.DashboardController
+show?	app/policies/application_policy.rb	/^  def show?$/;"	f	class:ApplicationPolicy
+show?	app/policies/cart_policy.rb	/^  def show?$/;"	f	class:CartPolicy
+show?	app/policies/coupon_policy.rb	/^  def show?$/;"	f	class:CouponPolicy
+show?	app/policies/course_policy.rb	/^  def show?$/;"	f	class:CoursePolicy
+show?	app/policies/media_asset_policy.rb	/^  def show?$/;"	f	class:MediaAssetPolicy
+show?	app/policies/order_policy.rb	/^  def show?$/;"	f	class:OrderPolicy
+show?	app/policies/segment_policy.rb	/^  def show?$/;"	f	class:SegmentPolicy
+show?	app/policies/user_policy.rb	/^  def show?$/;"	f	class:UserPolicy
+subtotal_amount	app/models/cart.rb	/^  def subtotal_amount$/;"	f	class:Cart
 success	app/controllers/checkouts_controller.rb	/^  def success$/;"	f	class:CheckoutsController
 swap_positions!	app/models/chapter.rb	/^  def swap_positions!(other)$/;"	f	class:Chapter
 swap_positions!	app/models/segment.rb	/^  def swap_positions!(other)$/;"	f	class:Segment
 sync_media_library!	app/controllers/admin_area/segments_controller.rb	/^    def sync_media_library!(segment)$/;"	f	class:AdminArea.SegmentsController
 system!	bin/setup	/^def system!(*args)$/;"	f
 terms	app/controllers/pages_controller.rb	/^  def terms$/;"	f	class:PagesController
+total_after_discount	app/models/cart.rb	/^  def total_after_discount$/;"	f	class:Cart
 total_amount	app/models/cart.rb	/^  def total_amount$/;"	f	class:Cart
 total_amount	app/models/cart_item.rb	/^  def total_amount$/;"	f	class:CartItem
 total_amount	app/models/order_item.rb	/^  def total_amount$/;"	f	class:OrderItem
 unit_amount	app/models/cart_item.rb	/^  def unit_amount$/;"	f	class:CartItem
 up	db/migrate/20260208172058_rename_segments_to_chapters_and_steps_to_segments.rb	/^  def up$/;"	f	class:RenameSegmentsToChaptersAndStepsToSegments
+up	db/migrate/20260210100200_migrate_oauth_data_to_identities.rb	/^  def up$/;"	f	class:MigrateOauthDataToIdentities
 update	app/controllers/admin_area/chapters_controller.rb	/^    def update$/;"	f	class:AdminArea.ChaptersController
+update	app/controllers/admin_area/coupons_controller.rb	/^    def update$/;"	f	class:AdminArea.CouponsController
 update	app/controllers/admin_area/courses_controller.rb	/^    def update$/;"	f	class:AdminArea.CoursesController
 update	app/controllers/admin_area/media_assets_controller.rb	/^    def update$/;"	f	class:AdminArea.MediaAssetsController
 update	app/controllers/admin_area/profiles_controller.rb	/^    def update$/;"	f	class:AdminArea.ProfilesController
 update	app/controllers/admin_area/segments_controller.rb	/^    def update$/;"	f	class:AdminArea.SegmentsController
 update	app/controllers/cart_items_controller.rb	/^  def update$/;"	f	class:CartItemsController
 update	app/controllers/user_area/settings_controller.rb	/^    def update$/;"	f	class:UserArea.SettingsController
+update?	app/policies/application_policy.rb	/^  def update?$/;"	f	class:ApplicationPolicy
+update?	app/policies/cart_item_policy.rb	/^  def update?$/;"	f	class:CartItemPolicy
+update?	app/policies/chapter_policy.rb	/^  def update?$/;"	f	class:ChapterPolicy
+update?	app/policies/coupon_policy.rb	/^  def update?$/;"	f	class:CouponPolicy
+update?	app/policies/course_policy.rb	/^  def update?$/;"	f	class:CoursePolicy
+update?	app/policies/media_asset_policy.rb	/^  def update?$/;"	f	class:MediaAssetPolicy
+update?	app/policies/segment_policy.rb	/^  def update?$/;"	f	class:SegmentPolicy
+update?	app/policies/user_policy.rb	/^  def update?$/;"	f	class:UserPolicy
 update_course_progress!	app/controllers/segments_controller.rb	/^  def update_course_progress!$/;"	f	class:SegmentsController
+update_from_omniauth	app/models/user.rb	/^  def self.update_from_omniauth!(user, info)$/;"	F	class:User
 usage_count	app/models/media_asset.rb	/^  def usage_count$/;"	f	class:MediaAsset
 usage_segments	app/models/media_asset.rb	/^  def usage_segments$/;"	f	class:MediaAsset
+user_not_authorized	app/controllers/application_controller.rb	/^  def user_not_authorized$/;"	f	class:ApplicationController
 user_params	app/controllers/user_area/settings_controller.rb	/^    def user_params$/;"	f	class:UserArea.SettingsController
 user_signed_in?	app/controllers/application_controller.rb	/^  def user_signed_in?$/;"	f	class:ApplicationController
+validate_session	app/controllers/application_controller.rb	/^  def validate_session$/;"	f	class:ApplicationController
 video	app/controllers/segment_media_controller.rb	/^  def video$/;"	f	class:SegmentMediaController
 video?	app/models/media_asset.rb	/^  def video?$/;"	f	class:MediaAsset
 video_asset_must_be_video	app/models/segment.rb	/^  def video_asset_must_be_video$/;"	f	class:Segment
