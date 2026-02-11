@@ -47,6 +47,20 @@
     </div>
   </div>
 
+  <% if Tag.any? %>
+    <div class="flex flex-col gap-2">
+      <span class="text-sm font-medium text-gray-900">Štítky</span>
+      <div class="flex flex-wrap gap-3">
+        <%= f.collection_check_boxes :tag_ids, Tag.order(:name), :id, :name do |b| %>
+          <label class="flex items-center gap-2 text-sm text-gray-700">
+            <%= b.check_box class: "h-4 w-4 rounded border-gray-300 text-gray-900" %>
+            <%= b.text %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
   <div class="flex flex-col gap-2">
     <%= f.label :description, "Popis", class: "text-sm font-medium text-gray-900" %>
     <%= f.rich_text_area :description, placeholder: "Stručný popis kurzu..." %>

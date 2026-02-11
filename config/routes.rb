@@ -110,10 +110,12 @@ Rails.application.routes.draw do
       member do
         post :create_invoice
         post :resend_invoice_email
+        post :refund
       end
     end
     resources :users, only: %i[index show]
     resources :coupons
+    resources :tags, except: [:show]
     resources :billing_companies, path: "billing"
   end
 

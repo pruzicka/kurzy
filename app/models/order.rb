@@ -20,6 +20,14 @@ class Order < ApplicationRecord
     fakturoid_invoice_id.present?
   end
 
+  def fakturoid_correction?
+    fakturoid_correction_id.present?
+  end
+
+  def refundable?
+    paid? && stripe_payment_intent_id.present?
+  end
+
   def billing_info_present?
     billing_name.present?
   end

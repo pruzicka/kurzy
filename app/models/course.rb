@@ -6,6 +6,8 @@ class Course < ApplicationRecord
   has_many :course_progresses, dependent: :destroy
   has_many :enrollments, dependent: :destroy
   has_many :order_items, dependent: :destroy
+  has_many :course_tags, dependent: :destroy
+  has_many :tags, through: :course_tags
 
   has_rich_text :description
   has_one_attached :cover_image

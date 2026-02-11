@@ -1,0 +1,38 @@
+<p>Dobrý den, <%= @user.name %>!</p>
+
+<p>K vaší objednávce #<%= @order.id %> byla provedena vratka platby.</p>
+
+<h2>Objednávka #<%= @order.id %></h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Kurz</th>
+      <th class="amount">Cena</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @items.each do |item| %>
+      <tr>
+        <td><%= item.display_name %></td>
+        <td class="amount"><%= number_to_currency(item.total_amount / (@order.currency_precision.zero? ? 1.0 : 100.0), unit: @order.currency, precision: @order.display_precision) %></td>
+      </tr>
+    <% end %>
+    <% if @order.discount_amount.to_i > 0 %>
+      <tr>
+        <td>Sleva<%= " (#{@order.coupon.code})" if @order.coupon %></td>
+        <td class="amount">-<%= number_to_currency(@order.discount_amount / (@order.currency_precision.zero? ? 1.0 : 100.0), unit: @order.currency, precision: @order.display_precision) %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td><strong>Vrácená částka</strong></td>
+      <td class="amount"><strong><%= number_to_currency(@order.total_amount / (@order.currency_precision.zero? ? 1.0 : 100.0), unit: @order.currency, precision: @order.display_precision) %></strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Částka bude vrácena na váš původní platební prostředek.</p>
+
+<% if @order.fakturoid_correction_url.present? %>
+  <p><a href="<%= @order.fakturoid_correction_url %>" class="btn">Zobrazit dobropis</a></p>
+<% end %>

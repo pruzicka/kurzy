@@ -66,8 +66,10 @@ class WebhookProcessorService
     return if order.status == "refunded" # idempotency
 
     Order.transaction do
-      order.update!(status: "refunded")
+      order.update!(status: "refunded", refunded_at: order.refunded_at || Time.current)
       EnrollmentService.new(order).revoke_enrollments!
     end
+
+    FakturoidCorrectionJob.perform_later(order.id) if order.fakturoid_invoice?
   end
 end

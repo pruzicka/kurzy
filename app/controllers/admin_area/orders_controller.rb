@@ -57,6 +57,15 @@ module AdminArea
       redirect_to admin_order_path(@order), notice: "E-mail s fakturou byl odeslán."
     end
 
+    def refund
+      @order = Order.find(params[:id])
+      authorize @order
+      RefundService.new(@order, reason: params[:reason]).call
+      redirect_to admin_order_path(@order), notice: "Platba byla vrácena."
+    rescue => e
+      redirect_to admin_order_path(@order), alert: "Chyba: #{e.message}"
+    end
+
     def parse_date(value)
       return nil if value.blank?
       Date.parse(value.to_s)

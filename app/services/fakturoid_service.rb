@@ -20,6 +20,28 @@ class FakturoidService
     )
   end
 
+  def create_correction!
+    return unless @company
+    return unless @order.fakturoid_invoice_id.present?
+    return if @order.fakturoid_correction_id.present?
+
+    correction = client.invoices.create(
+      document_type: "correction",
+      correction_id: @order.fakturoid_invoice_id,
+      subject_id: @order.fakturoid_subject_id,
+      currency: @order.currency,
+      payment_method: "card",
+      issued_on: Date.current.iso8601,
+      lines: build_correction_lines
+    )
+
+    @order.update!(
+      fakturoid_correction_id: correction.id,
+      fakturoid_correction_number: correction.number,
+      fakturoid_correction_url: correction.html_url
+    )
+  end
+
   private
 
   def find_or_create_subject!
@@ -89,6 +111,34 @@ class FakturoidService
         name: "Sleva#{@order.coupon ? " (#{@order.coupon.code})" : ""}",
         quantity: 1,
         unit_price: -discount_price,
+        vat_rate: 0
+      }
+    end
+
+    lines
+  end
+
+  def build_correction_lines
+    precision = @order.currency_precision
+
+    lines = @order.order_items.includes(:course).map do |item|
+      unit_price = precision.zero? ? item.unit_amount : item.unit_amount / 100.0
+
+      {
+        name: "#{item.course.course_type_label} - #{item.display_name}",
+        quantity: item.quantity,
+        unit_price: -unit_price,
+        vat_rate: 0
+      }
+    end
+
+    if @order.discount_amount.positive?
+      discount_price = precision.zero? ? @order.discount_amount : @order.discount_amount / 100.0
+
+      lines << {
+        name: "Sleva#{@order.coupon ? " (#{@order.coupon.code})" : ""}",
+        quantity: 1,
+        unit_price: discount_price,
         vat_rate: 0
       }
     end

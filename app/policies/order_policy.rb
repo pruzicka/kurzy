@@ -10,4 +10,8 @@ class OrderPolicy < ApplicationPolicy
   def destroy?
     user.is_a?(Admin) && (record.status == "pending" || record.status == "canceled")
   end
+
+  def refund?
+    user.is_a?(Admin) && record.refundable?
+  end
 end

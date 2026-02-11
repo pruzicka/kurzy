@@ -2,7 +2,12 @@ class CoursesController < ApplicationController
   skip_after_action :verify_authorized
 
   def index
-    @courses = Course.publicly_visible.order(created_at: :desc)
+    @tags = Tag.joins(:course_tags).distinct.order(:name)
+    @courses = Course.publicly_visible.includes(:tags).order(created_at: :desc)
+    if params[:tag].present?
+      @active_tag = Tag.find_by(slug: params[:tag])
+      @courses = @courses.joins(:tags).where(tags: { slug: params[:tag] }) if @active_tag
+    end
   end
 
   def show

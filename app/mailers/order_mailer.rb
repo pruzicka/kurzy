@@ -20,4 +20,15 @@ class OrderMailer < ApplicationMailer
       subject: "Faktura k objednávce ##{order.id}"
     )
   end
+
+  def refund_confirmation(order)
+    @order = order
+    @user = order.user
+    @items = order.order_items.includes(:course)
+
+    mail(
+      to: email_address_with_name(@user.email, @user.name),
+      subject: "Vratka k objednávce ##{order.id}"
+    )
+  end
 end

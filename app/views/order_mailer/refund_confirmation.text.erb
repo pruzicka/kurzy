@@ -1,0 +1,18 @@
+Dobrý den, <%= @user.name %>!
+
+K vaší objednávce #<%= @order.id %> byla provedena vratka platby.
+
+Objednávka #<%= @order.id %>
+<% @items.each do |item| %>
+- <%= item.display_name %>: <%= number_to_currency(item.total_amount / (@order.currency_precision.zero? ? 1.0 : 100.0), unit: @order.currency, precision: @order.display_precision) %>
+<% end %>
+<% if @order.discount_amount.to_i > 0 %>
+Sleva<%= " (#{@order.coupon.code})" if @order.coupon %>: -<%= number_to_currency(@order.discount_amount / (@order.currency_precision.zero? ? 1.0 : 100.0), unit: @order.currency, precision: @order.display_precision) %>
+<% end %>
+Vrácená částka: <%= number_to_currency(@order.total_amount / (@order.currency_precision.zero? ? 1.0 : 100.0), unit: @order.currency, precision: @order.display_precision) %>
+
+Částka bude vrácena na váš původní platební prostředek.
+<% if @order.fakturoid_correction_url.present? %>
+
+Dobropis: <%= @order.fakturoid_correction_url %>
+<% end %>

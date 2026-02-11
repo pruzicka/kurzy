@@ -13,6 +13,7 @@ AddIsFreePreviewToSegments	db/migrate/20260210182420_add_is_free_preview_to_segm
 AddMediaAssetRefsToSegments	db/migrate/20260209000908_add_media_asset_refs_to_segments.rb	/^class AddMediaAssetRefsToSegments < ActiveRecord::Migration[8.1]$/;"	c
 AddNamesToAdmins	db/migrate/20260209152352_add_names_to_admins.rb	/^class AddNamesToAdmins < ActiveRecord::Migration[8.1]$/;"	c
 AddNotesToCoupons	db/migrate/20260209163500_add_notes_to_coupons.rb	/^class AddNotesToCoupons < ActiveRecord::Migration[8.1]$/;"	c
+AddRefundFieldsToOrders	db/migrate/20260211162211_add_refund_fields_to_orders.rb	/^class AddRefundFieldsToOrders < ActiveRecord::Migration[8.1]$/;"	c
 AddStatusToEnrollments	db/migrate/20260210174120_add_status_to_enrollments.rb	/^class AddStatusToEnrollments < ActiveRecord::Migration[8.1]$/;"	c
 AddStripeCustomerIdToUsers	db/migrate/20260210100000_add_stripe_customer_id_to_users.rb	/^class AddStripeCustomerIdToUsers < ActiveRecord::Migration[8.1]$/;"	c
 AddTitleSnapshotToOrderItems	db/migrate/20260210180004_add_title_snapshot_to_order_items.rb	/^class AddTitleSnapshotToOrderItems < ActiveRecord::Migration[8.1]$/;"	c
@@ -101,6 +102,7 @@ EnrollmentMailer	app/mailers/enrollment_mailer.rb	/^class EnrollmentMailer < App
 EnrollmentPolicy	app/policies/enrollment_policy.rb	/^class EnrollmentPolicy < ApplicationPolicy$/;"	c
 EnrollmentService	app/services/enrollment_service.rb	/^class EnrollmentService$/;"	c
 EnrollmentsController	app/controllers/enrollments_controller.rb	/^class EnrollmentsController < ApplicationController$/;"	c
+FakturoidCorrectionJob	app/jobs/fakturoid_correction_job.rb	/^class FakturoidCorrectionJob < ApplicationJob$/;"	c
 FakturoidInvoiceJob	app/jobs/fakturoid_invoice_job.rb	/^class FakturoidInvoiceJob < ApplicationJob$/;"	c
 FakturoidService	app/services/fakturoid_service.rb	/^class FakturoidService$/;"	c
 HomeController	app/controllers/home_controller.rb	/^class HomeController < ApplicationController$/;"	c
@@ -128,7 +130,9 @@ Preview	app/controllers/admin_area/preview/courses_controller.rb	/^  module Prev
 Preview	app/controllers/admin_area/preview/segments_controller.rb	/^  module Preview$/;"	m	class:AdminArea
 PreviewPathsHelper	app/helpers/preview_paths_helper.rb	/^module PreviewPathsHelper$/;"	m
 ProfilesController	app/controllers/admin_area/profiles_controller.rb	/^  class ProfilesController < BaseController$/;"	c	class:AdminArea
+Rack	config/initializers/rack_attack.rb	/^class Rack::Attack$/;"	c
 RecreateCourseProgressesWithCorrectForeignKey	db/migrate/20260208212757_recreate_course_progresses_with_correct_foreign_key.rb	/^class RecreateCourseProgressesWithCorrectForeignKey < ActiveRecord::Migration[8.1]$/;"	c
+RefundService	app/services/refund_service.rb	/^class RefundService$/;"	c
 RenameCourseTitleToNameAndPriceCentsToPrice	db/migrate/20260208162211_rename_course_title_to_name_and_price_cents_to_price.rb	/^class RenameCourseTitleToNameAndPriceCentsToPrice < ActiveRecord::Migration[8.1]$/;"	c
 RenameSegmentsToChaptersAndStepsToSegments	db/migrate/20260208172058_rename_segments_to_chapters_and_steps_to_segments.rb	/^class RenameSegmentsToChaptersAndStepsToSegments < ActiveRecord::Migration[8.1]$/;"	c
 Scope	app/policies/application_policy.rb	/^  class Scope$/;"	c	class:ApplicationPolicy
@@ -196,6 +200,7 @@ billing_params_for_order	app/controllers/checkouts_controller.rb	/^  def billing
 blocking_mandatory_chapter_for	app/controllers/concerns/mandatory_chapter_lock.rb	/^  def blocking_mandatory_chapter_for(course, current_chapter, completions_by_segment_id)$/;"	f	class:MandatoryChapterLock
 blocking_mandatory_chapter_for	app/controllers/segment_completions_controller.rb	/^  def blocking_mandatory_chapter_for(course, current_chapter, completions_by_segment_id)$/;"	f	class:SegmentCompletionsController
 browser_name	app/helpers/sessions_helper.rb	/^  def browser_name(user_agent)$/;"	f	class:SessionsHelper
+build_correction_lines	app/services/fakturoid_service.rb	/^  def build_correction_lines$/;"	f	class:FakturoidService
 build_course	test/models/course_test.rb	/^  def build_course$/;"	f	class:CourseTest
 build_line_items	app/services/checkout_service.rb	/^  def build_line_items(order)$/;"	f	class:CheckoutService
 build_lines	app/services/fakturoid_service.rb	/^  def build_lines$/;"	f	class:FakturoidService
@@ -203,6 +208,7 @@ build_order	app/services/checkout_service.rb	/^  def build_order(items)$/;"	f	cl
 build_segment	test/models/segment_test.rb	/^  def build_segment$/;"	f	class:SegmentTest
 build_stripe_coupon	app/services/checkout_service.rb	/^  def build_stripe_coupon(order)$/;"	f	class:CheckoutService
 call	app/services/checkout_service.rb	/^  def call$/;"	f	class:CheckoutService
+call	app/services/refund_service.rb	/^  def call$/;"	f	class:RefundService
 cancel	app/controllers/checkouts_controller.rb	/^  def cancel$/;"	f	class:CheckoutsController
 canonical_url	app/helpers/seo_helper.rb	/^  def canonical_url(url)$/;"	f	class:SeoHelper
 cart!	app/models/user.rb	/^  def cart!$/;"	f	class:User
@@ -240,6 +246,7 @@ change	db/migrate/20260210182420_add_is_free_preview_to_segments.rb	/^  def chan
 change	db/migrate/20260211102151_add_billing_fields_to_users.rb	/^  def change$/;"	f	class:AddBillingFieldsToUsers
 change	db/migrate/20260211102207_create_billing_companies.rb	/^  def change$/;"	f	class:CreateBillingCompanies
 change	db/migrate/20260211102223_add_fakturoid_fields_to_orders.rb	/^  def change$/;"	f	class:AddFakturoidFieldsToOrders
+change	db/migrate/20260211162211_add_refund_fields_to_orders.rb	/^  def change$/;"	f	class:AddRefundFieldsToOrders
 chapter_params	app/controllers/admin_area/chapters_controller.rb	/^    def chapter_params$/;"	f	class:AdminArea.ChaptersController
 clear_cart!	app/services/enrollment_service.rb	/^  def clear_cart!$/;"	f	class:EnrollmentService
 client	app/services/fakturoid_service.rb	/^  def client$/;"	f	class:FakturoidService
@@ -277,10 +284,12 @@ create?	app/policies/coupon_policy.rb	/^  def create?$/;"	f	class:CouponPolicy
 create?	app/policies/course_policy.rb	/^  def create?$/;"	f	class:CoursePolicy
 create?	app/policies/media_asset_policy.rb	/^  def create?$/;"	f	class:MediaAssetPolicy
 create?	app/policies/segment_policy.rb	/^  def create?$/;"	f	class:SegmentPolicy
+create_correction!	app/services/fakturoid_service.rb	/^  def create_correction!$/;"	f	class:FakturoidService
 create_enrollments!	app/services/enrollment_service.rb	/^  def create_enrollments!$/;"	f	class:EnrollmentService
 create_fakturoid_invoice!	app/services/fakturoid_service.rb	/^  def create_fakturoid_invoice!(subject)$/;"	f	class:FakturoidService
 create_invoice	app/controllers/admin_area/orders_controller.rb	/^    def create_invoice$/;"	f	class:AdminArea.OrdersController
 create_invoice!	app/services/fakturoid_service.rb	/^  def create_invoice!$/;"	f	class:FakturoidService
+create_stripe_refund!	app/services/refund_service.rb	/^  def create_stripe_refund!$/;"	f	class:RefundService
 currency	app/models/cart.rb	/^  def currency$/;"	f	class:Cart
 currency_precision	app/models/cart.rb	/^  def currency_precision$/;"	f	class:Cart
 currency_precision	app/models/course.rb	/^  def currency_precision$/;"	f	class:Course
@@ -348,6 +357,7 @@ enforce_session_limit!	app/models/user.rb	/^  def enforce_session_limit!$/;"	f	c
 ensure_completion_for_non_video_segment!	app/controllers/segments_controller.rb	/^  def ensure_completion_for_non_video_segment!$/;"	f	class:SegmentsController
 ensure_unlocked!	app/controllers/segment_media_controller.rb	/^  def ensure_unlocked!$/;"	f	class:SegmentMediaController
 failure	app/controllers/user_sessions_controller.rb	/^  def failure$/;"	f	class:UserSessionsController
+fakturoid_correction?	app/models/order.rb	/^  def fakturoid_correction?$/;"	f	class:Order
 fakturoid_invoice?	app/models/order.rb	/^  def fakturoid_invoice?$/;"	f	class:Order
 file_presence	app/models/media_asset.rb	/^  def file_presence$/;"	f	class:MediaAsset
 file_type_is_allowed	app/models/media_asset.rb	/^  def file_type_is_allowed$/;"	f	class:MediaAsset
@@ -386,6 +396,7 @@ initialize	app/services/checkout_service.rb	/^  def initialize(user:, cart:, suc
 initialize	app/services/coupon_service.rb	/^  def initialize(cart)$/;"	f	class:CouponService
 initialize	app/services/enrollment_service.rb	/^  def initialize(order)$/;"	f	class:EnrollmentService
 initialize	app/services/fakturoid_service.rb	/^  def initialize(order)$/;"	f	class:FakturoidService
+initialize	app/services/refund_service.rb	/^  def initialize(order, reason: nil)$/;"	f	class:RefundService
 initialize	app/services/webhook_processor_service.rb	/^  def initialize(event)$/;"	f	class:WebhookProcessorService
 input_class_for	app/helpers/application_helper.rb	/^  def input_class_for(model, attribute)$/;"	f	class:ApplicationHelper
 invoice_ready	app/mailers/order_mailer.rb	/^  def invoice_ready(order)$/;"	f	class:OrderMailer
@@ -431,6 +442,7 @@ paid?	app/models/order.rb	/^  def paid?$/;"	f	class:Order
 parse_date	app/controllers/admin_area/orders_controller.rb	/^    def parse_date(value)$/;"	f	class:AdminArea.OrdersController
 percent?	app/models/coupon.rb	/^  def percent?$/;"	f	class:Coupon
 percent_value_within_range	app/models/coupon.rb	/^  def percent_value_within_range$/;"	f	class:Coupon
+perform	app/jobs/fakturoid_correction_job.rb	/^  def perform(order_id)$/;"	f	class:FakturoidCorrectionJob
 perform	app/jobs/fakturoid_invoice_job.rb	/^  def perform(order_id)$/;"	f	class:FakturoidInvoiceJob
 perform	app/jobs/stripe_webhook_job.rb	/^  def perform(event_id)$/;"	f	class:StripeWebhookJob
 price_in_minor_units	app/models/course.rb	/^  def price_in_minor_units$/;"	f	class:Course
@@ -443,7 +455,11 @@ purchase_confirmation	app/mailers/order_mailer.rb	/^  def purchase_confirmation(
 purge_file	app/models/media_asset.rb	/^  def purge_file$/;"	f	class:MediaAsset
 record_coupon_redemption!	app/services/enrollment_service.rb	/^  def record_coupon_redemption!$/;"	f	class:EnrollmentService
 redirect_to_service_url	app/controllers/segment_media_controller.rb	/^  def redirect_to_service_url(blob, disposition:)$/;"	f	class:SegmentMediaController
+refund	app/controllers/admin_area/orders_controller.rb	/^    def refund$/;"	f	class:AdminArea.OrdersController
 refund!	app/models/enrollment.rb	/^  def refund!$/;"	f	class:Enrollment
+refund?	app/policies/order_policy.rb	/^  def refund?$/;"	f	class:OrderPolicy
+refund_confirmation	app/mailers/order_mailer.rb	/^  def refund_confirmation(order)$/;"	f	class:OrderMailer
+refundable?	app/models/order.rb	/^  def refundable?$/;"	f	class:Order
 reinstate!	app/models/enrollment.rb	/^  def reinstate!$/;"	f	class:Enrollment
 remove	app/services/coupon_service.rb	/^  def remove$/;"	f	class:CouponService
 remove_coupon	app/controllers/carts_controller.rb	/^  def remove_coupon$/;"	f	class:CartsController

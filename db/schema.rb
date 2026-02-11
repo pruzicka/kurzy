@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_11_102223) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_11_163604) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -153,6 +153,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_102223) do
     t.index ["last_segment_id"], name: "index_course_progresses_on_last_segment_id"
     t.index ["user_id", "course_id"], name: "index_course_progresses_on_user_id_and_course_id", unique: true
     t.index ["user_id"], name: "index_course_progresses_on_user_id"
+  end
+
+  create_table "course_tags", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.bigint "tag_id", null: false
+    t.index ["course_id", "tag_id"], name: "index_course_tags_on_course_id_and_tag_id", unique: true
+    t.index ["course_id"], name: "index_course_tags_on_course_id"
+    t.index ["tag_id"], name: "index_course_tags_on_tag_id"
   end
 
   create_table "courses", force: :cascade do |t|
@@ -324,11 +332,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_102223) do
     t.datetime "created_at", null: false
     t.string "currency", default: "CZK", null: false
     t.integer "discount_amount", default: 0, null: false
+    t.integer "fakturoid_correction_id"
+    t.string "fakturoid_correction_number"
+    t.string "fakturoid_correction_url"
     t.integer "fakturoid_invoice_id"
     t.string "fakturoid_invoice_number"
     t.string "fakturoid_private_url"
     t.string "fakturoid_public_url"
     t.integer "fakturoid_subject_id"
+    t.string "refund_reason"
+    t.datetime "refunded_at"
     t.string "status", default: "pending", null: false
     t.string "stripe_payment_intent_id"
     t.string "stripe_session_id"
@@ -367,6 +380,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_102223) do
     t.index ["chapter_id"], name: "index_segments_on_chapter_id"
     t.index ["cover_asset_id"], name: "index_segments_on_cover_asset_id"
     t.index ["video_asset_id"], name: "index_segments_on_video_asset_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_tags_on_name", unique: true
+    t.index ["slug"], name: "index_tags_on_slug", unique: true
   end
 
   create_table "user_sessions", force: :cascade do |t|
@@ -419,6 +441,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_102223) do
   add_foreign_key "course_progresses", "courses"
   add_foreign_key "course_progresses", "segments", column: "last_segment_id"
   add_foreign_key "course_progresses", "users"
+  add_foreign_key "course_tags", "courses"
+  add_foreign_key "course_tags", "tags"
   add_foreign_key "enrollments", "courses"
   add_foreign_key "enrollments", "orders"
   add_foreign_key "enrollments", "users"

@@ -4,7 +4,7 @@ module AdminArea
 
     def index
       authorize Course
-      @courses = Course.order(created_at: :desc)
+      @courses = Course.includes(:tags).order(created_at: :desc)
     end
 
     def show
@@ -58,7 +58,7 @@ module AdminArea
     end
 
     def course_params
-      params.require(:course).permit(:name, :description, :status, :course_type, :price, :currency, :slug, :cover_image)
+      params.require(:course).permit(:name, :description, :status, :course_type, :price, :currency, :slug, :cover_image, tag_ids: [])
     end
   end
 end
