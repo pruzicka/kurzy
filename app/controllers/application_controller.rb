@@ -37,6 +37,8 @@ class ApplicationController < ActionController::Base
     redirect_to courses_path, alert: "Tento kurz je dostupný pouze po zakoupení."
   end
 
+  MAX_SESSION_AGE = 30.days
+
   def validate_session
     return unless session[:user_id].present?
     return unless session[:session_token].present?
@@ -46,6 +48,13 @@ class ApplicationController < ActionController::Base
     if user_session.nil?
       reset_session
       redirect_to login_path, alert: "Vaše relace byla ukončena."
+      return
+    end
+
+    if user_session.created_at < MAX_SESSION_AGE.ago
+      user_session.destroy
+      reset_session
+      redirect_to login_path, alert: "Vaše relace vypršela. Přihlaste se prosím znovu."
       return
     end
 

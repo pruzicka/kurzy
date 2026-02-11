@@ -21,6 +21,8 @@ gem "jbuilder"
 gem "stripe"
 gem "fakturoid"
 gem "rack-attack"
+gem "rotp"
+gem "rqrcode"
 
 # Authentication
 gem "devise"
@@ -82,6 +84,7 @@ group :development do
 end
 
 group :test do
+  gem "ostruct"
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"

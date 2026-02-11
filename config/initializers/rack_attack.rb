@@ -18,6 +18,18 @@ class Rack::Attack
     req.ip if req.path == "/admin/login" && req.post?
   end
 
+  ### Admin OTP challenge ###
+  # 5 attempts per minute per IP
+  throttle("admin-otp/ip", limit: 5, period: 1.minute) do |req|
+    req.ip if req.path == "/admin/otp_challenge" && req.post?
+  end
+
+  ### Admin password reset ###
+  # 5 per minute per IP
+  throttle("admin-password-reset/ip", limit: 5, period: 1.minute) do |req|
+    req.ip if req.path == "/admin/password" && req.post?
+  end
+
   ### OAuth callbacks ###
   # 20 per minute per IP
   throttle("oauth/ip", limit: 20, period: 1.minute) do |req|

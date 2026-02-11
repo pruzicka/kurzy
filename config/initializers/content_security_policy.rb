@@ -19,6 +19,6 @@ Rails.application.configure do
   config.content_security_policy_nonce_generator = ->(request) { request.session.id.to_s }
   config.content_security_policy_nonce_directives = %w[script-src]
 
-  # Report-only mode — review browser console for violations, then remove this line to enforce.
-  config.content_security_policy_report_only = true
+  # Enforce CSP (violations are blocked, not just reported).
+  config.content_security_policy_report_only = false
 end

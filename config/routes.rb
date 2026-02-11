@@ -2,7 +2,12 @@ Rails.application.routes.draw do
   devise_for :admins,
              path: "admin",
              path_names: { sign_in: "login", sign_out: "logout" },
+             controllers: { sessions: "admins/sessions" },
              skip: [:registrations]
+
+  scope :admin, as: :admin do
+    resource :otp_challenge, only: %i[new create], controller: "admins/otp_challenges"
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -73,6 +78,9 @@ Rails.application.routes.draw do
   namespace :admin, module: "admin_area", path: "admin" do
     root "dashboard#show"
     resource :profile, only: %i[edit update]
+    resource :two_factor, only: %i[new create destroy], controller: "two_factor" do
+      post :regenerate_backup_codes
+    end
 
     namespace :preview, module: "preview", path: "preview" do
       resources :courses, only: %i[index show] do

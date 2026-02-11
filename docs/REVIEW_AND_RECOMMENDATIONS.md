@@ -165,10 +165,10 @@ architecture, and best practices from similar platforms (Teachable, Thinkific, U
    FakturoidService, FakturoidInvoiceJob, billing info collection, ARES lookup,
    admin BillingCompany management, invoice email, and admin invoice controls.
 
-5. **Admin refund/revoke flow.**
-   Partial — webhook-driven refund handling exists (enrollment revocation, status
-   change). Still needed: admin-initiated Stripe refund, Fakturoid credit note,
-   refund reason tracking.
+5. **Admin refund/revoke flow.** ✅ DONE
+   Admin-initiated Stripe refund, Fakturoid credit note (dobropis),
+   refund reason tracking, webhook-driven refund handling, enrollment
+   revocation, refund confirmation email. Partial refund not yet supported.
 
 6. **Legal pages content.**
    Views exist (`terms`, `privacy`, `disclaimer`, `data_deletion`) — verify
@@ -369,35 +369,23 @@ The current coupon system is solid. Consider adding:
 
 ### Issues Found
 
-1. **No service objects.**
-   Business logic (checkout flow, enrollment creation, coupon application)
-   lives in controllers. Extract to:
-   - `CheckoutService` — creates order, builds Stripe session.
-   - `EnrollmentService` — creates enrollments from paid order.
-   - `CouponService` — validates and applies coupons.
-   - `WebhookProcessorService` — handles Stripe events.
+1. **No service objects.** ✅ DONE
+   Extracted to: `CheckoutService`, `EnrollmentService`, `CouponService`,
+   `WebhookProcessorService`, `RefundService`, `FakturoidService`.
 
-2. **No Procfile.**
-   Needed for Heroku deployment with Sidekiq:
-   ```
-   web: bundle exec puma -C config/puma.rb
-   worker: bundle exec sidekiq
-   ```
+2. **No Procfile.** ✅ DONE
+   `Procfile` and `Procfile.dev` exist.
 
-3. **No `bin/setup` script.**
-   Makes onboarding harder for collaborators.
+3. **No `bin/setup` script.** ✅ DONE
+   `bin/setup` exists.
 
-4. **Tests are stubs.**
-   Model tests exist but appear minimal. Before launch, test at minimum:
-   - Checkout flow (integration).
-   - Webhook processing (unit).
-   - Enrollment / access control (integration).
-   - Coupon calculation (unit).
-   - Mandatory chapter locking (unit).
+4. **Tests are stubs.** ✅ DONE
+   166 tests, 260 assertions. Comprehensive coverage of models, services,
+   jobs, and mailers.
 
-5. **No CI/CD.**
-   No GitHub Actions workflow. Add at minimum: `bin/rails test`, Brakeman,
-   bundler-audit.
+5. **No CI/CD.** ✅ DONE
+   `.github/workflows/ci.yml` with Brakeman, bundler-audit, RuboCop,
+   tests, and system tests.
 
 ---
 
@@ -489,10 +477,10 @@ Based on Teachable, Thinkific, Udemy, Kajabi patterns.
 | 6 | Course bundles | Medium | TODO |
 | 7 | Certificate of completion (PDF) | Medium | TODO |
 | 8 | Email marketing integration (Ecomail) | Medium | TODO |
-| 9 | Course tags / categories | Small | TODO |
+| 9 | Course tags / categories | Small | DONE |
 | 10 | Course ratings / reviews | Medium | TODO |
 | 11 | Gifted courses flow | Medium | TODO |
 | 12 | SEO (structured data, sitemap, OG tags) | Small | DONE |
-| 13 | CI/CD (GitHub Actions) | Small | TODO |
+| 13 | CI/CD (GitHub Actions) | Small | DONE |
 | 14 | Dark mode (day/night/system toggle in navbar, works for both admin and user) | Medium | TODO |
-| 15 | Admin refund flow (Stripe refund API, Fakturoid credit note, refund reason tracking) | Medium | TODO |
+| 15 | Admin refund flow (Stripe refund API, Fakturoid credit note, refund reason tracking) | Medium | DONE (partial refund not yet supported) |

@@ -10,6 +10,7 @@ AddCouponsAndDiscounting	db/migrate/20260209162000_add_coupons_and_discounting.r
 AddCourseTypeToCourses	db/migrate/20260209153917_add_course_type_to_courses.rb	/^class AddCourseTypeToCourses < ActiveRecord::Migration[8.1]$/;"	c
 AddFakturoidFieldsToOrders	db/migrate/20260211102223_add_fakturoid_fields_to_orders.rb	/^class AddFakturoidFieldsToOrders < ActiveRecord::Migration[8.1]$/;"	c
 AddIsFreePreviewToSegments	db/migrate/20260210182420_add_is_free_preview_to_segments.rb	/^class AddIsFreePreviewToSegments < ActiveRecord::Migration[8.1]$/;"	c
+AddLockableToAdmins	db/migrate/20260211200743_add_lockable_to_admins.rb	/^class AddLockableToAdmins < ActiveRecord::Migration[8.1]$/;"	c
 AddMediaAssetRefsToSegments	db/migrate/20260209000908_add_media_asset_refs_to_segments.rb	/^class AddMediaAssetRefsToSegments < ActiveRecord::Migration[8.1]$/;"	c
 AddNamesToAdmins	db/migrate/20260209152352_add_names_to_admins.rb	/^class AddNamesToAdmins < ActiveRecord::Migration[8.1]$/;"	c
 AddNotesToCoupons	db/migrate/20260209163500_add_notes_to_coupons.rb	/^class AddNotesToCoupons < ActiveRecord::Migration[8.1]$/;"	c
@@ -17,6 +18,7 @@ AddRefundFieldsToOrders	db/migrate/20260211162211_add_refund_fields_to_orders.rb
 AddStatusToEnrollments	db/migrate/20260210174120_add_status_to_enrollments.rb	/^class AddStatusToEnrollments < ActiveRecord::Migration[8.1]$/;"	c
 AddStripeCustomerIdToUsers	db/migrate/20260210100000_add_stripe_customer_id_to_users.rb	/^class AddStripeCustomerIdToUsers < ActiveRecord::Migration[8.1]$/;"	c
 AddTitleSnapshotToOrderItems	db/migrate/20260210180004_add_title_snapshot_to_order_items.rb	/^class AddTitleSnapshotToOrderItems < ActiveRecord::Migration[8.1]$/;"	c
+AddTwoFactorToAdmins	db/migrate/20260211202250_add_two_factor_to_admins.rb	/^class AddTwoFactorToAdmins < ActiveRecord::Migration[8.1]$/;"	c
 AddUsernameToAdmins	db/migrate/20260208153221_add_username_to_admins.rb	/^class AddUsernameToAdmins < ActiveRecord::Migration[8.1]$/;"	c
 AddUsernameToUsers	db/migrate/20260209152236_add_username_to_users.rb	/^class AddUsernameToUsers < ActiveRecord::Migration[8.1]$/;"	c
 Admin	app/models/admin.rb	/^class Admin < ApplicationRecord$/;"	c
@@ -34,10 +36,16 @@ AdminArea	app/controllers/admin_area/preview/segments_controller.rb	/^module Adm
 AdminArea	app/controllers/admin_area/profiles_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/segments_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/tags_controller.rb	/^module AdminArea$/;"	m
+AdminArea	app/controllers/admin_area/two_factor_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/users_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/helpers/admin_area/orders_helper.rb	/^module AdminArea$/;"	m
 AdminNotificationMailer	app/mailers/admin_notification_mailer.rb	/^class AdminNotificationMailer < ApplicationMailer$/;"	c
+AdminNotificationMailerTest	test/mailers/admin_notification_mailer_test.rb	/^class AdminNotificationMailerTest < ActionMailer::TestCase$/;"	c
 AdminTest	test/models/admin_test.rb	/^class AdminTest < ActiveSupport::TestCase$/;"	c
+AdminTwoFactorSetupTest	test/integration/admin_two_factor_setup_test.rb	/^class AdminTwoFactorSetupTest < ActionDispatch::IntegrationTest$/;"	c
+AdminTwoFactorTest	test/integration/admin_two_factor_test.rb	/^class AdminTwoFactorTest < ActionDispatch::IntegrationTest$/;"	c
+Admins	app/controllers/admins/otp_challenges_controller.rb	/^module Admins$/;"	m
+Admins	app/controllers/admins/sessions_controller.rb	/^module Admins$/;"	m
 Application	config/application.rb	/^  class Application < Rails::Application$/;"	c	class:Kurzy
 ApplicationController	app/controllers/application_controller.rb	/^class ApplicationController < ActionController::Base$/;"	c
 ApplicationHelper	app/helpers/application_helper.rb	/^module ApplicationHelper$/;"	m
@@ -51,11 +59,14 @@ BaseController	app/controllers/user_area/base_controller.rb	/^  class BaseContro
 BillingCompaniesController	app/controllers/admin_area/billing_companies_controller.rb	/^  class BillingCompaniesController < BaseController$/;"	c	class:AdminArea
 BillingCompany	app/models/billing_company.rb	/^class BillingCompany < ApplicationRecord$/;"	c
 BillingCompanyPolicy	app/policies/billing_company_policy.rb	/^class BillingCompanyPolicy < ApplicationPolicy$/;"	c
+BillingCompanyTest	test/models/billing_company_test.rb	/^class BillingCompanyTest < ActiveSupport::TestCase$/;"	c
 Cart	app/models/cart.rb	/^class Cart < ApplicationRecord$/;"	c
 CartItem	app/models/cart_item.rb	/^class CartItem < ApplicationRecord$/;"	c
 CartItemPolicy	app/policies/cart_item_policy.rb	/^class CartItemPolicy < ApplicationPolicy$/;"	c
+CartItemTest	test/models/cart_item_test.rb	/^class CartItemTest < ActiveSupport::TestCase$/;"	c
 CartItemsController	app/controllers/cart_items_controller.rb	/^class CartItemsController < ApplicationController$/;"	c
 CartPolicy	app/policies/cart_policy.rb	/^class CartPolicy < ApplicationPolicy$/;"	c
+CartTest	test/models/cart_test.rb	/^class CartTest < ActiveSupport::TestCase$/;"	c
 CartsController	app/controllers/carts_controller.rb	/^class CartsController < ApplicationController$/;"	c
 Chapter	app/models/chapter.rb	/^class Chapter < ApplicationRecord$/;"	c
 ChapterPolicy	app/policies/chapter_policy.rb	/^class ChapterPolicy < ApplicationPolicy$/;"	c
@@ -67,12 +78,15 @@ Coupon	app/models/coupon.rb	/^class Coupon < ApplicationRecord$/;"	c
 CouponPolicy	app/policies/coupon_policy.rb	/^class CouponPolicy < ApplicationPolicy$/;"	c
 CouponRedemption	app/models/coupon_redemption.rb	/^class CouponRedemption < ApplicationRecord$/;"	c
 CouponService	app/services/coupon_service.rb	/^class CouponService$/;"	c
+CouponServiceTest	test/services/coupon_service_test.rb	/^class CouponServiceTest < ActiveSupport::TestCase$/;"	c
+CouponTest	test/models/coupon_test.rb	/^class CouponTest < ActiveSupport::TestCase$/;"	c
 CouponsController	app/controllers/admin_area/coupons_controller.rb	/^  class CouponsController < BaseController$/;"	c	class:AdminArea
 Course	app/models/course.rb	/^class Course < ApplicationRecord$/;"	c
 CoursePolicy	app/policies/course_policy.rb	/^class CoursePolicy < ApplicationPolicy$/;"	c
 CourseProgress	app/models/course_progress.rb	/^class CourseProgress < ApplicationRecord$/;"	c
 CourseProgressTest	test/models/course_progress_test.rb	/^class CourseProgressTest < ActiveSupport::TestCase$/;"	c
 CourseTag	app/models/course_tag.rb	/^class CourseTag < ApplicationRecord$/;"	c
+CourseTagTest	test/models/course_tag_test.rb	/^class CourseTagTest < ActiveSupport::TestCase$/;"	c
 CourseTest	test/models/course_test.rb	/^class CourseTest < ActiveSupport::TestCase$/;"	c
 CoursesController	app/controllers/admin_area/courses_controller.rb	/^  class CoursesController < BaseController$/;"	c	class:AdminArea
 CoursesController	app/controllers/admin_area/preview/courses_controller.rb	/^    class CoursesController < BaseController$/;"	c	class:AdminArea.Preview
@@ -102,11 +116,16 @@ DeviseCreateAdmins	db/migrate/20260208152833_devise_create_admins.rb	/^class Dev
 DicValidator	app/validators/dic_validator.rb	/^class DicValidator < ActiveModel::EachValidator$/;"	c
 Enrollment	app/models/enrollment.rb	/^class Enrollment < ApplicationRecord$/;"	c
 EnrollmentMailer	app/mailers/enrollment_mailer.rb	/^class EnrollmentMailer < ApplicationMailer$/;"	c
+EnrollmentMailerTest	test/mailers/enrollment_mailer_test.rb	/^class EnrollmentMailerTest < ActionMailer::TestCase$/;"	c
 EnrollmentPolicy	app/policies/enrollment_policy.rb	/^class EnrollmentPolicy < ApplicationPolicy$/;"	c
 EnrollmentService	app/services/enrollment_service.rb	/^class EnrollmentService$/;"	c
+EnrollmentServiceTest	test/services/enrollment_service_test.rb	/^class EnrollmentServiceTest < ActiveSupport::TestCase$/;"	c
+EnrollmentTest	test/models/enrollment_test.rb	/^class EnrollmentTest < ActiveSupport::TestCase$/;"	c
 EnrollmentsController	app/controllers/enrollments_controller.rb	/^class EnrollmentsController < ApplicationController$/;"	c
 FakturoidCorrectionJob	app/jobs/fakturoid_correction_job.rb	/^class FakturoidCorrectionJob < ApplicationJob$/;"	c
+FakturoidCorrectionJobTest	test/jobs/fakturoid_correction_job_test.rb	/^class FakturoidCorrectionJobTest < ActiveJob::TestCase$/;"	c
 FakturoidInvoiceJob	app/jobs/fakturoid_invoice_job.rb	/^class FakturoidInvoiceJob < ApplicationJob$/;"	c
+FakturoidInvoiceJobTest	test/jobs/fakturoid_invoice_job_test.rb	/^class FakturoidInvoiceJobTest < ActiveJob::TestCase$/;"	c
 FakturoidService	app/services/fakturoid_service.rb	/^class FakturoidService$/;"	c
 HomeController	app/controllers/home_controller.rb	/^class HomeController < ApplicationController$/;"	c
 IcoValidator	app/validators/ico_validator.rb	/^class IcoValidator < ActiveModel::EachValidator$/;"	c
@@ -120,12 +139,17 @@ MigrateOauthDataToIdentities	db/migrate/20260210100200_migrate_oauth_data_to_ide
 OauthIdentitiesController	app/controllers/user_area/oauth_identities_controller.rb	/^  class OauthIdentitiesController < BaseController$/;"	c	class:UserArea
 OauthIdentity	app/models/oauth_identity.rb	/^class OauthIdentity < ApplicationRecord$/;"	c
 OauthIdentityPolicy	app/policies/oauth_identity_policy.rb	/^class OauthIdentityPolicy < ApplicationPolicy$/;"	c
+OauthIdentityTest	test/models/oauth_identity_test.rb	/^class OauthIdentityTest < ActiveSupport::TestCase$/;"	c
 Order	app/models/order.rb	/^class Order < ApplicationRecord$/;"	c
 OrderItem	app/models/order_item.rb	/^class OrderItem < ApplicationRecord$/;"	c
+OrderItemTest	test/models/order_item_test.rb	/^class OrderItemTest < ActiveSupport::TestCase$/;"	c
 OrderMailer	app/mailers/order_mailer.rb	/^class OrderMailer < ApplicationMailer$/;"	c
+OrderMailerTest	test/mailers/order_mailer_test.rb	/^class OrderMailerTest < ActionMailer::TestCase$/;"	c
 OrderPolicy	app/policies/order_policy.rb	/^class OrderPolicy < ApplicationPolicy$/;"	c
+OrderTest	test/models/order_test.rb	/^class OrderTest < ActiveSupport::TestCase$/;"	c
 OrdersController	app/controllers/admin_area/orders_controller.rb	/^  class OrdersController < BaseController$/;"	c	class:AdminArea
 OrdersHelper	app/helpers/admin_area/orders_helper.rb	/^  module OrdersHelper$/;"	m	class:AdminArea
+OtpChallengesController	app/controllers/admins/otp_challenges_controller.rb	/^  class OtpChallengesController < ApplicationController$/;"	c	class:Admins
 PagesController	app/controllers/pages_controller.rb	/^class PagesController < ApplicationController$/;"	c
 PagyHelper	app/helpers/pagy_helper.rb	/^module PagyHelper$/;"	m
 Preview	app/controllers/admin_area/preview/base_controller.rb	/^  module Preview$/;"	m	class:AdminArea
@@ -136,6 +160,7 @@ ProfilesController	app/controllers/admin_area/profiles_controller.rb	/^  class P
 Rack	config/initializers/rack_attack.rb	/^class Rack::Attack$/;"	c
 RecreateCourseProgressesWithCorrectForeignKey	db/migrate/20260208212757_recreate_course_progresses_with_correct_foreign_key.rb	/^class RecreateCourseProgressesWithCorrectForeignKey < ActiveRecord::Migration[8.1]$/;"	c
 RefundService	app/services/refund_service.rb	/^class RefundService$/;"	c
+RefundServiceTest	test/services/refund_service_test.rb	/^class RefundServiceTest < ActiveSupport::TestCase$/;"	c
 RenameCourseTitleToNameAndPriceCentsToPrice	db/migrate/20260208162211_rename_course_title_to_name_and_price_cents_to_price.rb	/^class RenameCourseTitleToNameAndPriceCentsToPrice < ActiveRecord::Migration[8.1]$/;"	c
 RenameSegmentsToChaptersAndStepsToSegments	db/migrate/20260208172058_rename_segments_to_chapters_and_steps_to_segments.rb	/^class RenameSegmentsToChaptersAndStepsToSegments < ActiveRecord::Migration[8.1]$/;"	c
 Scope	app/policies/application_policy.rb	/^  class Scope$/;"	c	class:ApplicationPolicy
@@ -150,15 +175,19 @@ SegmentsController	app/controllers/admin_area/preview/segments_controller.rb	/^ 
 SegmentsController	app/controllers/admin_area/segments_controller.rb	/^  class SegmentsController < BaseController$/;"	c	class:AdminArea
 SegmentsController	app/controllers/segments_controller.rb	/^class SegmentsController < ApplicationController$/;"	c
 SeoHelper	app/helpers/seo_helper.rb	/^module SeoHelper$/;"	m
+SessionsController	app/controllers/admins/sessions_controller.rb	/^  class SessionsController < Devise::SessionsController$/;"	c	class:Admins
 SessionsHelper	app/helpers/sessions_helper.rb	/^module SessionsHelper$/;"	m
 SettingsController	app/controllers/user_area/settings_controller.rb	/^  class SettingsController < BaseController$/;"	c	class:UserArea
 SitemapsController	app/controllers/sitemaps_controller.rb	/^class SitemapsController < ApplicationController$/;"	c
 StripeWebhookJob	app/jobs/stripe_webhook_job.rb	/^class StripeWebhookJob < ApplicationJob$/;"	c
+StripeWebhookJobTest	test/jobs/stripe_webhook_job_test.rb	/^class StripeWebhookJobTest < ActiveJob::TestCase$/;"	c
 StripeWebhooksController	app/controllers/stripe_webhooks_controller.rb	/^class StripeWebhooksController < ActionController::Base$/;"	c
 Tag	app/models/tag.rb	/^class Tag < ApplicationRecord$/;"	c
 TagPolicy	app/policies/tag_policy.rb	/^class TagPolicy < ApplicationPolicy$/;"	c
+TagTest	test/models/tag_test.rb	/^class TagTest < ActiveSupport::TestCase$/;"	c
 TagsController	app/controllers/admin_area/tags_controller.rb	/^  class TagsController < BaseController$/;"	c	class:AdminArea
 TestCase	test/test_helper.rb	/^  class TestCase$/;"	c	class:ActiveSupport
+TwoFactorController	app/controllers/admin_area/two_factor_controller.rb	/^  class TwoFactorController < BaseController$/;"	c	class:AdminArea
 User	app/models/user.rb	/^class User < ApplicationRecord$/;"	c
 UserArea	app/controllers/user_area/base_controller.rb	/^module UserArea$/;"	m
 UserArea	app/controllers/user_area/dashboard_controller.rb	/^module UserArea$/;"	m
@@ -173,6 +202,7 @@ UserSessionsController	app/controllers/user_sessions_controller.rb	/^class UserS
 UserTest	test/models/user_test.rb	/^class UserTest < ActiveSupport::TestCase$/;"	c
 UsersController	app/controllers/admin_area/users_controller.rb	/^  class UsersController < BaseController$/;"	c	class:AdminArea
 WebhookProcessorService	app/services/webhook_processor_service.rb	/^class WebhookProcessorService$/;"	c
+WebhookProcessorServiceTest	test/services/webhook_processor_service_test.rb	/^class WebhookProcessorServiceTest < ActiveSupport::TestCase$/;"	c
 active?	app/models/enrollment.rb	/^  def active?$/;"	f	class:Enrollment
 active_now?	app/models/coupon.rb	/^  def active_now?(time = Time.current)$/;"	f	class:Coupon
 add_course!	app/models/cart.rb	/^  def add_course!(course, quantity = 1)$/;"	f	class:Cart
@@ -207,7 +237,7 @@ blocking_mandatory_chapter_for	app/controllers/concerns/mandatory_chapter_lock.r
 blocking_mandatory_chapter_for	app/controllers/segment_completions_controller.rb	/^  def blocking_mandatory_chapter_for(course, current_chapter, completions_by_segment_id)$/;"	f	class:SegmentCompletionsController
 browser_name	app/helpers/sessions_helper.rb	/^  def browser_name(user_agent)$/;"	f	class:SessionsHelper
 build_correction_lines	app/services/fakturoid_service.rb	/^  def build_correction_lines$/;"	f	class:FakturoidService
-build_course	test/models/course_test.rb	/^  def build_course$/;"	f	class:CourseTest
+build_course	test/models/course_test.rb	/^  def build_course(attrs = {})$/;"	f	class:CourseTest
 build_line_items	app/services/checkout_service.rb	/^  def build_line_items(order)$/;"	f	class:CheckoutService
 build_lines	app/services/fakturoid_service.rb	/^  def build_lines$/;"	f	class:FakturoidService
 build_order	app/services/checkout_service.rb	/^  def build_order(items)$/;"	f	class:CheckoutService
@@ -254,8 +284,11 @@ change	db/migrate/20260211102207_create_billing_companies.rb	/^  def change$/;"	
 change	db/migrate/20260211102223_add_fakturoid_fields_to_orders.rb	/^  def change$/;"	f	class:AddFakturoidFieldsToOrders
 change	db/migrate/20260211162211_add_refund_fields_to_orders.rb	/^  def change$/;"	f	class:AddRefundFieldsToOrders
 change	db/migrate/20260211163604_create_tags_and_course_tags.rb	/^  def change$/;"	f	class:CreateTagsAndCourseTags
+change	db/migrate/20260211200743_add_lockable_to_admins.rb	/^  def change$/;"	f	class:AddLockableToAdmins
+change	db/migrate/20260211202250_add_two_factor_to_admins.rb	/^  def change$/;"	f	class:AddTwoFactorToAdmins
 chapter_params	app/controllers/admin_area/chapters_controller.rb	/^    def chapter_params$/;"	f	class:AdminArea.ChaptersController
 clear_cart!	app/services/enrollment_service.rb	/^  def clear_cart!$/;"	f	class:EnrollmentService
+clear_otp_session!	app/controllers/admins/otp_challenges_controller.rb	/^    def clear_otp_session!$/;"	f	class:Admins.OtpChallengesController
 client	app/services/fakturoid_service.rb	/^  def client$/;"	f	class:FakturoidService
 coupon_params	app/controllers/admin_area/coupons_controller.rb	/^    def coupon_params$/;"	f	class:AdminArea.CouponsController
 course_granted	app/mailers/enrollment_mailer.rb	/^  def course_granted(enrollment)$/;"	f	class:EnrollmentMailer
@@ -279,6 +312,9 @@ create	app/controllers/admin_area/courses_controller.rb	/^    def create$/;"	f	c
 create	app/controllers/admin_area/media_assets_controller.rb	/^    def create$/;"	f	class:AdminArea.MediaAssetsController
 create	app/controllers/admin_area/segments_controller.rb	/^    def create$/;"	f	class:AdminArea.SegmentsController
 create	app/controllers/admin_area/tags_controller.rb	/^    def create$/;"	f	class:AdminArea.TagsController
+create	app/controllers/admin_area/two_factor_controller.rb	/^    def create$/;"	f	class:AdminArea.TwoFactorController
+create	app/controllers/admins/otp_challenges_controller.rb	/^    def create$/;"	f	class:Admins.OtpChallengesController
+create	app/controllers/admins/sessions_controller.rb	/^    def create$/;"	f	class:Admins.SessionsController
 create	app/controllers/cart_items_controller.rb	/^  def create$/;"	f	class:CartItemsController
 create	app/controllers/checkouts_controller.rb	/^  def create$/;"	f	class:CheckoutsController
 create	app/controllers/segment_completions_controller.rb	/^  def create$/;"	f	class:SegmentCompletionsController
@@ -315,6 +351,7 @@ destroy	app/controllers/admin_area/media_assets_controller.rb	/^    def destroy$
 destroy	app/controllers/admin_area/orders_controller.rb	/^    def destroy$/;"	f	class:AdminArea.OrdersController
 destroy	app/controllers/admin_area/segments_controller.rb	/^    def destroy$/;"	f	class:AdminArea.SegmentsController
 destroy	app/controllers/admin_area/tags_controller.rb	/^    def destroy$/;"	f	class:AdminArea.TagsController
+destroy	app/controllers/admin_area/two_factor_controller.rb	/^    def destroy$/;"	f	class:AdminArea.TwoFactorController
 destroy	app/controllers/cart_items_controller.rb	/^  def destroy$/;"	f	class:CartItemsController
 destroy	app/controllers/enrollments_controller.rb	/^  def destroy$/;"	f	class:EnrollmentsController
 destroy	app/controllers/user_area/oauth_identities_controller.rb	/^    def destroy$/;"	f	class:UserArea.OauthIdentitiesController
@@ -345,6 +382,7 @@ destroy_cover_image?	app/policies/segment_policy.rb	/^  def destroy_cover_image?
 destroy_video	app/controllers/admin_area/segments_controller.rb	/^    def destroy_video$/;"	f	class:AdminArea.SegmentsController
 destroy_video?	app/policies/segment_policy.rb	/^  def destroy_video?$/;"	f	class:SegmentPolicy
 detach_from_segments	app/models/media_asset.rb	/^  def detach_from_segments$/;"	f	class:MediaAsset
+disable_two_factor!	app/models/admin.rb	/^  def disable_two_factor!$/;"	f	class:Admin
 disclaimer	app/controllers/pages_controller.rb	/^  def disclaimer$/;"	f	class:PagesController
 discount_amount	app/models/cart.rb	/^  def discount_amount$/;"	f	class:Cart
 discount_for	app/models/coupon.rb	/^  def discount_for(subtotal_amount, currency)$/;"	f	class:Coupon
@@ -365,6 +403,8 @@ edit	app/controllers/user_area/settings_controller.rb	/^    def edit$/;"	f	class
 edit?	app/policies/application_policy.rb	/^  def edit?$/;"	f	class:ApplicationPolicy
 effective_cover_blob	app/models/segment.rb	/^  def effective_cover_blob$/;"	f	class:Segment
 effective_video_blob	app/models/segment.rb	/^  def effective_video_blob$/;"	f	class:Segment
+enable_two_factor!	test/integration/admin_two_factor_setup_test.rb	/^  def enable_two_factor!(admin)$/;"	f
+enable_two_factor!	test/integration/admin_two_factor_test.rb	/^  def enable_two_factor!(admin)$/;"	f
 enforce_session_limit!	app/models/user.rb	/^  def enforce_session_limit!$/;"	f	class:User
 ensure_completion_for_non_video_segment!	app/controllers/segments_controller.rb	/^  def ensure_completion_for_non_video_segment!$/;"	f	class:SegmentsController
 ensure_unlocked!	app/controllers/segment_media_controller.rb	/^  def ensure_unlocked!$/;"	f	class:SegmentMediaController
@@ -380,6 +420,9 @@ format_price_for_schema	app/helpers/seo_helper.rb	/^  def format_price_for_schem
 from.completeUrl	app/javascript/controllers/video_completion_controller.js	/^    completeUrl: String,$/;"	p
 from.completed	app/javascript/controllers/video_completion_controller.js	/^    completed: Boolean,$/;"	p
 from_omniauth	app/models/user.rb	/^  def self.from_omniauth(auth)$/;"	F	class:User
+generate_otp_backup_codes!	app/models/admin.rb	/^  def generate_otp_backup_codes!$/;"	f	class:Admin
+generate_otp_secret!	app/models/admin.rb	/^  def generate_otp_secret!$/;"	f	class:Admin
+generate_qr_svg	app/controllers/admin_area/two_factor_controller.rb	/^    def generate_qr_svg$/;"	f	class:AdminArea.TwoFactorController
 generate_slug	app/models/tag.rb	/^  def generate_slug$/;"	f	class:Tag
 handle_charge_refunded	app/services/webhook_processor_service.rb	/^  def handle_charge_refunded(charge)$/;"	f	class:WebhookProcessorService
 handle_checkout_completed	app/services/webhook_processor_service.rb	/^  def handle_checkout_completed(session)$/;"	f	class:WebhookProcessorService
@@ -441,6 +484,8 @@ new	app/controllers/admin_area/courses_controller.rb	/^    def new$/;"	f	class:A
 new	app/controllers/admin_area/media_assets_controller.rb	/^    def new$/;"	f	class:AdminArea.MediaAssetsController
 new	app/controllers/admin_area/segments_controller.rb	/^    def new$/;"	f	class:AdminArea.SegmentsController
 new	app/controllers/admin_area/tags_controller.rb	/^    def new$/;"	f	class:AdminArea.TagsController
+new	app/controllers/admin_area/two_factor_controller.rb	/^    def new$/;"	f	class:AdminArea.TwoFactorController
+new	app/controllers/admins/otp_challenges_controller.rb	/^    def new$/;"	f	class:Admins.OtpChallengesController
 new?	app/policies/application_policy.rb	/^  def new?$/;"	f	class:ApplicationPolicy
 new_order	app/mailers/admin_notification_mailer.rb	/^  def new_order(order)$/;"	f	class:AdminNotificationMailer
 next_segment_for	app/controllers/admin_area/preview/segments_controller.rb	/^      def next_segment_for(course, segment)$/;"	f	class:AdminArea.Preview.SegmentsController
@@ -454,6 +499,8 @@ orders_sort_column	app/helpers/admin_area/orders_helper.rb	/^    def orders_sort
 orders_sort_direction	app/helpers/admin_area/orders_helper.rb	/^    def orders_sort_direction$/;"	f	class:AdminArea.OrdersHelper
 orders_sort_link	app/helpers/admin_area/orders_helper.rb	/^    def orders_sort_link(label, key)$/;"	f	class:AdminArea.OrdersHelper
 os_name	app/helpers/sessions_helper.rb	/^  def os_name(user_agent)$/;"	f	class:SessionsHelper
+otp_provisioning_uri	app/models/admin.rb	/^  def otp_provisioning_uri$/;"	f	class:Admin
+otp_session_valid?	app/controllers/admins/otp_challenges_controller.rb	/^    def otp_session_valid?$/;"	f	class:Admins.OtpChallengesController
 paid?	app/models/order.rb	/^  def paid?$/;"	f	class:Order
 parse_date	app/controllers/admin_area/orders_controller.rb	/^    def parse_date(value)$/;"	f	class:AdminArea.OrdersController
 percent?	app/models/coupon.rb	/^  def percent?$/;"	f	class:Coupon
@@ -476,6 +523,7 @@ refund!	app/models/enrollment.rb	/^  def refund!$/;"	f	class:Enrollment
 refund?	app/policies/order_policy.rb	/^  def refund?$/;"	f	class:OrderPolicy
 refund_confirmation	app/mailers/order_mailer.rb	/^  def refund_confirmation(order)$/;"	f	class:OrderMailer
 refundable?	app/models/order.rb	/^  def refundable?$/;"	f	class:Order
+regenerate_backup_codes	app/controllers/admin_area/two_factor_controller.rb	/^    def regenerate_backup_codes$/;"	f	class:AdminArea.TwoFactorController
 reinstate!	app/models/enrollment.rb	/^  def reinstate!$/;"	f	class:Enrollment
 remove	app/services/coupon_service.rb	/^  def remove$/;"	f	class:CouponService
 remove_coupon	app/controllers/carts_controller.rb	/^  def remove_coupon$/;"	f	class:CartsController
@@ -483,6 +531,7 @@ remove_coupon!	app/models/cart.rb	/^  def remove_coupon!$/;"	f	class:Cart
 remove_coupon?	app/policies/cart_policy.rb	/^  def remove_coupon?$/;"	f	class:CartPolicy
 remove_course!	app/models/cart.rb	/^  def remove_course!(course)$/;"	f	class:Cart
 require_enrollment!	app/controllers/application_controller.rb	/^  def require_enrollment!(course)$/;"	f	class:ApplicationController
+require_otp_session!	app/controllers/admins/otp_challenges_controller.rb	/^    def require_otp_session!$/;"	f	class:Admins.OtpChallengesController
 require_user!	app/controllers/application_controller.rb	/^  def require_user!$/;"	f	class:ApplicationController
 resend_invoice_email	app/controllers/admin_area/orders_controller.rb	/^    def resend_invoice_email$/;"	f	class:AdminArea.OrdersController
 resolve	app/policies/application_policy.rb	/^    def resolve$/;"	f	class:ApplicationPolicy.Scope
@@ -550,6 +599,7 @@ total_after_discount	app/models/cart.rb	/^  def total_after_discount$/;"	f	class
 total_amount	app/models/cart.rb	/^  def total_amount$/;"	f	class:Cart
 total_amount	app/models/cart_item.rb	/^  def total_amount$/;"	f	class:CartItem
 total_amount	app/models/order_item.rb	/^  def total_amount$/;"	f	class:OrderItem
+two_factor_enabled?	app/models/admin.rb	/^  def two_factor_enabled?$/;"	f	class:Admin
 unit_amount	app/models/cart_item.rb	/^  def unit_amount$/;"	f	class:CartItem
 up	db/migrate/20260208172058_rename_segments_to_chapters_and_steps_to_segments.rb	/^  def up$/;"	f	class:RenameSegmentsToChaptersAndStepsToSegments
 up	db/migrate/20260210100200_migrate_oauth_data_to_identities.rb	/^  def up$/;"	f	class:MigrateOauthDataToIdentities
@@ -583,6 +633,8 @@ user_signed_in?	app/controllers/application_controller.rb	/^  def user_signed_in
 validate_each	app/validators/dic_validator.rb	/^  def validate_each(record, attribute, value)$/;"	f	class:DicValidator
 validate_each	app/validators/ico_validator.rb	/^  def validate_each(record, attribute, value)$/;"	f	class:IcoValidator
 validate_session	app/controllers/application_controller.rb	/^  def validate_session$/;"	f	class:ApplicationController
+verify_otp	app/models/admin.rb	/^  def verify_otp(code)$/;"	f	class:Admin
+verify_recovery_code	app/models/admin.rb	/^  def verify_recovery_code(code)$/;"	f	class:Admin
 video	app/controllers/segment_media_controller.rb	/^  def video$/;"	f	class:SegmentMediaController
 video?	app/models/media_asset.rb	/^  def video?$/;"	f	class:MediaAsset
 video_asset_must_be_video	app/models/segment.rb	/^  def video_asset_must_be_video$/;"	f	class:Segment

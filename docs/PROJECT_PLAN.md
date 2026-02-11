@@ -139,11 +139,11 @@ This is a preliminary schema. Relationships will be refined during development.
 - [ ] Interface to upload/manage videos and PDF/image attachments for Segments (validate type + max 10 MB/file).
 - [ ] User management dashboard (view users, enrollments).
 - [ ] Sales and order overview.
-- [/] Basic refund/revoke access flow (admin can revoke enrollment, user loses access).
+- [x] Basic refund/revoke access flow (admin can revoke enrollment, user loses access).
     - [x] Webhook-driven refund: `charge.refunded` → order status change, enrollment revocation, email.
-    - [ ] Admin-initiated refund: "Vrátit platbu" button → Stripe Refund API call.
-    - [ ] Fakturoid credit note (dobropis) generation on refund.
-    - [ ] Refund reason tracking on order.
+    - [x] Admin-initiated refund: "Vrátit platbu" button → Stripe Refund API call.
+    - [x] Fakturoid credit note (dobropis) generation on refund.
+    - [x] Refund reason tracking on order.
     - [ ] Partial refund support.
 
 ### Phase 3: E-Commerce & Payments ([ ] Planned)
