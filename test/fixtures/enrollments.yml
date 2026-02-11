@@ -1,0 +1,6 @@
+active_enrollment:
+  user: one
+  course: one
+  order: paid_order
+  status: active
+  granted_at: <%= Time.current %>

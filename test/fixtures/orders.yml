@@ -1,0 +1,17 @@
+paid_order:
+  user: one
+  status: paid
+  currency: CZK
+  subtotal_amount: 199000
+  discount_amount: 0
+  total_amount: 199000
+  stripe_payment_intent_id: pi_test_123
+
+pending_order:
+  user: two
+  status: pending
+  currency: CZK
+  subtotal_amount: 99000
+  discount_amount: 0
+  total_amount: 99000
+  stripe_session_id: cs_test_456

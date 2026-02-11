@@ -1,0 +1,5 @@
+active_company:
+  name: Test s.r.o.
+  ico: "12345678"
+  active: true
+  fakturoid_slug: test-sro

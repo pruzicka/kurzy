@@ -1,0 +1,13 @@
+session_one:
+  user: one
+  session_token: token_abc_001
+  ip_address: "127.0.0.1"
+  user_agent: "Mozilla/5.0"
+  last_active_at: <%= 1.hour.ago %>
+
+session_two:
+  user: one
+  session_token: token_abc_002
+  ip_address: "127.0.0.1"
+  user_agent: "Mozilla/5.0"
+  last_active_at: <%= 2.hours.ago %>

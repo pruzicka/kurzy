@@ -1,0 +1,15 @@
+paid_item:
+  order: paid_order
+  course: one
+  quantity: 1
+  unit_amount: 199000
+  currency: CZK
+  title_snapshot: Ruby on Rails Zaklady
+
+pending_item:
+  order: pending_order
+  course: two
+  quantity: 1
+  unit_amount: 99000
+  currency: CZK
+  title_snapshot: Tailwind pro Rails

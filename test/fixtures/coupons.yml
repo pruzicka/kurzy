@@ -1,0 +1,31 @@
+percent_coupon:
+  code: SLEVA10
+  name: 10% sleva
+  discount_type: percent
+  value: 10
+  active: true
+  redemptions_count: 0
+
+amount_coupon:
+  code: SLEVA100
+  name: 100 CZK sleva
+  discount_type: amount
+  value: 100
+  currency: CZK
+  active: true
+  redemptions_count: 0
+
+inactive_coupon:
+  code: EXPIRED
+  discount_type: percent
+  value: 20
+  active: false
+  redemptions_count: 0
+
+maxed_coupon:
+  code: MAXED
+  discount_type: percent
+  value: 15
+  active: true
+  max_redemptions: 1
+  redemptions_count: 1

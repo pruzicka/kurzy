@@ -21,5 +21,10 @@ module AdminArea
               params.permit(:q, :page, :commit, :status, :date_from, :date_to).merge(sort: key, direction: direction),
               class: "hover:underline"
     end
+
+    def safe_external_url(url)
+      return "#" unless url.present? && url.match?(%r{\Ahttps?://})
+      url
+    end
   end
 end

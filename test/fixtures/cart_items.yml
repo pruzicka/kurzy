@@ -1,0 +1,4 @@
+cart_item_one:
+  cart: user_one_cart
+  course: one
+  quantity: 1

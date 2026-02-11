@@ -1,0 +1,5 @@
+user_one_google:
+  user: one
+  provider: google_oauth2
+  uid: "100000000000000000001"
+  email: user1@example.com
