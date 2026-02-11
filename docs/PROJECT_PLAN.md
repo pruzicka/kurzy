@@ -152,16 +152,16 @@ This is a preliminary schema. Relationships will be refined during development.
     - [ ] Order-level coupons (percent or fixed amount).
     - [ ] Admin UI for coupon creation + usage tracking.
     - [ ] Discount shown as separate line in Stripe Checkout.
-- [ ] Fakturoid invoicing integration.
-    - [ ] Collect billing details required for CZ invoices (company name, IČO/DIČ, address).
-    - [ ] Create invoice on `checkout.session.completed` via background job.
-    - [ ] Decide whether to send invoices via Fakturoid or SendGrid.
+- [x] Fakturoid invoicing integration.
+    - [x] Collect billing details required for CZ invoices (company name, IČO/DIČ, address).
+    - [x] Create invoice on `checkout.session.completed` via background job.
+    - [x] Send invoice email with public Fakturoid URL via OrderMailer.
 - [ ] Set up background jobs (Sidekiq) and ensure Redis is provisioned on Heroku.
 - [ ] Create webhook endpoint for Stripe events with signature verification and idempotency.
   - [ ] Handle at minimum: `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `checkout.session.expired`, `charge.refunded`.
 - [ ] On successful payment webhook, finalize Order + create `Enrollment` records.
-- [ ] Implement Fakturoid API call in a background job to generate an invoice.
-- [ ] Capture billing details needed for Fakturoid (company/VAT fields as needed for CZ/EU).
+- [x] Implement Fakturoid API call in a background job to generate an invoice.
+- [x] Capture billing details needed for Fakturoid (company/VAT fields as needed for CZ/EU).
 
 ### Phase 4: User-Facing Learning Experience ([ ] Planned)
 - [ ] `/user` dashboard showing "My Courses".

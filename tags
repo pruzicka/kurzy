@@ -5,8 +5,10 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
 ActiveSupport	test/test_helper.rb	/^module ActiveSupport$/;"	m
+AddBillingFieldsToUsers	db/migrate/20260211102151_add_billing_fields_to_users.rb	/^class AddBillingFieldsToUsers < ActiveRecord::Migration[8.1]$/;"	c
 AddCouponsAndDiscounting	db/migrate/20260209162000_add_coupons_and_discounting.rb	/^class AddCouponsAndDiscounting < ActiveRecord::Migration[8.1]$/;"	c
 AddCourseTypeToCourses	db/migrate/20260209153917_add_course_type_to_courses.rb	/^class AddCourseTypeToCourses < ActiveRecord::Migration[8.1]$/;"	c
+AddFakturoidFieldsToOrders	db/migrate/20260211102223_add_fakturoid_fields_to_orders.rb	/^class AddFakturoidFieldsToOrders < ActiveRecord::Migration[8.1]$/;"	c
 AddIsFreePreviewToSegments	db/migrate/20260210182420_add_is_free_preview_to_segments.rb	/^class AddIsFreePreviewToSegments < ActiveRecord::Migration[8.1]$/;"	c
 AddMediaAssetRefsToSegments	db/migrate/20260209000908_add_media_asset_refs_to_segments.rb	/^class AddMediaAssetRefsToSegments < ActiveRecord::Migration[8.1]$/;"	c
 AddNamesToAdmins	db/migrate/20260209152352_add_names_to_admins.rb	/^class AddNamesToAdmins < ActiveRecord::Migration[8.1]$/;"	c
@@ -18,6 +20,7 @@ AddUsernameToAdmins	db/migrate/20260208153221_add_username_to_admins.rb	/^class 
 AddUsernameToUsers	db/migrate/20260209152236_add_username_to_users.rb	/^class AddUsernameToUsers < ActiveRecord::Migration[8.1]$/;"	c
 Admin	app/models/admin.rb	/^class Admin < ApplicationRecord$/;"	c
 AdminArea	app/controllers/admin_area/base_controller.rb	/^module AdminArea$/;"	m
+AdminArea	app/controllers/admin_area/billing_companies_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/chapters_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/coupons_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/courses_controller.rb	/^module AdminArea$/;"	m
@@ -43,6 +46,9 @@ ApplicationRecord	app/models/application_record.rb	/^class ApplicationRecord < A
 BaseController	app/controllers/admin_area/base_controller.rb	/^  class BaseController < ApplicationController$/;"	c	class:AdminArea
 BaseController	app/controllers/admin_area/preview/base_controller.rb	/^    class BaseController < ApplicationController$/;"	c	class:AdminArea.Preview
 BaseController	app/controllers/user_area/base_controller.rb	/^  class BaseController < ApplicationController$/;"	c	class:UserArea
+BillingCompaniesController	app/controllers/admin_area/billing_companies_controller.rb	/^  class BillingCompaniesController < BaseController$/;"	c	class:AdminArea
+BillingCompany	app/models/billing_company.rb	/^class BillingCompany < ApplicationRecord$/;"	c
+BillingCompanyPolicy	app/policies/billing_company_policy.rb	/^class BillingCompanyPolicy < ApplicationPolicy$/;"	c
 Cart	app/models/cart.rb	/^class Cart < ApplicationRecord$/;"	c
 CartItem	app/models/cart_item.rb	/^class CartItem < ApplicationRecord$/;"	c
 CartItemPolicy	app/policies/cart_item_policy.rb	/^class CartItemPolicy < ApplicationPolicy$/;"	c
@@ -70,6 +76,7 @@ CoursesController	app/controllers/admin_area/preview/courses_controller.rb	/^   
 CoursesController	app/controllers/courses_controller.rb	/^class CoursesController < ApplicationController$/;"	c
 CreateActionTextTables	db/migrate/20260208175215_create_action_text_tables.action_text.rb	/^class CreateActionTextTables < ActiveRecord::Migration[6.0]$/;"	c
 CreateActiveStorageTables	db/migrate/20260208175214_create_active_storage_tables.active_storage.rb	/^class CreateActiveStorageTables < ActiveRecord::Migration[7.0]$/;"	c
+CreateBillingCompanies	db/migrate/20260211102207_create_billing_companies.rb	/^class CreateBillingCompanies < ActiveRecord::Migration[8.1]$/;"	c
 CreateCartItems	db/migrate/20260209091430_create_cart_items.rb	/^class CreateCartItems < ActiveRecord::Migration[8.1]$/;"	c
 CreateCarts	db/migrate/20260209091417_create_carts.rb	/^class CreateCarts < ActiveRecord::Migration[8.1]$/;"	c
 CreateCourseProgresses	db/migrate/20260208212535_create_course_progresses.rb	/^class CreateCourseProgresses < ActiveRecord::Migration[8.1]$/;"	c
@@ -88,12 +95,16 @@ CreateUsers	db/migrate/20260208152837_create_users.rb	/^class CreateUsers < Acti
 DashboardController	app/controllers/admin_area/dashboard_controller.rb	/^  class DashboardController < BaseController$/;"	c	class:AdminArea
 DashboardController	app/controllers/user_area/dashboard_controller.rb	/^  class DashboardController < BaseController$/;"	c	class:UserArea
 DeviseCreateAdmins	db/migrate/20260208152833_devise_create_admins.rb	/^class DeviseCreateAdmins < ActiveRecord::Migration[8.1]$/;"	c
+DicValidator	app/validators/dic_validator.rb	/^class DicValidator < ActiveModel::EachValidator$/;"	c
 Enrollment	app/models/enrollment.rb	/^class Enrollment < ApplicationRecord$/;"	c
 EnrollmentMailer	app/mailers/enrollment_mailer.rb	/^class EnrollmentMailer < ApplicationMailer$/;"	c
 EnrollmentPolicy	app/policies/enrollment_policy.rb	/^class EnrollmentPolicy < ApplicationPolicy$/;"	c
 EnrollmentService	app/services/enrollment_service.rb	/^class EnrollmentService$/;"	c
 EnrollmentsController	app/controllers/enrollments_controller.rb	/^class EnrollmentsController < ApplicationController$/;"	c
+FakturoidInvoiceJob	app/jobs/fakturoid_invoice_job.rb	/^class FakturoidInvoiceJob < ApplicationJob$/;"	c
+FakturoidService	app/services/fakturoid_service.rb	/^class FakturoidService$/;"	c
 HomeController	app/controllers/home_controller.rb	/^class HomeController < ApplicationController$/;"	c
+IcoValidator	app/validators/ico_validator.rb	/^class IcoValidator < ActiveModel::EachValidator$/;"	c
 Kurzy	config/application.rb	/^module Kurzy$/;"	m
 LoginController	app/controllers/login_controller.rb	/^class LoginController < ApplicationController$/;"	c
 MandatoryChapterLock	app/controllers/concerns/mandatory_chapter_lock.rb	/^module MandatoryChapterLock$/;"	m
@@ -175,11 +186,19 @@ authorize_segment!	app/controllers/segment_media_controller.rb	/^  def authorize
 available_for?	app/models/coupon.rb	/^  def available_for?(currency, time: Time.current)$/;"	f	class:Coupon
 avatar_must_be_image	app/models/user.rb	/^  def avatar_must_be_image$/;"	f	class:User
 avatar_must_be_under_size_limit	app/models/user.rb	/^  def avatar_must_be_under_size_limit$/;"	f	class:User
+billing	app/controllers/checkouts_controller.rb	/^  def billing$/;"	f	class:CheckoutsController
+billing_address_required_with_company_details	app/models/user.rb	/^  def billing_address_required_with_company_details$/;"	f	class:User
+billing_company_params	app/controllers/admin_area/billing_companies_controller.rb	/^    def billing_company_params$/;"	f	class:AdminArea.BillingCompaniesController
+billing_info_present?	app/models/order.rb	/^  def billing_info_present?$/;"	f	class:Order
+billing_info_present?	app/models/user.rb	/^  def billing_info_present?$/;"	f	class:User
+billing_params	app/controllers/checkouts_controller.rb	/^  def billing_params$/;"	f	class:CheckoutsController
+billing_params_for_order	app/controllers/checkouts_controller.rb	/^  def billing_params_for_order$/;"	f	class:CheckoutsController
 blocking_mandatory_chapter_for	app/controllers/concerns/mandatory_chapter_lock.rb	/^  def blocking_mandatory_chapter_for(course, current_chapter, completions_by_segment_id)$/;"	f	class:MandatoryChapterLock
 blocking_mandatory_chapter_for	app/controllers/segment_completions_controller.rb	/^  def blocking_mandatory_chapter_for(course, current_chapter, completions_by_segment_id)$/;"	f	class:SegmentCompletionsController
 browser_name	app/helpers/sessions_helper.rb	/^  def browser_name(user_agent)$/;"	f	class:SessionsHelper
 build_course	test/models/course_test.rb	/^  def build_course$/;"	f	class:CourseTest
 build_line_items	app/services/checkout_service.rb	/^  def build_line_items(order)$/;"	f	class:CheckoutService
+build_lines	app/services/fakturoid_service.rb	/^  def build_lines$/;"	f	class:FakturoidService
 build_order	app/services/checkout_service.rb	/^  def build_order(items)$/;"	f	class:CheckoutService
 build_segment	test/models/segment_test.rb	/^  def build_segment$/;"	f	class:SegmentTest
 build_stripe_coupon	app/services/checkout_service.rb	/^  def build_stripe_coupon(order)$/;"	f	class:CheckoutService
@@ -218,8 +237,12 @@ change	db/migrate/20260210173310_create_good_jobs.rb	/^  def change$/;"	f	class:
 change	db/migrate/20260210174120_add_status_to_enrollments.rb	/^  def change$/;"	f	class:AddStatusToEnrollments
 change	db/migrate/20260210180004_add_title_snapshot_to_order_items.rb	/^  def change$/;"	f	class:AddTitleSnapshotToOrderItems
 change	db/migrate/20260210182420_add_is_free_preview_to_segments.rb	/^  def change$/;"	f	class:AddIsFreePreviewToSegments
+change	db/migrate/20260211102151_add_billing_fields_to_users.rb	/^  def change$/;"	f	class:AddBillingFieldsToUsers
+change	db/migrate/20260211102207_create_billing_companies.rb	/^  def change$/;"	f	class:CreateBillingCompanies
+change	db/migrate/20260211102223_add_fakturoid_fields_to_orders.rb	/^  def change$/;"	f	class:AddFakturoidFieldsToOrders
 chapter_params	app/controllers/admin_area/chapters_controller.rb	/^    def chapter_params$/;"	f	class:AdminArea.ChaptersController
 clear_cart!	app/services/enrollment_service.rb	/^  def clear_cart!$/;"	f	class:EnrollmentService
+client	app/services/fakturoid_service.rb	/^  def client$/;"	f	class:FakturoidService
 coupon_params	app/controllers/admin_area/coupons_controller.rb	/^    def coupon_params$/;"	f	class:AdminArea.CouponsController
 course_granted	app/mailers/enrollment_mailer.rb	/^  def course_granted(enrollment)$/;"	f	class:EnrollmentMailer
 course_params	app/controllers/admin_area/courses_controller.rb	/^    def course_params$/;"	f	class:AdminArea.CoursesController
@@ -235,6 +258,7 @@ cover_image_must_be_image	app/models/course.rb	/^  def cover_image_must_be_image
 cover_image_must_be_image	app/models/segment.rb	/^  def cover_image_must_be_image$/;"	f	class:Segment
 cover_image_must_be_under_size_limit	app/models/course.rb	/^  def cover_image_must_be_under_size_limit$/;"	f	class:Course
 cover_image_must_be_under_size_limit	app/models/segment.rb	/^  def cover_image_must_be_under_size_limit$/;"	f	class:Segment
+create	app/controllers/admin_area/billing_companies_controller.rb	/^    def create$/;"	f	class:AdminArea.BillingCompaniesController
 create	app/controllers/admin_area/chapters_controller.rb	/^    def create$/;"	f	class:AdminArea.ChaptersController
 create	app/controllers/admin_area/coupons_controller.rb	/^    def create$/;"	f	class:AdminArea.CouponsController
 create	app/controllers/admin_area/courses_controller.rb	/^    def create$/;"	f	class:AdminArea.CoursesController
@@ -246,6 +270,7 @@ create	app/controllers/segment_completions_controller.rb	/^  def create$/;"	f	cl
 create	app/controllers/stripe_webhooks_controller.rb	/^  def create$/;"	f	class:StripeWebhooksController
 create	app/controllers/user_sessions_controller.rb	/^  def create$/;"	f	class:UserSessionsController
 create?	app/policies/application_policy.rb	/^  def create?$/;"	f	class:ApplicationPolicy
+create?	app/policies/billing_company_policy.rb	/^  def create?$/;"	f	class:BillingCompanyPolicy
 create?	app/policies/cart_item_policy.rb	/^  def create?$/;"	f	class:CartItemPolicy
 create?	app/policies/chapter_policy.rb	/^  def create?$/;"	f	class:ChapterPolicy
 create?	app/policies/coupon_policy.rb	/^  def create?$/;"	f	class:CouponPolicy
@@ -253,13 +278,18 @@ create?	app/policies/course_policy.rb	/^  def create?$/;"	f	class:CoursePolicy
 create?	app/policies/media_asset_policy.rb	/^  def create?$/;"	f	class:MediaAssetPolicy
 create?	app/policies/segment_policy.rb	/^  def create?$/;"	f	class:SegmentPolicy
 create_enrollments!	app/services/enrollment_service.rb	/^  def create_enrollments!$/;"	f	class:EnrollmentService
+create_fakturoid_invoice!	app/services/fakturoid_service.rb	/^  def create_fakturoid_invoice!(subject)$/;"	f	class:FakturoidService
+create_invoice	app/controllers/admin_area/orders_controller.rb	/^    def create_invoice$/;"	f	class:AdminArea.OrdersController
+create_invoice!	app/services/fakturoid_service.rb	/^  def create_invoice!$/;"	f	class:FakturoidService
 currency	app/models/cart.rb	/^  def currency$/;"	f	class:Cart
 currency_precision	app/models/cart.rb	/^  def currency_precision$/;"	f	class:Cart
 currency_precision	app/models/course.rb	/^  def currency_precision$/;"	f	class:Course
 currency_precision	app/models/order.rb	/^  def currency_precision$/;"	f	class:Order
+current	app/models/billing_company.rb	/^  def self.current$/;"	F	class:BillingCompany
 current_user	app/controllers/application_controller.rb	/^  def current_user$/;"	f	class:ApplicationController
 data_deletion	app/controllers/pages_controller.rb	/^  def data_deletion$/;"	f	class:PagesController
 dc	bin/dev	/^dc() {$/;"	f
+destroy	app/controllers/admin_area/billing_companies_controller.rb	/^    def destroy$/;"	f	class:AdminArea.BillingCompaniesController
 destroy	app/controllers/admin_area/chapters_controller.rb	/^    def destroy$/;"	f	class:AdminArea.ChaptersController
 destroy	app/controllers/admin_area/coupons_controller.rb	/^    def destroy$/;"	f	class:AdminArea.CouponsController
 destroy	app/controllers/admin_area/courses_controller.rb	/^    def destroy$/;"	f	class:AdminArea.CoursesController
@@ -273,6 +303,7 @@ destroy	app/controllers/user_area/settings_controller.rb	/^    def destroy$/;"	f
 destroy	app/controllers/user_area/user_sessions_controller.rb	/^    def destroy$/;"	f	class:UserArea.UserSessionsController
 destroy	app/controllers/user_sessions_controller.rb	/^  def destroy$/;"	f	class:UserSessionsController
 destroy?	app/policies/application_policy.rb	/^  def destroy?$/;"	f	class:ApplicationPolicy
+destroy?	app/policies/billing_company_policy.rb	/^  def destroy?$/;"	f	class:BillingCompanyPolicy
 destroy?	app/policies/cart_item_policy.rb	/^  def destroy?$/;"	f	class:CartItemPolicy
 destroy?	app/policies/chapter_policy.rb	/^  def destroy?$/;"	f	class:ChapterPolicy
 destroy?	app/policies/coupon_policy.rb	/^  def destroy?$/;"	f	class:CouponPolicy
@@ -302,6 +333,7 @@ display_precision	app/models/course.rb	/^  def display_precision$/;"	f	class:Cou
 display_precision	app/models/order.rb	/^  def display_precision$/;"	f	class:Order
 down	db/migrate/20260208172058_rename_segments_to_chapters_and_steps_to_segments.rb	/^  def down$/;"	f	class:RenameSegmentsToChaptersAndStepsToSegments
 down	db/migrate/20260210100200_migrate_oauth_data_to_identities.rb	/^  def down$/;"	f	class:MigrateOauthDataToIdentities
+edit	app/controllers/admin_area/billing_companies_controller.rb	/^    def edit$/;"	f	class:AdminArea.BillingCompaniesController
 edit	app/controllers/admin_area/chapters_controller.rb	/^    def edit$/;"	f	class:AdminArea.ChaptersController
 edit	app/controllers/admin_area/coupons_controller.rb	/^    def edit$/;"	f	class:AdminArea.CouponsController
 edit	app/controllers/admin_area/courses_controller.rb	/^    def edit$/;"	f	class:AdminArea.CoursesController
@@ -316,10 +348,12 @@ enforce_session_limit!	app/models/user.rb	/^  def enforce_session_limit!$/;"	f	c
 ensure_completion_for_non_video_segment!	app/controllers/segments_controller.rb	/^  def ensure_completion_for_non_video_segment!$/;"	f	class:SegmentsController
 ensure_unlocked!	app/controllers/segment_media_controller.rb	/^  def ensure_unlocked!$/;"	f	class:SegmentMediaController
 failure	app/controllers/user_sessions_controller.rb	/^  def failure$/;"	f	class:UserSessionsController
+fakturoid_invoice?	app/models/order.rb	/^  def fakturoid_invoice?$/;"	f	class:Order
 file_presence	app/models/media_asset.rb	/^  def file_presence$/;"	f	class:MediaAsset
 file_type_is_allowed	app/models/media_asset.rb	/^  def file_type_is_allowed$/;"	f	class:MediaAsset
 find_for_database_authentication	app/models/admin.rb	/^  def self.find_for_database_authentication(warden_conditions)$/;"	F	class:Admin
 find_or_create_stripe_customer!	app/models/user.rb	/^  def find_or_create_stripe_customer!$/;"	f	class:User
+find_or_create_subject!	app/services/fakturoid_service.rb	/^  def find_or_create_subject!$/;"	f	class:FakturoidService
 format_price_for_schema	app/helpers/seo_helper.rb	/^  def format_price_for_schema(course)$/;"	f	class:SeoHelper
 from.completeUrl	app/javascript/controllers/video_completion_controller.js	/^    completeUrl: String,$/;"	p
 from.completed	app/javascript/controllers/video_completion_controller.js	/^    completed: Boolean,$/;"	p
@@ -329,6 +363,7 @@ handle_checkout_completed	app/services/webhook_processor_service.rb	/^  def hand
 handle_checkout_expired	app/services/webhook_processor_service.rb	/^  def handle_checkout_expired(session)$/;"	f	class:WebhookProcessorService
 image?	app/models/media_asset.rb	/^  def image?$/;"	f	class:MediaAsset
 image_size_under_limit	app/models/media_asset.rb	/^  def image_size_under_limit$/;"	f	class:MediaAsset
+index	app/controllers/admin_area/billing_companies_controller.rb	/^    def index$/;"	f	class:AdminArea.BillingCompaniesController
 index	app/controllers/admin_area/coupons_controller.rb	/^    def index$/;"	f	class:AdminArea.CouponsController
 index	app/controllers/admin_area/courses_controller.rb	/^    def index$/;"	f	class:AdminArea.CoursesController
 index	app/controllers/admin_area/media_assets_controller.rb	/^    def index$/;"	f	class:AdminArea.MediaAssetsController
@@ -338,6 +373,7 @@ index	app/controllers/admin_area/users_controller.rb	/^    def index$/;"	f	class
 index	app/controllers/courses_controller.rb	/^  def index$/;"	f	class:CoursesController
 index	app/controllers/home_controller.rb	/^  def index$/;"	f	class:HomeController
 index?	app/policies/application_policy.rb	/^  def index?$/;"	f	class:ApplicationPolicy
+index?	app/policies/billing_company_policy.rb	/^  def index?$/;"	f	class:BillingCompanyPolicy
 index?	app/policies/coupon_policy.rb	/^  def index?$/;"	f	class:CouponPolicy
 index?	app/policies/course_policy.rb	/^  def index?$/;"	f	class:CoursePolicy
 index?	app/policies/media_asset_policy.rb	/^  def index?$/;"	f	class:MediaAssetPolicy
@@ -346,12 +382,16 @@ index?	app/policies/user_policy.rb	/^  def index?$/;"	f	class:UserPolicy
 infer_media_type	app/models/media_asset.rb	/^  def infer_media_type$/;"	f	class:MediaAsset
 initialize	app/policies/application_policy.rb	/^    def initialize(user, scope)$/;"	f	class:ApplicationPolicy.Scope
 initialize	app/policies/application_policy.rb	/^  def initialize(user, record)$/;"	f	class:ApplicationPolicy
-initialize	app/services/checkout_service.rb	/^  def initialize(user:, cart:, success_url:, cancel_url:)$/;"	f	class:CheckoutService
+initialize	app/services/checkout_service.rb	/^  def initialize(user:, cart:, success_url:, cancel_url:, billing_params: {})$/;"	f	class:CheckoutService
 initialize	app/services/coupon_service.rb	/^  def initialize(cart)$/;"	f	class:CouponService
 initialize	app/services/enrollment_service.rb	/^  def initialize(order)$/;"	f	class:EnrollmentService
+initialize	app/services/fakturoid_service.rb	/^  def initialize(order)$/;"	f	class:FakturoidService
 initialize	app/services/webhook_processor_service.rb	/^  def initialize(event)$/;"	f	class:WebhookProcessorService
+input_class_for	app/helpers/application_helper.rb	/^  def input_class_for(model, attribute)$/;"	f	class:ApplicationHelper
+invoice_ready	app/mailers/order_mailer.rb	/^  def invoice_ready(order)$/;"	f	class:OrderMailer
 load_media_assets	app/controllers/admin_area/segments_controller.rb	/^    def load_media_assets$/;"	f	class:AdminArea.SegmentsController
 manage_services	bin/dev	/^manage_services() {$/;"	f
+mark_as_paid!	app/services/fakturoid_service.rb	/^  def mark_as_paid!(invoice)$/;"	f	class:FakturoidService
 max_discount_amount	app/models/cart.rb	/^  def max_discount_amount$/;"	f	class:Cart
 media_asset_params	app/controllers/admin_area/media_assets_controller.rb	/^    def media_asset_params$/;"	f	class:AdminArea.MediaAssetsController
 meta_description	app/helpers/seo_helper.rb	/^  def meta_description(text)$/;"	f	class:SeoHelper
@@ -368,6 +408,7 @@ move_up!	app/models/segment.rb	/^  def move_up!$/;"	f	class:Segment
 move_up?	app/policies/chapter_policy.rb	/^  def move_up?$/;"	f	class:ChapterPolicy
 move_up?	app/policies/segment_policy.rb	/^  def move_up?$/;"	f	class:SegmentPolicy
 name	app/models/user.rb	/^  def name$/;"	f	class:User
+new	app/controllers/admin_area/billing_companies_controller.rb	/^    def new$/;"	f	class:AdminArea.BillingCompaniesController
 new	app/controllers/admin_area/chapters_controller.rb	/^    def new$/;"	f	class:AdminArea.ChaptersController
 new	app/controllers/admin_area/coupons_controller.rb	/^    def new$/;"	f	class:AdminArea.CouponsController
 new	app/controllers/admin_area/courses_controller.rb	/^    def new$/;"	f	class:AdminArea.CoursesController
@@ -390,6 +431,7 @@ paid?	app/models/order.rb	/^  def paid?$/;"	f	class:Order
 parse_date	app/controllers/admin_area/orders_controller.rb	/^    def parse_date(value)$/;"	f	class:AdminArea.OrdersController
 percent?	app/models/coupon.rb	/^  def percent?$/;"	f	class:Coupon
 percent_value_within_range	app/models/coupon.rb	/^  def percent_value_within_range$/;"	f	class:Coupon
+perform	app/jobs/fakturoid_invoice_job.rb	/^  def perform(order_id)$/;"	f	class:FakturoidInvoiceJob
 perform	app/jobs/stripe_webhook_job.rb	/^  def perform(event_id)$/;"	f	class:StripeWebhookJob
 price_in_minor_units	app/models/course.rb	/^  def price_in_minor_units$/;"	f	class:Course
 primary_and_foreign_key_types	db/migrate/20260208175214_create_active_storage_tables.active_storage.rb	/^    def primary_and_foreign_key_types$/;"	f	class:CreateActiveStorageTables
@@ -410,12 +452,16 @@ remove_coupon?	app/policies/cart_policy.rb	/^  def remove_coupon?$/;"	f	class:Ca
 remove_course!	app/models/cart.rb	/^  def remove_course!(course)$/;"	f	class:Cart
 require_enrollment!	app/controllers/application_controller.rb	/^  def require_enrollment!(course)$/;"	f	class:ApplicationController
 require_user!	app/controllers/application_controller.rb	/^  def require_user!$/;"	f	class:ApplicationController
+resend_invoice_email	app/controllers/admin_area/orders_controller.rb	/^    def resend_invoice_email$/;"	f	class:AdminArea.OrdersController
 resolve	app/policies/application_policy.rb	/^    def resolve$/;"	f	class:ApplicationPolicy.Scope
+respond_to_reorder	app/controllers/admin_area/chapters_controller.rb	/^    def respond_to_reorder$/;"	f	class:AdminArea.ChaptersController
+respond_to_reorder	app/controllers/admin_area/segments_controller.rb	/^    def respond_to_reorder$/;"	f	class:AdminArea.SegmentsController
 revoke!	app/models/enrollment.rb	/^  def revoke!$/;"	f	class:Enrollment
 revoke_enrollments!	app/services/enrollment_service.rb	/^  def revoke_enrollments!$/;"	f	class:EnrollmentService
 segment_params	app/controllers/admin_area/segments_controller.rb	/^    def segment_params$/;"	f	class:AdminArea.SegmentsController
 segment_show_path	app/helpers/preview_paths_helper.rb	/^  def segment_show_path(course, chapter, segment, **params)$/;"	f	class:PreviewPathsHelper
 set_active_storage_url_options	app/controllers/application_controller.rb	/^  def set_active_storage_url_options$/;"	f	class:ApplicationController
+set_billing_company	app/controllers/admin_area/billing_companies_controller.rb	/^    def set_billing_company$/;"	f	class:AdminArea.BillingCompaniesController
 set_chapter	app/controllers/admin_area/chapters_controller.rb	/^    def set_chapter$/;"	f	class:AdminArea.ChaptersController
 set_chapter	app/controllers/admin_area/preview/segments_controller.rb	/^      def set_chapter$/;"	f	class:AdminArea.Preview.SegmentsController
 set_chapter	app/controllers/admin_area/segments_controller.rb	/^    def set_chapter$/;"	f	class:AdminArea.SegmentsController
@@ -457,6 +503,7 @@ show?	app/policies/media_asset_policy.rb	/^  def show?$/;"	f	class:MediaAssetPol
 show?	app/policies/order_policy.rb	/^  def show?$/;"	f	class:OrderPolicy
 show?	app/policies/segment_policy.rb	/^  def show?$/;"	f	class:SegmentPolicy
 show?	app/policies/user_policy.rb	/^  def show?$/;"	f	class:UserPolicy
+subject_params	app/services/fakturoid_service.rb	/^  def subject_params$/;"	f	class:FakturoidService
 subtotal_amount	app/models/cart.rb	/^  def subtotal_amount$/;"	f	class:Cart
 success	app/controllers/checkouts_controller.rb	/^  def success$/;"	f	class:CheckoutsController
 swap_positions!	app/models/chapter.rb	/^  def swap_positions!(other)$/;"	f	class:Chapter
@@ -471,6 +518,7 @@ total_amount	app/models/order_item.rb	/^  def total_amount$/;"	f	class:OrderItem
 unit_amount	app/models/cart_item.rb	/^  def unit_amount$/;"	f	class:CartItem
 up	db/migrate/20260208172058_rename_segments_to_chapters_and_steps_to_segments.rb	/^  def up$/;"	f	class:RenameSegmentsToChaptersAndStepsToSegments
 up	db/migrate/20260210100200_migrate_oauth_data_to_identities.rb	/^  def up$/;"	f	class:MigrateOauthDataToIdentities
+update	app/controllers/admin_area/billing_companies_controller.rb	/^    def update$/;"	f	class:AdminArea.BillingCompaniesController
 update	app/controllers/admin_area/chapters_controller.rb	/^    def update$/;"	f	class:AdminArea.ChaptersController
 update	app/controllers/admin_area/coupons_controller.rb	/^    def update$/;"	f	class:AdminArea.CouponsController
 update	app/controllers/admin_area/courses_controller.rb	/^    def update$/;"	f	class:AdminArea.CoursesController
@@ -480,6 +528,7 @@ update	app/controllers/admin_area/segments_controller.rb	/^    def update$/;"	f	
 update	app/controllers/cart_items_controller.rb	/^  def update$/;"	f	class:CartItemsController
 update	app/controllers/user_area/settings_controller.rb	/^    def update$/;"	f	class:UserArea.SettingsController
 update?	app/policies/application_policy.rb	/^  def update?$/;"	f	class:ApplicationPolicy
+update?	app/policies/billing_company_policy.rb	/^  def update?$/;"	f	class:BillingCompanyPolicy
 update?	app/policies/cart_item_policy.rb	/^  def update?$/;"	f	class:CartItemPolicy
 update?	app/policies/chapter_policy.rb	/^  def update?$/;"	f	class:ChapterPolicy
 update?	app/policies/coupon_policy.rb	/^  def update?$/;"	f	class:CouponPolicy
@@ -494,6 +543,8 @@ usage_segments	app/models/media_asset.rb	/^  def usage_segments$/;"	f	class:Medi
 user_not_authorized	app/controllers/application_controller.rb	/^  def user_not_authorized$/;"	f	class:ApplicationController
 user_params	app/controllers/user_area/settings_controller.rb	/^    def user_params$/;"	f	class:UserArea.SettingsController
 user_signed_in?	app/controllers/application_controller.rb	/^  def user_signed_in?$/;"	f	class:ApplicationController
+validate_each	app/validators/dic_validator.rb	/^  def validate_each(record, attribute, value)$/;"	f	class:DicValidator
+validate_each	app/validators/ico_validator.rb	/^  def validate_each(record, attribute, value)$/;"	f	class:IcoValidator
 validate_session	app/controllers/application_controller.rb	/^  def validate_session$/;"	f	class:ApplicationController
 video	app/controllers/segment_media_controller.rb	/^  def video$/;"	f	class:SegmentMediaController
 video?	app/models/media_asset.rb	/^  def video?$/;"	f	class:MediaAsset

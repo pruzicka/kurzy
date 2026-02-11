@@ -30,6 +30,10 @@ gem "omniauth-facebook"
 gem "pagy"
 gem "pundit"
 
+# sentry
+gem "sentry-ruby"
+gem "sentry-rails"
+
 # Rich text editor (Lexxy) + ActionText storage
 gem "lexxy", "~> 0.7.4.beta"
 
