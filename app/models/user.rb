@@ -13,6 +13,9 @@ class User < ApplicationRecord
 
   validates :email, presence: true, uniqueness: true
   validates :username, uniqueness: true, allow_blank: true
+  validates :billing_ico, ico: true, allow_blank: true
+  validates :billing_dic, dic: true, allow_blank: true
+  validate :billing_address_required_with_company_details
   validate :avatar_must_be_image
   validate :avatar_must_be_under_size_limit
 
@@ -75,6 +78,10 @@ class User < ApplicationRecord
     customer.id
   end
 
+  def billing_info_present?
+    billing_name.present? && billing_street.present? && billing_city.present? && billing_zip.present?
+  end
+
   def enforce_session_limit!
     excess = user_sessions.order(created_at: :desc).offset(MAX_CONCURRENT_SESSIONS)
     excess.destroy_all
@@ -88,6 +95,15 @@ class User < ApplicationRecord
     user.avatar_url ||= info["image"]
     user.save! if user.changed?
     user
+  end
+
+  def billing_address_required_with_company_details
+    return unless billing_ico.present? || billing_dic.present?
+
+    errors.add(:billing_name, "je povinné pro firemní fakturu") if billing_name.blank?
+    errors.add(:billing_street, "je povinné pro firemní fakturu") if billing_street.blank?
+    errors.add(:billing_city, "je povinné pro firemní fakturu") if billing_city.blank?
+    errors.add(:billing_zip, "je povinné pro firemní fakturu") if billing_zip.blank?
   end
 
   def avatar_must_be_image

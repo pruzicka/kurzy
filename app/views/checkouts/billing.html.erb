@@ -1,0 +1,93 @@
+<div class="flex items-end justify-between gap-4">
+  <div class="flex flex-col gap-1">
+    <h1 class="text-3xl font-semibold tracking-tight text-gray-900">Fakturační údaje</h1>
+    <p class="text-sm text-gray-600">Údaje budou použity pro vystavení faktury.</p>
+  </div>
+  <%= link_to "Zpět do košíku", cart_path, class: "text-sm font-medium text-gray-900 hover:underline" %>
+</div>
+
+<div class="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm" data-controller="ares-lookup">
+  <%= form_with model: @user, url: checkout_path, method: :post, data: { turbo: false }, class: "flex flex-col gap-6" do |f| %>
+    <% if @user.errors.any? %>
+      <div class="rounded-2xl border border-rose-200 bg-rose-50 p-4 text-sm text-rose-900">
+        <div class="font-semibold">Formulář obsahuje chyby:</div>
+        <ul class="mt-2 list-disc pl-5">
+          <% @user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="flex flex-col gap-2">
+      <%= f.label :billing_name, "Jméno nebo název firmy", class: "text-sm font-medium text-gray-900" %>
+      <%= f.text_field :billing_name, placeholder: "Jan Novák / Firma s.r.o.", class: input_class_for(@user, :billing_name), data: { ares_lookup_target: "name" } %>
+      <% if @user.errors[:billing_name].any? %>
+        <p class="text-xs text-rose-600"><%= @user.errors[:billing_name].first %></p>
+      <% end %>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div class="flex flex-col gap-2">
+        <%= f.label :billing_street, "Ulice a číslo", class: "text-sm font-medium text-gray-900" %>
+        <%= f.text_field :billing_street, placeholder: "Květinová 123/4", class: input_class_for(@user, :billing_street), data: { ares_lookup_target: "street" } %>
+        <% if @user.errors[:billing_street].any? %>
+          <p class="text-xs text-rose-600"><%= @user.errors[:billing_street].first %></p>
+        <% end %>
+      </div>
+      <div class="flex flex-col gap-2">
+        <%= f.label :billing_city, "Město", class: "text-sm font-medium text-gray-900" %>
+        <%= f.text_field :billing_city, placeholder: "Praha", class: input_class_for(@user, :billing_city), data: { ares_lookup_target: "city" } %>
+        <% if @user.errors[:billing_city].any? %>
+          <p class="text-xs text-rose-600"><%= @user.errors[:billing_city].first %></p>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div class="flex flex-col gap-2">
+        <%= f.label :billing_zip, "PSČ", class: "text-sm font-medium text-gray-900" %>
+        <%= f.text_field :billing_zip, placeholder: "110 00", class: input_class_for(@user, :billing_zip), data: { ares_lookup_target: "zip" } %>
+        <% if @user.errors[:billing_zip].any? %>
+          <p class="text-xs text-rose-600"><%= @user.errors[:billing_zip].first %></p>
+        <% end %>
+      </div>
+      <div class="flex flex-col gap-2">
+        <%= f.label :billing_country, "Země", class: "text-sm font-medium text-gray-900" %>
+        <%= f.text_field :billing_country, placeholder: "CZ", class: input_class_for(@user, :billing_country), data: { ares_lookup_target: "country" } %>
+        <% if @user.errors[:billing_country].any? %>
+          <p class="text-xs text-rose-600"><%= @user.errors[:billing_country].first %></p>
+        <% end %>
+      </div>
+    </div>
+
+    <details class="rounded-2xl border border-gray-200 bg-gray-50 p-4"<%= " open" if @user.billing_ico.present? || @user.billing_dic.present? || @user.errors[:billing_ico].any? || @user.errors[:billing_dic].any? %>>
+      <summary class="cursor-pointer text-sm font-medium text-gray-900">Firemní údaje</summary>
+      <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div class="flex flex-col gap-2">
+          <%= f.label :billing_ico, "IČO", class: "text-sm font-medium text-gray-900" %>
+          <%= f.text_field :billing_ico, placeholder: "12345678", class: input_class_for(@user, :billing_ico), data: { ares_lookup_target: "ico", action: "blur->ares-lookup#lookup" } %>
+          <p class="text-xs hidden" data-ares-lookup-target="status"></p>
+          <% if @user.errors[:billing_ico].any? %>
+            <p class="text-xs text-rose-600"><%= @user.errors[:billing_ico].first %></p>
+          <% end %>
+        </div>
+        <div class="flex flex-col gap-2">
+          <%= f.label :billing_dic, "DIČ", class: "text-sm font-medium text-gray-900" %>
+          <%= f.text_field :billing_dic, placeholder: "CZ12345678", class: input_class_for(@user, :billing_dic), data: { ares_lookup_target: "dic" } %>
+          <% if @user.errors[:billing_dic].any? %>
+            <p class="text-xs text-rose-600"><%= @user.errors[:billing_dic].first %></p>
+          <% end %>
+        </div>
+      </div>
+    </details>
+
+    <div class="flex items-center gap-3">
+      <button type="submit" data-turbo-submits-with="Zpracovávám..."
+              class="rounded-2xl bg-gray-900 px-6 py-3 text-sm font-semibold text-white hover:bg-black disabled:opacity-60 disabled:cursor-not-allowed">
+        Přejít na platbu
+      </button>
+      <%= link_to "Zpět do košíku", cart_path, class: "inline-flex items-center justify-center rounded-2xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+    </div>
+  <% end %>
+</div>

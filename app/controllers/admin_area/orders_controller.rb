@@ -43,6 +43,20 @@ module AdminArea
       redirect_to admin_orders_path, notice: "Objednávka byla smazána."
     end
 
+    def create_invoice
+      @order = Order.find(params[:id])
+      authorize @order, :show?
+      FakturoidInvoiceJob.perform_later(@order.id)
+      redirect_to admin_order_path(@order), notice: "Faktura se vytváří na pozadí."
+    end
+
+    def resend_invoice_email
+      @order = Order.find(params[:id])
+      authorize @order, :show?
+      OrderMailer.invoice_ready(@order).deliver_later
+      redirect_to admin_order_path(@order), notice: "E-mail s fakturou byl odeslán."
+    end
+
     def parse_date(value)
       return nil if value.blank?
       Date.parse(value.to_s)

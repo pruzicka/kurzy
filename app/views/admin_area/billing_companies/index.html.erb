@@ -1,0 +1,50 @@
+<div class="flex items-end justify-between gap-4">
+  <div class="flex flex-col gap-1">
+    <h1 class="text-3xl font-semibold tracking-tight text-gray-900">Fakturace</h1>
+    <p class="text-sm text-gray-600">Správa fakturačních firem.</p>
+  </div>
+  <%= link_to "Nová firma", new_admin_billing_company_path, class: "inline-flex items-center justify-center rounded-2xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-black" %>
+</div>
+
+<div class="mt-6 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+  <div class="grid grid-cols-12 gap-0 border-b border-gray-200 bg-gray-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-600">
+    <div class="col-span-3">Název</div>
+    <div class="col-span-3">Adresa</div>
+    <div class="col-span-2">IČO / DIČ</div>
+    <div class="col-span-2">Stav</div>
+    <div class="col-span-2 text-right">Akce</div>
+  </div>
+
+  <div class="divide-y divide-gray-100">
+    <% @billing_companies.each do |company| %>
+      <div class="grid grid-cols-12 items-center gap-0 px-4 py-4 text-sm">
+        <div class="col-span-3">
+          <div class="font-semibold text-gray-900"><%= company.name %></div>
+          <% if company.fakturoid_slug.present? %>
+            <div class="text-xs text-gray-500">Fakturoid: <%= company.fakturoid_slug %></div>
+          <% end %>
+        </div>
+        <div class="col-span-3 text-xs text-gray-500">
+          <div><%= company.street %></div>
+          <div><%= [company.zip, company.city].compact_blank.join(" ") %></div>
+          <div><%= company.country %></div>
+        </div>
+        <div class="col-span-2 text-xs text-gray-500">
+          <div><%= company.ico.presence || "—" %></div>
+          <div><%= company.dic.presence || "—" %></div>
+        </div>
+        <div class="col-span-2">
+          <% if company.active? %>
+            <span class="rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-800">Aktivní</span>
+          <% else %>
+            <span class="rounded-full bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-600">Neaktivní</span>
+          <% end %>
+        </div>
+        <div class="col-span-2 flex justify-end gap-2">
+          <%= link_to "Upravit", edit_admin_billing_company_path(company), class: "rounded-xl border border-gray-300 bg-white px-3 py-2 text-xs font-semibold text-gray-900 hover:bg-gray-50" %>
+          <%= button_to "Smazat", admin_billing_company_path(company), method: :delete, data: { turbo_confirm: "Smazat fakturační firmu?" }, class: "rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs font-semibold text-rose-900 hover:bg-rose-100" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

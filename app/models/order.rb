@@ -16,6 +16,14 @@ class Order < ApplicationRecord
     status == "paid"
   end
 
+  def fakturoid_invoice?
+    fakturoid_invoice_id.present?
+  end
+
+  def billing_info_present?
+    billing_name.present?
+  end
+
   def currency_precision
     Course::ZERO_DECIMAL_CURRENCIES.include?(currency.to_s.upcase) ? 0 : 2
   end

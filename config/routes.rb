@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   end
   resources :cart_items, only: %i[create update destroy]
   resources :enrollments, only: [:destroy]
+  get "/checkout/billing", to: "checkouts#billing", as: :checkout_billing
   post "/checkout", to: "checkouts#create", as: :checkout
   get "/checkout/success", to: "checkouts#success", as: :checkout_success
   get "/checkout/cancel", to: "checkouts#cancel", as: :checkout_cancel
@@ -105,9 +106,15 @@ Rails.application.routes.draw do
     end
 
     resources :media_assets, path: "media"
-    resources :orders, only: %i[index show destroy]
+    resources :orders, only: %i[index show destroy] do
+      member do
+        post :create_invoice
+        post :resend_invoice_email
+      end
+    end
     resources :users, only: %i[index show]
     resources :coupons
+    resources :billing_companies, path: "billing"
   end
 
   post "/auth/:provider/callback", to: "user_sessions#create"

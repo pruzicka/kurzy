@@ -31,7 +31,11 @@ module UserArea
     private
 
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :username, :email, :avatar)
+      params.require(:user).permit(
+        :first_name, :last_name, :username, :email, :avatar,
+        :billing_name, :billing_street, :billing_city, :billing_zip,
+        :billing_country, :billing_ico, :billing_dic
+      )
     end
   end
 end

@@ -1,0 +1,16 @@
+Dobrý den, <%= @user.name %>!
+
+K vaší objednávce #<%= @order.id %> byla vystavena faktura.
+
+Objednávka #<%= @order.id %>
+<% @items.each do |item| %>
+- <%= item.display_name %>: <%= number_to_currency(item.total_amount / (@order.currency_precision.zero? ? 1.0 : 100.0), unit: @order.currency, precision: @order.display_precision) %>
+<% end %>
+<% if @order.discount_amount.to_i > 0 %>
+Sleva<%= " (#{@order.coupon.code})" if @order.coupon %>: -<%= number_to_currency(@order.discount_amount / (@order.currency_precision.zero? ? 1.0 : 100.0), unit: @order.currency, precision: @order.display_precision) %>
+<% end %>
+Celkem: <%= number_to_currency(@order.total_amount / (@order.currency_precision.zero? ? 1.0 : 100.0), unit: @order.currency, precision: @order.display_precision) %>
+<% if @order.fakturoid_public_url.present? %>
+
+Faktura: <%= @order.fakturoid_public_url %>
+<% end %>

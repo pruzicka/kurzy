@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_10_182420) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_11_102223) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -66,6 +66,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_10_182420) do
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
     t.index ["username"], name: "index_admins_on_username", unique: true
+  end
+
+  create_table "billing_companies", force: :cascade do |t|
+    t.boolean "active", default: true
+    t.string "city"
+    t.string "country", default: "CZ"
+    t.datetime "created_at", null: false
+    t.string "dic"
+    t.string "fakturoid_slug"
+    t.string "ico"
+    t.string "name", null: false
+    t.string "street"
+    t.datetime "updated_at", null: false
+    t.string "zip"
   end
 
   create_table "cart_items", force: :cascade do |t|
@@ -299,10 +313,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_10_182420) do
   end
 
   create_table "orders", force: :cascade do |t|
+    t.string "billing_city"
+    t.string "billing_country"
+    t.string "billing_dic"
+    t.string "billing_ico"
+    t.string "billing_name"
+    t.string "billing_street"
+    t.string "billing_zip"
     t.integer "coupon_id"
     t.datetime "created_at", null: false
     t.string "currency", default: "CZK", null: false
     t.integer "discount_amount", default: 0, null: false
+    t.integer "fakturoid_invoice_id"
+    t.string "fakturoid_invoice_number"
+    t.string "fakturoid_private_url"
+    t.string "fakturoid_public_url"
+    t.integer "fakturoid_subject_id"
     t.string "status", default: "pending", null: false
     t.string "stripe_payment_intent_id"
     t.string "stripe_session_id"
@@ -311,6 +337,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_10_182420) do
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["coupon_id"], name: "index_orders_on_coupon_id"
+    t.index ["fakturoid_invoice_id"], name: "index_orders_on_fakturoid_invoice_id", unique: true
     t.index ["stripe_session_id"], name: "index_orders_on_stripe_session_id", unique: true
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
@@ -357,6 +384,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_10_182420) do
 
   create_table "users", force: :cascade do |t|
     t.string "avatar_url"
+    t.string "billing_city"
+    t.string "billing_country", default: "CZ"
+    t.string "billing_dic"
+    t.string "billing_ico"
+    t.string "billing_name"
+    t.string "billing_street"
+    t.string "billing_zip"
     t.datetime "created_at", null: false
     t.string "email", null: false
     t.string "first_name"

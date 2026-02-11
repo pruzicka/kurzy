@@ -1,11 +1,12 @@
 class CheckoutService
   Result = Struct.new(:success?, :redirect_url, :error, keyword_init: true)
 
-  def initialize(user:, cart:, success_url:, cancel_url:)
+  def initialize(user:, cart:, success_url:, cancel_url:, billing_params: {})
     @user = user
     @cart = cart
     @success_url = success_url
     @cancel_url = cancel_url
+    @billing_params = billing_params || {}
   end
 
   def call
@@ -54,6 +55,13 @@ class CheckoutService
       discount_amount: discount,
       total_amount: total,
       coupon: @cart.coupon,
+      billing_name: @billing_params[:billing_name],
+      billing_street: @billing_params[:billing_street],
+      billing_city: @billing_params[:billing_city],
+      billing_zip: @billing_params[:billing_zip],
+      billing_country: @billing_params[:billing_country],
+      billing_ico: @billing_params[:billing_ico],
+      billing_dic: @billing_params[:billing_dic],
       order_items: items.map do |item|
         OrderItem.new(
           course: item.course,

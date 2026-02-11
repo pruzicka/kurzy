@@ -45,6 +45,8 @@ class WebhookProcessorService
     order.enrollments.reload.each do |enrollment|
       EnrollmentMailer.course_granted(enrollment).deliver_later
     end
+
+    FakturoidInvoiceJob.perform_later(order.id)
   end
 
   def handle_checkout_expired(session)
