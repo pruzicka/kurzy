@@ -20,6 +20,7 @@ gem "tailwindcss-rails"
 gem "jbuilder"
 gem "stripe"
 gem "fakturoid"
+gem "rack-attack"
 
 # Authentication
 gem "devise"

@@ -160,12 +160,15 @@ architecture, and best practices from similar platforms (Teachable, Thinkific, U
 3. **Error monitoring.**
    No Sentry or equivalent. Production errors will be missed.
 
-4. **Fakturoid integration.**
-   Czech law requires proper invoices for B2C/B2B sales. This is legal
-   compliance, not optional.
+4. **Fakturoid integration.** ✅ DONE
+   Czech law requires proper invoices for B2C/B2B sales. Implemented with
+   FakturoidService, FakturoidInvoiceJob, billing info collection, ARES lookup,
+   admin BillingCompany management, invoice email, and admin invoice controls.
 
 5. **Admin refund/revoke flow.**
-   Cannot handle disputes or refunds without it.
+   Partial — webhook-driven refund handling exists (enrollment revocation, status
+   change). Still needed: admin-initiated Stripe refund, Fakturoid credit note,
+   refund reason tracking.
 
 6. **Legal pages content.**
    Views exist (`terms`, `privacy`, `disclaimer`, `data_deletion`) — verify
@@ -461,14 +464,14 @@ Based on Teachable, Thinkific, Udemy, Kajabi patterns.
 | # | Item | Effort | Status |
 |---|------|--------|--------|
 | 1 | Add Pundit for authorization | Medium | DONE |
-| 2 | Add `rack-attack` for rate limiting | Small | TODO |
+| 2 | Add `rack-attack` for rate limiting | Small | DONE |
 | 3 | Add `status` + `revoked_at` to Enrollment | Small | DONE |
 | 4 | Add `stripe_customer_id` to User | Small | DONE |
 | 5 | Handle additional Stripe webhook events + idempotency | Medium | DONE |
 | 6 | Add purchase confirmation mailer | Medium | DONE |
 | 7 | Add good_job + move webhooks to background jobs | Medium | DONE |
-| 8 | Add error monitoring (Sentry) | Small | TODO |
-| 9 | Add billing details collection (BillingProfile model) | Medium | TODO |
+| 8 | Add error monitoring (Sentry) | Small | DONE |
+| 9 | Add billing details collection (BillingProfile model) | Medium | DONE |
 | 10 | Switch dev/test to PostgreSQL | Small | DONE |
 | 11 | Add account linking strategy for OAuth providers | Medium | DONE |
 | 12 | Real content for legal pages (terms, privacy, GDPR) | Medium | DONE |
@@ -482,7 +485,7 @@ Based on Teachable, Thinkific, Udemy, Kajabi patterns.
 | 2 | Dynamic watermark on videos | Medium | TODO |
 | 3 | Session concurrency limits | Medium | DONE |
 | 4 | Free preview segments (`is_free_preview` on Segment) | Small | DONE |
-| 5 | Fakturoid integration | Large | TODO |
+| 5 | Fakturoid integration | Large | DONE |
 | 6 | Course bundles | Medium | TODO |
 | 7 | Certificate of completion (PDF) | Medium | TODO |
 | 8 | Email marketing integration (Ecomail) | Medium | TODO |
@@ -492,3 +495,4 @@ Based on Teachable, Thinkific, Udemy, Kajabi patterns.
 | 12 | SEO (structured data, sitemap, OG tags) | Small | DONE |
 | 13 | CI/CD (GitHub Actions) | Small | TODO |
 | 14 | Dark mode (day/night/system toggle in navbar, works for both admin and user) | Medium | TODO |
+| 15 | Admin refund flow (Stripe refund API, Fakturoid credit note, refund reason tracking) | Medium | TODO |
