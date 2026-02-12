@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  first_name: Jan
+  last_name: Novak
+  email: jan@example.com
+  slug: jan-novak
+
+two:
+  first_name: Eva
+  last_name: Svobodova
+  email: eva@example.com
+  slug: eva-svobodova

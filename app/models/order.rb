@@ -1,8 +1,12 @@
 class Order < ApplicationRecord
   belongs_to :user
   belongs_to :coupon, optional: true
+  belongs_to :subscription, optional: true
   has_many :order_items, dependent: :destroy
   has_many :enrollments, dependent: :destroy
+
+  ORDER_TYPES = %w[one_time subscription].freeze
+  validates :order_type, inclusion: { in: ORDER_TYPES }
 
   STATUSES = %w[pending paid canceled refunded].freeze
 

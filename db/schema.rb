@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_11_202250) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_12_141203) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -74,6 +74,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_202250) do
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
     t.index ["unlock_token"], name: "index_admins_on_unlock_token", unique: true
     t.index ["username"], name: "index_admins_on_username", unique: true
+  end
+
+  create_table "authors", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.string "first_name", null: false
+    t.string "last_name", null: false
+    t.string "slug", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_authors_on_slug", unique: true
   end
 
   create_table "billing_companies", force: :cascade do |t|
@@ -172,6 +182,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_202250) do
   end
 
   create_table "courses", force: :cascade do |t|
+    t.bigint "author_id"
     t.string "course_type", default: "online_course", null: false
     t.datetime "created_at", null: false
     t.string "currency", default: "CZK", null: false
@@ -181,6 +192,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_202250) do
     t.string "slug"
     t.string "status", default: "draft", null: false
     t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_courses_on_author_id"
     t.index ["course_type"], name: "index_courses_on_course_type"
     t.index ["slug"], name: "index_courses_on_slug", unique: true
     t.index ["status"], name: "index_courses_on_status"
@@ -200,6 +212,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_202250) do
     t.index ["status"], name: "index_enrollments_on_status"
     t.index ["user_id", "course_id"], name: "index_enrollments_on_user_id_and_course_id", unique: true
     t.index ["user_id"], name: "index_enrollments_on_user_id"
+  end
+
+  create_table "episodes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "position", null: false
+    t.datetime "published_at"
+    t.string "status", default: "draft"
+    t.bigint "subscription_plan_id", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subscription_plan_id", "position"], name: "index_episodes_on_subscription_plan_id_and_position", unique: true
+    t.index ["subscription_plan_id"], name: "index_episodes_on_subscription_plan_id"
   end
 
   create_table "good_job_batches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -316,16 +340,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_202250) do
   end
 
   create_table "order_items", force: :cascade do |t|
-    t.integer "course_id", null: false
+    t.integer "course_id"
     t.datetime "created_at", null: false
     t.string "currency", default: "CZK", null: false
     t.integer "order_id", null: false
     t.integer "quantity", default: 1, null: false
+    t.bigint "subscription_plan_id"
     t.string "title_snapshot"
     t.integer "unit_amount", null: false
     t.datetime "updated_at", null: false
     t.index ["course_id"], name: "index_order_items_on_course_id"
     t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["subscription_plan_id"], name: "index_order_items_on_subscription_plan_id"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -348,11 +374,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_202250) do
     t.string "fakturoid_private_url"
     t.string "fakturoid_public_url"
     t.integer "fakturoid_subject_id"
+    t.string "order_type", default: "one_time", null: false
     t.string "refund_reason"
     t.datetime "refunded_at"
     t.string "status", default: "pending", null: false
     t.string "stripe_payment_intent_id"
     t.string "stripe_session_id"
+    t.bigint "subscription_id"
     t.integer "subtotal_amount", default: 0, null: false
     t.integer "total_amount", default: 0, null: false
     t.datetime "updated_at", null: false
@@ -360,6 +388,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_202250) do
     t.index ["coupon_id"], name: "index_orders_on_coupon_id"
     t.index ["fakturoid_invoice_id"], name: "index_orders_on_fakturoid_invoice_id", unique: true
     t.index ["stripe_session_id"], name: "index_orders_on_stripe_session_id", unique: true
+    t.index ["subscription_id"], name: "index_orders_on_subscription_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
@@ -388,6 +417,40 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_202250) do
     t.index ["chapter_id"], name: "index_segments_on_chapter_id"
     t.index ["cover_asset_id"], name: "index_segments_on_cover_asset_id"
     t.index ["video_asset_id"], name: "index_segments_on_video_asset_id"
+  end
+
+  create_table "subscription_plans", force: :cascade do |t|
+    t.integer "annual_discount_percent", default: 0
+    t.bigint "author_id", null: false
+    t.datetime "created_at", null: false
+    t.string "currency", default: "CZK"
+    t.integer "monthly_price", default: 0, null: false
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.string "status", default: "draft"
+    t.string "stripe_annual_price_id"
+    t.string "stripe_monthly_price_id"
+    t.string "stripe_product_id"
+    t.datetime "updated_at", null: false
+    t.index ["author_id"], name: "index_subscription_plans_on_author_id"
+    t.index ["slug"], name: "index_subscription_plans_on_slug", unique: true
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.boolean "cancel_at_period_end", default: false
+    t.datetime "created_at", null: false
+    t.datetime "current_period_end"
+    t.datetime "current_period_start"
+    t.string "interval", default: "month"
+    t.string "status", default: "incomplete"
+    t.string "stripe_subscription_id"
+    t.bigint "subscription_plan_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["stripe_subscription_id"], name: "index_subscriptions_on_stripe_subscription_id", unique: true
+    t.index ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id"
+    t.index ["user_id", "subscription_plan_id"], name: "index_subscriptions_on_user_id_and_subscription_plan_id", unique: true
+    t.index ["user_id"], name: "index_subscriptions_on_user_id"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -451,18 +514,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_11_202250) do
   add_foreign_key "course_progresses", "users"
   add_foreign_key "course_tags", "courses"
   add_foreign_key "course_tags", "tags"
+  add_foreign_key "courses", "authors"
   add_foreign_key "enrollments", "courses"
   add_foreign_key "enrollments", "orders"
   add_foreign_key "enrollments", "users"
+  add_foreign_key "episodes", "subscription_plans"
   add_foreign_key "oauth_identities", "users"
   add_foreign_key "order_items", "courses"
   add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "subscription_plans"
   add_foreign_key "orders", "coupons"
+  add_foreign_key "orders", "subscriptions"
   add_foreign_key "orders", "users"
   add_foreign_key "segment_completions", "segments"
   add_foreign_key "segment_completions", "users"
   add_foreign_key "segments", "chapters"
   add_foreign_key "segments", "media_assets", column: "cover_asset_id"
   add_foreign_key "segments", "media_assets", column: "video_asset_id"
+  add_foreign_key "subscription_plans", "authors"
+  add_foreign_key "subscriptions", "subscription_plans"
+  add_foreign_key "subscriptions", "users"
   add_foreign_key "user_sessions", "users"
 end

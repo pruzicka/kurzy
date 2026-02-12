@@ -6,6 +6,7 @@ class Segment < ApplicationRecord
 
   has_rich_text :content
   has_one_attached :video
+  has_one_attached :audio
   has_one_attached :cover_image
   has_many_attached :attachments
 
@@ -28,6 +29,10 @@ class Segment < ApplicationRecord
   ALLOWED_VIDEO_TYPES = %w[
     video/mp4
   ].freeze
+  ALLOWED_AUDIO_TYPES = %w[
+    audio/mpeg
+  ].freeze
+  MAX_AUDIO_SIZE = 500.megabytes
 
   scope :free_preview, -> { where(is_free_preview: true) }
 
@@ -41,6 +46,8 @@ class Segment < ApplicationRecord
   validate :cover_image_must_be_image
   validate :cover_image_must_be_under_size_limit
   validate :video_must_be_mp4
+  validate :audio_must_be_mp3
+  validate :audio_must_be_under_size_limit
   validate :video_asset_must_be_video
   validate :cover_asset_must_be_image
 
@@ -130,6 +137,22 @@ class Segment < ApplicationRecord
     return if ALLOWED_VIDEO_TYPES.include?(video.blob.content_type)
 
     errors.add(:video, "pouze MP4")
+  end
+
+  def audio_must_be_mp3
+    return unless audio.attached?
+    return unless audio.blob
+    return if ALLOWED_AUDIO_TYPES.include?(audio.blob.content_type)
+
+    errors.add(:audio, "pouze MP3")
+  end
+
+  def audio_must_be_under_size_limit
+    return unless audio.attached?
+    return unless audio.blob
+    return if audio.blob.byte_size <= MAX_AUDIO_SIZE
+
+    errors.add(:audio, "maximalne 500 MB")
   end
 
   def video_asset_must_be_video

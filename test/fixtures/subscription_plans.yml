@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  author: one
+  name: Fitness Premium
+  slug: fitness-premium
+  status: public
+  monthly_price: 299
+  currency: CZK
+  annual_discount_percent: 20
+
+two:
+  author: two
+  name: Yoga Basics
+  slug: yoga-basics
+  status: draft
+  monthly_price: 199
+  currency: CZK
+  annual_discount_percent: 0

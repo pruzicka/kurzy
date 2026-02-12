@@ -6,6 +6,7 @@ class User < ApplicationRecord
   has_many :orders, dependent: :destroy
   has_many :enrollments, dependent: :destroy
   has_many :enrolled_courses, through: :enrollments, source: :course
+  has_many :subscriptions, dependent: :destroy
   has_many :oauth_identities, dependent: :destroy
   has_many :user_sessions, dependent: :destroy
 
@@ -76,6 +77,10 @@ class User < ApplicationRecord
     )
     update!(stripe_customer_id: customer.id)
     customer.id
+  end
+
+  def subscribed_to?(plan)
+    subscriptions.active_or_past_due.exists?(subscription_plan: plan)
   end
 
   def billing_info_present?

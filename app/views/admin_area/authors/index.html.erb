@@ -1,0 +1,54 @@
+<div class="flex items-end justify-between gap-4">
+  <div class="flex flex-col gap-1">
+    <h1 class="text-3xl font-semibold tracking-tight text-gray-900">Autoři</h1>
+    <p class="text-sm text-gray-600">Správa autorů.</p>
+  </div>
+  <%= link_to "Nový autor", new_admin_author_path, class: "inline-flex items-center justify-center rounded-2xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-black" %>
+</div>
+
+<div class="mt-6 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+  <div class="grid grid-cols-12 gap-0 border-b border-gray-200 bg-gray-50 px-4 py-3 text-xs font-semibold uppercase tracking-wide text-gray-600">
+    <div class="col-span-5">Jméno</div>
+    <div class="col-span-2">Email</div>
+    <div class="col-span-2">Slug</div>
+    <div class="col-span-3 text-right">Akce</div>
+  </div>
+
+  <% if @authors.any? %>
+    <div class="divide-y divide-gray-100">
+      <% @authors.each do |author| %>
+        <div class="grid grid-cols-12 items-center gap-0 px-4 py-4">
+          <div class="col-span-5">
+            <div class="flex items-center gap-3">
+              <% if author.profile_image.attached? %>
+                <% thumb = (author.profile_image.variant(resize_to_fill: [40, 40]).processed rescue nil) %>
+                <% if thumb %>
+                  <%= image_tag thumb, class: "h-10 w-10 rounded-full border border-gray-200 object-cover bg-white" %>
+                <% else %>
+                  <%= image_tag rails_blob_path(author.profile_image, disposition: "inline"), class: "h-10 w-10 rounded-full border border-gray-200 object-cover bg-white" %>
+                <% end %>
+              <% else %>
+                <div class="flex h-10 w-10 items-center justify-center rounded-full border border-dashed border-gray-300 bg-gray-50 text-[10px] font-semibold text-gray-500"><%= author.first_name.first %><%= author.last_name.first %></div>
+              <% end %>
+              <div class="min-w-0">
+                <div class="truncate font-medium text-gray-900"><%= author.name %></div>
+                <div class="mt-0.5 text-xs text-gray-600"><span class="font-medium">ID:</span> <%= author.id %></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-span-2 text-sm text-gray-700"><%= author.email %></div>
+          <div class="col-span-2 text-sm text-gray-700"><%= author.slug %></div>
+
+          <div class="col-span-3 flex justify-end gap-2">
+            <%= link_to "Detail", admin_author_path(author), class: "rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+            <%= link_to "Upravit", edit_admin_author_path(author), class: "rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+            <%= button_to "Smazat", admin_author_path(author), method: :delete, data: { turbo_confirm: "Opravdu smazat autora?" }, class: "rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-medium text-rose-900 hover:bg-rose-100" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="p-8 text-sm text-gray-700">Zatím tu nejsou žádní autoři. Vytvořte prvního.</div>
+  <% end %>
+</div>

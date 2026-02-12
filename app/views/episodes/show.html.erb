@@ -1,0 +1,68 @@
+<% content_for :title, @episode.title %>
+
+<div class="w-full">
+  <div class="mb-4">
+    <%= link_to "&larr; #{@subscription_plan.name}".html_safe, subscription_plan_path(@subscription_plan.slug), class: "text-sm font-medium text-gray-600 hover:text-gray-900" %>
+  </div>
+
+  <h1 class="text-3xl font-semibold tracking-tight"><%= @episode.title %></h1>
+  <% if @episode.published_at.present? %>
+    <p class="mt-1 text-sm text-gray-500"><%= l(@episode.published_at.to_date, format: :long) rescue @episode.published_at.strftime("%d.%m.%Y") %></p>
+  <% end %>
+
+  <% if @episode.video.attached? %>
+    <div class="mt-6">
+      <%= video_tag rails_blob_path(@episode.video, disposition: "inline"), controls: true, playsinline: true, preload: "metadata", class: "w-full overflow-hidden rounded-2xl bg-black shadow-sm ring-1 ring-gray-200" %>
+    </div>
+  <% elsif @episode.media.attached? && @episode.media.content_type.start_with?("video/") %>
+    <div class="mt-6">
+      <%= video_tag rails_blob_path(@episode.media, disposition: "inline"), controls: true, playsinline: true, preload: "metadata", class: "w-full overflow-hidden rounded-2xl bg-black shadow-sm ring-1 ring-gray-200" %>
+    </div>
+  <% end %>
+
+  <% if @episode.audio.attached? %>
+    <div class="mt-6">
+      <%= audio_tag rails_blob_path(@episode.audio, disposition: "inline"), controls: true, class: "w-full" %>
+    </div>
+  <% elsif @episode.media.attached? && @episode.media.content_type.start_with?("audio/") %>
+    <div class="mt-6">
+      <%= audio_tag rails_blob_path(@episode.media, disposition: "inline"), controls: true, class: "w-full" %>
+    </div>
+  <% end %>
+
+  <% if @episode.content&.body&.present? %>
+    <div class="mt-6 prose prose-gray max-w-none">
+      <%= @episode.content %>
+    </div>
+  <% end %>
+
+  <% if @episode.attachments.attached? %>
+    <div class="mt-10 border-t border-gray-200 pt-6">
+      <div class="text-xs font-semibold uppercase tracking-wide text-gray-500">Přílohy</div>
+      <div class="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+        <% @episode.attachments.each do |att| %>
+          <%= link_to rails_blob_path(att, disposition: "inline"),
+                      class: "group flex items-center gap-3 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 hover:border-gray-300",
+                      target: "_blank",
+                      rel: "noopener" do %>
+            <% if att.blob.content_type&.start_with?("image/") %>
+              <% thumb = (att.variant(resize_to_fill: [44, 44]).processed rescue nil) %>
+              <% if thumb %>
+                <%= image_tag thumb, class: "h-11 w-11 rounded-lg border border-gray-200 object-cover bg-white" %>
+              <% else %>
+                <div class="flex h-11 w-11 items-center justify-center rounded-lg border border-gray-200 bg-white text-[10px] font-semibold text-gray-600">IMG</div>
+              <% end %>
+            <% else %>
+              <div class="flex h-11 w-11 items-center justify-center rounded-lg border border-gray-200 bg-white text-[10px] font-semibold text-gray-600">PDF</div>
+            <% end %>
+
+            <div class="min-w-0 flex-1">
+              <div class="truncate text-sm font-medium text-gray-900 group-hover:underline"><%= att.filename.to_s %></div>
+              <div class="mt-0.5 text-xs text-gray-500"><%= number_to_human_size(att.blob.byte_size) %></div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

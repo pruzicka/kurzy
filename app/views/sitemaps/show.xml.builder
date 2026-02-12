@@ -21,6 +21,24 @@ xml.urlset xmlns: "http://www.sitemaps.org/schemas/sitemap/0.9" do
     end
   end
 
+  @authors.each do |author|
+    xml.url do
+      xml.loc author_url(author.slug)
+      xml.lastmod author.updated_at.iso8601
+      xml.changefreq "weekly"
+      xml.priority "0.7"
+    end
+  end
+
+  @subscription_plans.each do |plan|
+    xml.url do
+      xml.loc subscription_plan_url(plan.slug)
+      xml.lastmod plan.updated_at.iso8601
+      xml.changefreq "weekly"
+      xml.priority "0.8"
+    end
+  end
+
   xml.url do
     xml.loc terms_url
     xml.changefreq "monthly"

@@ -2,6 +2,8 @@ class Course < ApplicationRecord
   STATUSES = %w[draft public archived].freeze
   COURSE_TYPES = %w[online_course ebook in_person].freeze
 
+  belongs_to :author, optional: true
+
   has_many :chapters, -> { order(position: :asc) }, dependent: :destroy
   has_many :course_progresses, dependent: :destroy
   has_many :enrollments, dependent: :destroy

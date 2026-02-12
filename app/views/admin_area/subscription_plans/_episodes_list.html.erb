@@ -1,0 +1,38 @@
+<div id="episodes_list">
+  <% episodes = subscription_plan.episodes.ordered %>
+  <% if episodes.any? %>
+    <div class="mt-4 divide-y divide-gray-100">
+      <% episodes.each do |episode| %>
+        <div class="flex items-center justify-between gap-4 py-3">
+          <div class="flex items-center gap-3">
+            <span class="inline-flex h-7 w-7 items-center justify-center rounded-lg bg-gray-100 text-xs font-semibold text-gray-700"><%= episode.position %></span>
+            <div>
+              <div class="font-medium text-gray-900"><%= episode.title %></div>
+              <div class="mt-0.5 text-xs text-gray-600">
+                <% badge =
+                  case episode.status
+                  when "published" then "bg-emerald-50 text-emerald-900 border-emerald-200"
+                  else "bg-amber-50 text-amber-900 border-amber-200"
+                  end
+                %>
+                <span class="inline-flex rounded-full border px-2 py-0.5 text-[10px] font-medium <%= badge %>"><%= episode.status %></span>
+              </div>
+            </div>
+          </div>
+          <div class="flex items-center gap-1">
+            <%= button_to move_up_admin_subscription_plan_episode_path(subscription_plan, episode), method: :patch, class: "rounded-lg border border-gray-300 bg-white p-1.5 text-gray-700 hover:bg-gray-50" do %>
+              <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 15.75l7.5-7.5 7.5 7.5" /></svg>
+            <% end %>
+            <%= button_to move_down_admin_subscription_plan_episode_path(subscription_plan, episode), method: :patch, class: "rounded-lg border border-gray-300 bg-white p-1.5 text-gray-700 hover:bg-gray-50" do %>
+              <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" /></svg>
+            <% end %>
+            <%= link_to "Upravit", edit_admin_subscription_plan_episode_path(subscription_plan, episode), class: "rounded-lg border border-gray-300 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-900 hover:bg-gray-50" %>
+            <%= button_to "Smazat", admin_subscription_plan_episode_path(subscription_plan, episode), method: :delete, data: { turbo_confirm: "Smazat epizodu?" }, class: "rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1.5 text-xs font-medium text-rose-900 hover:bg-rose-100" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="mt-4 text-sm text-gray-500">Zatím žádné epizody.</p>
+  <% end %>
+</div>

@@ -37,4 +37,8 @@ class SegmentPolicy < ApplicationPolicy
   def destroy_video?
     user.is_a?(Admin)
   end
+
+  def destroy_audio?
+    user.is_a?(Admin)
+  end
 end

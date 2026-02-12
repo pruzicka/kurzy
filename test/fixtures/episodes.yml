@@ -1,0 +1,14 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  subscription_plan: one
+  title: Uvod do fitness
+  status: published
+  position: 1
+  published_at: 2026-01-15 10:00:00
+
+two:
+  subscription_plan: one
+  title: Pokrocile techniky
+  status: draft
+  position: 2

@@ -2,7 +2,7 @@ module AdminArea
   class SegmentsController < BaseController
     before_action :set_course
     before_action :set_chapter
-    before_action :set_segment, only: %i[edit update destroy move_up move_down destroy_attachment destroy_cover_image destroy_video]
+    before_action :set_segment, only: %i[edit update destroy move_up move_down destroy_attachment destroy_cover_image destroy_video destroy_audio]
     before_action :load_media_assets, only: %i[new edit create update]
 
     def new
@@ -76,6 +76,12 @@ module AdminArea
       redirect_to edit_admin_course_chapter_segment_path(@course, @chapter, @segment), notice: "Video smazáno."
     end
 
+    def destroy_audio
+      authorize @segment
+      @segment.audio.purge if @segment.audio.attached?
+      redirect_to edit_admin_course_chapter_segment_path(@course, @chapter, @segment), notice: "Audio smazáno."
+    end
+
     private
 
     def set_course
@@ -91,7 +97,7 @@ module AdminArea
     end
 
     def segment_params
-      params.require(:segment).permit(:title, :content, :video, :cover_image, :video_asset_id, :cover_asset_id, :is_free_preview, attachments: [])
+      params.require(:segment).permit(:title, :content, :video, :audio, :cover_image, :video_asset_id, :cover_asset_id, :is_free_preview, attachments: [])
     end
 
     def attach_files(segment)

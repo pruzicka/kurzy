@@ -1,0 +1,6 @@
+Dobrý den, <%= @user.name %>!
+
+Vaše předplatné <%= @plan.name %> bylo aktivováno.
+
+Nyní máte přístup ke všem epizodám:
+<%= subscription_plan_url(@plan.slug) %>

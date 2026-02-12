@@ -24,8 +24,15 @@
 
   <div class="grid grid-cols-1 gap-4 md:grid-cols-[180px_minmax(0,1fr)]">
     <div class="flex flex-col gap-2">
-      <%= f.label :status, "Stav", class: "text-sm font-medium text-gray-900" %>
-      <%= f.select :status, Course::STATUSES, {}, class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
+      <span class="text-sm font-medium text-gray-900">Stav</span>
+      <div class="flex flex-wrap gap-2">
+        <% Course::STATUSES.each do |s| %>
+          <label class="cursor-pointer">
+            <%= f.radio_button :status, s, class: "peer sr-only" %>
+            <span class="inline-flex items-center rounded-2xl border border-gray-300 bg-white px-3.5 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50 peer-checked:border-gray-900 peer-checked:bg-gray-900 peer-checked:text-white peer-checked:hover:bg-gray-800"><%= s %></span>
+          </label>
+        <% end %>
+      </div>
     </div>
     <div class="flex flex-col gap-2">
       <%= f.label :course_type, "Typ kurzu", class: "text-sm font-medium text-gray-900" %>
@@ -46,6 +53,13 @@
       <%= f.text_field :currency, class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
     </div>
   </div>
+
+  <% if Author.any? %>
+    <div class="flex flex-col gap-2">
+      <%= f.label :author_id, "Autor", class: "text-sm font-medium text-gray-900" %>
+      <%= f.collection_select :author_id, Author.order(:last_name, :first_name), :id, :name, { include_blank: "— bez autora —" }, class: "w-full rounded-2xl border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 shadow-sm outline-none focus:border-gray-900 focus:ring-2 focus:ring-gray-900/15" %>
+    </div>
+  <% end %>
 
   <% if Tag.any? %>
     <div class="flex flex-col gap-2">

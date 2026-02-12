@@ -1,0 +1,7 @@
+<p>Dobrý den, <%= @user.name %>!</p>
+
+<p>Vaše předplatné <strong><%= @plan.name %></strong> bylo aktivováno.</p>
+
+<p>Nyní máte přístup ke všem epizodám.</p>
+
+<p><a href="<%= subscription_plan_url(@plan.slug) %>" class="btn">Zobrazit předplatné</a></p>

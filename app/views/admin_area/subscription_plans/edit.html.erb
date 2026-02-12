@@ -1,0 +1,16 @@
+<div class="flex items-end justify-between gap-4">
+  <div class="flex flex-col gap-1">
+    <h1 class="text-3xl font-semibold tracking-tight text-gray-900">Upravit předplatné</h1>
+    <p class="text-sm text-gray-600"><%= @subscription_plan.name %></p>
+    <% if @subscription_plan.status == "public" %>
+      <div class="mt-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-900">
+        Předplatné je veřejné. Změny se projeví okamžitě.
+      </div>
+    <% end %>
+  </div>
+  <%= link_to "Detail", admin_subscription_plan_path(@subscription_plan), class: "inline-flex items-center justify-center rounded-2xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+</div>
+
+<div class="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
+  <%= render "form", subscription_plan: @subscription_plan %>
+</div>

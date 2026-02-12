@@ -1,0 +1,63 @@
+<div class="flex flex-col gap-6">
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div class="flex flex-col gap-1">
+      <h1 class="text-3xl font-semibold tracking-tight text-gray-900"><%= @author.name %></h1>
+      <div class="text-sm text-gray-600">
+        <span class="font-medium">Slug:</span> <%= @author.slug %>
+        <% if @author.email.present? %>
+          <span class="mx-2 text-gray-300">/</span>
+          <span class="font-medium">Email:</span> <%= @author.email %>
+        <% end %>
+      </div>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <%= link_to "Veřejný profil", author_path(@author.slug), class: "rounded-2xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-black", target: "_blank", rel: "noopener" %>
+      <%= link_to "Upravit", edit_admin_author_path(@author), class: "rounded-2xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+      <%= link_to "Zpět na seznam", admin_authors_path, class: "rounded-2xl border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 gap-6 lg:grid-cols-3">
+    <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm lg:col-span-1">
+      <% if @author.profile_image.attached? %>
+        <% thumb = (@author.profile_image.variant(resize_to_fill: [400, 400]).processed rescue nil) %>
+        <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+          <% if thumb %>
+            <%= image_tag thumb, class: "h-44 w-full object-cover" %>
+          <% else %>
+            <%= image_tag rails_blob_path(@author.profile_image, disposition: "inline"), class: "h-44 w-full object-cover" %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <h2 class="mt-4 text-lg font-semibold tracking-tight text-gray-900">Bio</h2>
+      <div class="mt-3 text-sm text-gray-700">
+        <% if @author.bio&.body&.present? %>
+          <%= @author.bio %>
+        <% else %>
+          <span class="text-gray-500">Bez bio.</span>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm lg:col-span-2">
+      <h2 class="text-lg font-semibold tracking-tight text-gray-900">Kurzy</h2>
+      <% courses = @author.courses.order(created_at: :desc) %>
+      <% if courses.any? %>
+        <div class="mt-4 divide-y divide-gray-100">
+          <% courses.each do |course| %>
+            <div class="flex items-center justify-between gap-4 py-3">
+              <div>
+                <div class="font-medium text-gray-900"><%= course.name %></div>
+                <div class="text-xs text-gray-600"><%= course.status %></div>
+              </div>
+              <%= link_to "Detail", admin_course_path(course), class: "rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="mt-4 text-sm text-gray-500">Žádné kurzy.</p>
+      <% end %>
+    </div>
+  </div>
+</div>

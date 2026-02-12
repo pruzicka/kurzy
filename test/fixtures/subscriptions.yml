@@ -1,0 +1,21 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+active_subscription:
+  user: one
+  subscription_plan: one
+  stripe_subscription_id: sub_test_123
+  status: active
+  interval: month
+  current_period_start: 2026-01-01 00:00:00
+  current_period_end: 2026-02-01 00:00:00
+  cancel_at_period_end: false
+
+canceled_subscription:
+  user: two
+  subscription_plan: one
+  stripe_subscription_id: sub_test_456
+  status: canceled
+  interval: month
+  current_period_start: 2025-12-01 00:00:00
+  current_period_end: 2026-01-01 00:00:00
+  cancel_at_period_end: false

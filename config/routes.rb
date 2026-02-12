@@ -43,6 +43,16 @@ Rails.application.routes.draw do
 
   post "/webhooks/stripe", to: "stripe_webhooks#create"
 
+  resources :authors, only: [:index], path: "autori"
+  get "/autori/:slug", to: "authors#show", as: :author
+
+  resources :subscription_plans, only: [:index], path: "predplatne"
+  get "/predplatne/:slug", to: "subscription_plans#show", as: :subscription_plan
+  get "/predplatne/:subscription_plan_slug/epizody/:id", to: "episodes#show", as: :subscription_plan_episode
+
+  resources :subscription_checkouts, only: [:create], path: "predplatne-checkout"
+  get "/predplatne-checkout/success", to: "subscription_checkouts#success", as: :subscription_checkout_success
+
   resources :courses, only: %i[index show] do
     resources :chapters, only: [] do
       resources :segments, only: %i[show] do
@@ -65,6 +75,12 @@ Rails.application.routes.draw do
   namespace :user, path: "user", module: "user_area" do
     root "dashboard#show"
     resource :settings, only: %i[edit update destroy]
+    resources :subscriptions, only: [:index] do
+      member do
+        patch :cancel
+        patch :resume
+      end
+    end
     resources :oauth_identities, only: [:destroy]
     resources :user_sessions, only: [:destroy], path: "sessions" do
       delete :destroy_all_other, on: :collection, path: "other"
@@ -90,6 +106,30 @@ Rails.application.routes.draw do
       end
     end
 
+    resources :authors do
+      member do
+        delete :profile_image, action: :destroy_profile_image
+      end
+    end
+
+    resources :subscription_plans do
+      member do
+        delete :cover_image, action: :destroy_cover_image
+      end
+
+      resources :episodes, only: %i[new create edit update destroy] do
+        member do
+          patch :move_up
+          patch :move_down
+          delete "cover_image", action: :destroy_cover_image, as: :destroy_cover_image
+          delete "media", action: :destroy_media, as: :destroy_media
+          delete "video", action: :destroy_video, as: :destroy_video
+          delete "audio", action: :destroy_audio, as: :destroy_audio
+          delete "attachments/:attachment_id", action: :destroy_attachment, as: :destroy_attachment
+        end
+      end
+    end
+
     resources :courses do
       member do
         delete :cover_image, action: :destroy_cover_image
@@ -108,6 +148,7 @@ Rails.application.routes.draw do
             delete "attachments/:attachment_id", action: :destroy_attachment, as: :destroy_attachment
             delete "cover_image", action: :destroy_cover_image, as: :destroy_cover_image
             delete "video", action: :destroy_video, as: :destroy_video
+            delete "audio", action: :destroy_audio, as: :destroy_audio
           end
         end
       end

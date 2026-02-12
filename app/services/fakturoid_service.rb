@@ -93,11 +93,17 @@ class FakturoidService
   def build_lines
     precision = @order.currency_precision
 
-    lines = @order.order_items.includes(:course).map do |item|
+    lines = @order.order_items.includes(:course, :subscription_plan).map do |item|
       unit_price = precision.zero? ? item.unit_amount : item.unit_amount / 100.0
 
+      line_name = if item.subscription_plan.present?
+                    "Předplatné - #{item.display_name}"
+                  else
+                    "#{item.course.course_type_label} - #{item.display_name}"
+                  end
+
       {
-        name: "#{item.course.course_type_label} - #{item.display_name}",
+        name: line_name,
         quantity: item.quantity,
         unit_price: unit_price,
         vat_rate: 0
@@ -121,11 +127,17 @@ class FakturoidService
   def build_correction_lines
     precision = @order.currency_precision
 
-    lines = @order.order_items.includes(:course).map do |item|
+    lines = @order.order_items.includes(:course, :subscription_plan).map do |item|
       unit_price = precision.zero? ? item.unit_amount : item.unit_amount / 100.0
 
+      line_name = if item.subscription_plan.present?
+                    "Předplatné - #{item.display_name}"
+                  else
+                    "#{item.course.course_type_label} - #{item.display_name}"
+                  end
+
       {
-        name: "#{item.course.course_type_label} - #{item.display_name}",
+        name: line_name,
         quantity: item.quantity,
         unit_price: -unit_price,
         vat_rate: 0

@@ -5,6 +5,11 @@ class StripeWebhooksController < ActionController::Base
     checkout.session.completed
     checkout.session.expired
     charge.refunded
+    customer.subscription.created
+    customer.subscription.updated
+    customer.subscription.deleted
+    invoice.paid
+    invoice.payment_failed
   ].freeze
 
   def create

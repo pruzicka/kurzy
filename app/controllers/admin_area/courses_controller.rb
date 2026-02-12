@@ -58,7 +58,7 @@ module AdminArea
     end
 
     def course_params
-      params.require(:course).permit(:name, :description, :status, :course_type, :price, :currency, :slug, :cover_image, tag_ids: [])
+      params.require(:course).permit(:name, :description, :status, :course_type, :price, :currency, :slug, :cover_image, :author_id, tag_ids: [])
     end
   end
 end

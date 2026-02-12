@@ -5,6 +5,8 @@ class SitemapsController < ApplicationController
     expires_in 1.hour, public: true
 
     @courses = Course.publicly_visible.order(updated_at: :desc)
+    @authors = Author.joins(:courses).where(courses: { status: "public" }).distinct.order(updated_at: :desc)
+    @subscription_plans = SubscriptionPlan.publicly_visible.order(updated_at: :desc)
 
     respond_to do |format|
       format.xml

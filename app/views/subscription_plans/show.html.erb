@@ -1,0 +1,60 @@
+<% content_for :title, @subscription_plan.name %>
+
+<div class="w-full">
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+    <div>
+      <h1 class="text-3xl font-semibold tracking-tight"><%= @subscription_plan.name %></h1>
+      <p class="mt-1 text-sm text-gray-600">od <%= link_to @subscription_plan.author.name, author_path(@subscription_plan.author.slug), class: "font-medium text-gray-900 hover:underline" %></p>
+    </div>
+    <div class="flex flex-col items-end gap-2">
+      <div class="text-right">
+        <div class="text-2xl font-semibold tracking-tight"><%= number_to_currency(@subscription_plan.monthly_price, unit: @subscription_plan.currency, precision: 0) %><span class="text-sm font-normal text-gray-500">/měs</span></div>
+        <% if @subscription_plan.annual_discount_percent.positive? %>
+          <div class="text-sm text-gray-600">nebo <%= number_to_currency(@subscription_plan.annual_price, unit: @subscription_plan.currency, precision: 0) %>/rok (sleva <%= @subscription_plan.annual_discount_percent %>%)</div>
+        <% end %>
+      </div>
+      <% if @subscribed %>
+        <span class="inline-flex items-center justify-center rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-900">Předplatné aktivní</span>
+      <% elsif user_signed_in? %>
+        <%= button_to "Předplatit měsíčně", subscription_checkouts_path(subscription_plan_slug: @subscription_plan.slug, interval: "month"), method: :post, data: { turbo: false }, class: "inline-flex items-center justify-center rounded-2xl bg-gray-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-black" %>
+        <% if @subscription_plan.annual_discount_percent.positive? %>
+          <%= button_to "Předplatit ročně", subscription_checkouts_path(subscription_plan_slug: @subscription_plan.slug, interval: "year"), method: :post, data: { turbo: false }, class: "inline-flex items-center justify-center rounded-2xl border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
+        <% end %>
+      <% else %>
+        <%= link_to "Přihlásit se pro předplatné", login_path, class: "inline-flex items-center justify-center rounded-2xl bg-gray-900 px-5 py-2.5 text-sm font-medium text-white hover:bg-black" %>
+      <% end %>
+    </div>
+  </div>
+
+  <% if @subscription_plan.description&.body&.present? %>
+    <div class="mt-6 prose prose-gray max-w-none">
+      <%= @subscription_plan.description %>
+    </div>
+  <% end %>
+
+  <% if @episodes.any? %>
+    <h2 class="mt-10 text-2xl font-semibold tracking-tight">Epizody</h2>
+    <div class="mt-4 divide-y divide-gray-200 rounded-2xl border border-gray-200 bg-white shadow-sm">
+      <% @episodes.each do |episode| %>
+        <div class="flex items-center justify-between gap-4 px-6 py-4">
+          <div class="flex items-center gap-3">
+            <span class="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 text-sm font-semibold text-gray-700"><%= episode.position %></span>
+            <div>
+              <% if @subscribed %>
+                <%= link_to episode.title, subscription_plan_episode_path(@subscription_plan.slug, episode), class: "font-medium text-gray-900 hover:underline" %>
+              <% else %>
+                <span class="font-medium text-gray-900"><%= episode.title %></span>
+              <% end %>
+              <% if episode.published_at.present? %>
+                <div class="text-xs text-gray-500"><%= l(episode.published_at.to_date, format: :long) rescue episode.published_at.strftime("%d.%m.%Y") %></div>
+              <% end %>
+            </div>
+          </div>
+          <% unless @subscribed %>
+            <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
