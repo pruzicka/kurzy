@@ -2,6 +2,7 @@ class Segment < ApplicationRecord
   belongs_to :chapter
   belongs_to :video_asset, class_name: "MediaAsset", optional: true
   belongs_to :cover_asset, class_name: "MediaAsset", optional: true
+  belongs_to :audio_asset, class_name: "MediaAsset", optional: true
   has_many :segment_completions, dependent: :destroy
 
   has_rich_text :content
@@ -50,6 +51,7 @@ class Segment < ApplicationRecord
   validate :audio_must_be_under_size_limit
   validate :video_asset_must_be_video
   validate :cover_asset_must_be_image
+  validate :audio_asset_must_be_audio
 
   def move_up!
     neighbor = chapter.segments.where("position < ?", position).order(position: :desc).first
@@ -167,5 +169,12 @@ class Segment < ApplicationRecord
     return if cover_asset.image?
 
     errors.add(:cover_asset, "musi byt obrazek")
+  end
+
+  def audio_asset_must_be_audio
+    return if audio_asset.blank?
+    return if audio_asset.audio?
+
+    errors.add(:audio_asset, "musi byt audio")
   end
 end

@@ -4,7 +4,7 @@ module AdminArea
 
     def index
       authorize MediaAsset
-      @media_assets = MediaAsset.includes(video_segments: { chapter: :course }, cover_segments: { chapter: :course }).order(created_at: :desc)
+      @media_assets = MediaAsset.includes(video_segments: { chapter: :course }, cover_segments: { chapter: :course }, audio_segments: { chapter: :course }, audio_episodes: :subscription_plan).order(created_at: :desc)
     end
 
     def new

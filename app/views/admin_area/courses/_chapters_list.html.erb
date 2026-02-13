@@ -64,6 +64,15 @@
                           </svg>
                         </span>
                       <% end %>
+                      <% if segment.audio.attached? || segment.audio_asset.present? %>
+                        <span class="inline-flex items-center" title="Má audio">
+                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-4 w-4 text-gray-400" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 9l10.5-3v13.5" />
+                            <circle cx="6.75" cy="17.25" r="2.25" />
+                            <circle cx="17.25" cy="15.75" r="2.25" />
+                          </svg>
+                        </span>
+                      <% end %>
                     </div>
                     <div class="flex flex-wrap items-center gap-2">
                       <div class="flex items-center gap-0.5">

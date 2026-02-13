@@ -1,0 +1,34 @@
+<div data-controller="audio-player" class="rounded-2xl bg-gray-100 px-4 py-3 ring-1 ring-gray-200" oncontextmenu="return false">
+  <audio data-audio-player-target="audio" preload="metadata" src="<%= rails_blob_path(audio_blob, disposition: "inline") %>"></audio>
+
+  <div class="flex flex-wrap items-center gap-3">
+    <%# Skip back %>
+    <button type="button" data-action="audio-player#skip" data-audio-player-seconds-param="-15" class="text-xs font-semibold tabular-nums text-gray-500 hover:text-gray-900" aria-label="Přetočit o 15 s zpět">
+      -15
+    </button>
+
+    <%# Play / Pause %>
+    <button type="button" data-action="audio-player#toggle" data-audio-player-target="playBtn" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gray-900 text-white hover:bg-gray-700" aria-label="Přehrát / Pozastavit">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6"><path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd" /></svg>
+    </button>
+
+    <%# Skip forward %>
+    <button type="button" data-action="audio-player#skip" data-audio-player-seconds-param="15" class="text-xs font-semibold tabular-nums text-gray-500 hover:text-gray-900" aria-label="Přetočit o 15 s vpřed">
+      +15
+    </button>
+
+    <%# Time %>
+    <span class="text-xs tabular-nums text-gray-500">
+      <span data-audio-player-target="currentTime">0:00</span>
+      /
+      <span data-audio-player-target="duration">0:00</span>
+    </span>
+
+    <%# Progress bar — full width row on mobile, inline on desktop %>
+    <div data-audio-player-target="progressBar" data-action="click->audio-player#seek" class="relative w-full cursor-pointer py-2 sm:w-auto sm:flex-1">
+      <div class="h-1.5 rounded-full bg-gray-300">
+        <div data-audio-player-target="progress" class="h-1.5 rounded-full bg-gray-900" style="width: 0%"></div>
+      </div>
+    </div>
+  </div>
+</div>

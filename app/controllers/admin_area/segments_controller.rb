@@ -97,7 +97,7 @@ module AdminArea
     end
 
     def segment_params
-      params.require(:segment).permit(:title, :content, :video, :audio, :cover_image, :video_asset_id, :cover_asset_id, :is_free_preview, attachments: [])
+      params.require(:segment).permit(:title, :content, :video, :audio, :cover_image, :video_asset_id, :cover_asset_id, :audio_asset_id, :is_free_preview, attachments: [])
     end
 
     def attach_files(segment)
@@ -108,6 +108,7 @@ module AdminArea
     def load_media_assets
       @video_assets = MediaAsset.where(media_type: "video").order(created_at: :desc)
       @image_assets = MediaAsset.where(media_type: "image").order(created_at: :desc)
+      @audio_assets = MediaAsset.where(media_type: "audio").order(created_at: :desc)
     end
 
     def respond_to_reorder
@@ -130,6 +131,13 @@ module AdminArea
         if segment.cover_asset.blank? || segment.cover_asset.file.blob_id != segment.cover_image.blob_id
           asset = MediaAsset.create!(title: segment.cover_image.filename.to_s, media_type: "image", file: segment.cover_image.blob)
           segment.update_column(:cover_asset_id, asset.id)
+        end
+      end
+
+      if segment.audio.attached?
+        if segment.audio_asset.blank? || segment.audio_asset.file.blob_id != segment.audio.blob_id
+          asset = MediaAsset.create!(title: segment.audio.filename.to_s, media_type: "audio", file: segment.audio.blob)
+          segment.update_column(:audio_asset_id, asset.id)
         end
       end
     end

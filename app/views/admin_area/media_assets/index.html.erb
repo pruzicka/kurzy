@@ -1,7 +1,7 @@
 <div class="flex items-end justify-between gap-4">
   <div class="flex flex-col gap-1">
     <h1 class="text-3xl font-semibold tracking-tight text-gray-900">Knihovna médií</h1>
-    <p class="text-sm text-gray-600">Videa a obrázky pro opětovné použití.</p>
+    <p class="text-sm text-gray-600">Videa, audio a obrázky pro opětovné použití.</p>
   </div>
   <%= link_to "Nahrát média", new_admin_media_asset_path, class: "inline-flex items-center justify-center rounded-2xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-black" %>
 </div>
@@ -35,6 +35,8 @@
                   <% else %>
                     <div class="flex h-9 w-16 items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50 text-[10px] font-semibold text-gray-500">VIDEO</div>
                   <% end %>
+                <% elsif asset.audio? %>
+                  <div class="flex h-9 w-16 items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50 text-[10px] font-semibold text-gray-500">MP3</div>
                 <% else %>
                   <div class="flex h-9 w-16 items-center justify-center rounded-xl border border-dashed border-gray-300 bg-gray-50 text-[10px] font-semibold text-gray-500">MEDIA</div>
                 <% end %>
@@ -53,7 +55,7 @@
           </div>
 
           <div class="col-span-2">
-            <span class="inline-flex rounded-full border px-2.5 py-1 text-xs font-medium <%= asset.video? ? "bg-indigo-50 text-indigo-900 border-indigo-200" : "bg-emerald-50 text-emerald-900 border-emerald-200" %>">
+            <span class="inline-flex rounded-full border px-2.5 py-1 text-xs font-medium <%= asset.video? ? "bg-indigo-50 text-indigo-900 border-indigo-200" : asset.audio? ? "bg-amber-50 text-amber-900 border-amber-200" : "bg-emerald-50 text-emerald-900 border-emerald-200" %>">
               <%= asset.media_type %>
             </span>
           </div>
@@ -66,6 +68,23 @@
             <%= link_to "Upravit", edit_admin_media_asset_path(asset), class: "rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-50" %>
             <%= button_to "Smazat", admin_media_asset_path(asset), method: :delete, data: { turbo_confirm: "Smazat media?" }, class: "rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-medium text-rose-900 hover:bg-rose-100" %>
           </div>
+
+          <% if asset.file.attached? %>
+            <div class="col-span-12 mt-3">
+              <details>
+                <summary class="cursor-pointer text-xs font-medium text-gray-500 hover:text-gray-900">Náhled</summary>
+                <div class="mt-2">
+                  <% if asset.image? %>
+                    <%= image_tag rails_blob_path(asset.file, disposition: "inline"), class: "max-h-64 rounded-xl border border-gray-200 object-contain bg-white" %>
+                  <% elsif asset.video? %>
+                    <%= video_tag rails_blob_path(asset.file, disposition: "inline"), controls: true, preload: "metadata", class: "max-h-64 rounded-xl bg-black" %>
+                  <% elsif asset.audio? %>
+                    <audio controls preload="metadata" src="<%= rails_blob_path(asset.file, disposition: "inline") %>" class="w-full max-w-md"></audio>
+                  <% end %>
+                </div>
+              </details>
+            </div>
+          <% end %>
 
           <% if asset.usage_count.positive? %>
             <div class="col-span-12 mt-3 rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-xs text-gray-700">
@@ -80,6 +99,17 @@
                       </div>
                     </div>
                     <%= link_to "Segment", edit_admin_course_chapter_segment_path(segment.chapter.course, segment.chapter, segment), class: "shrink-0 rounded-lg border border-gray-300 bg-white px-2.5 py-1 text-[11px] font-medium text-gray-900 hover:bg-gray-50" %>
+                  </div>
+                <% end %>
+                <% asset.usage_episodes.each do |episode| %>
+                  <div class="flex items-center justify-between gap-3 rounded-lg border border-gray-200 bg-white px-3 py-2">
+                    <div class="min-w-0">
+                      <div class="truncate font-medium text-gray-900"><%= episode.title %></div>
+                      <div class="mt-0.5 truncate text-[11px] text-gray-600">
+                        <%= episode.subscription_plan.name %>
+                      </div>
+                    </div>
+                    <%= link_to "Epizoda", edit_admin_subscription_plan_episode_path(episode.subscription_plan, episode), class: "shrink-0 rounded-lg border border-gray-300 bg-white px-2.5 py-1 text-[11px] font-medium text-gray-900 hover:bg-gray-50" %>
                   </div>
                 <% end %>
               </div>

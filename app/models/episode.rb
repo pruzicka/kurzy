@@ -2,6 +2,9 @@ class Episode < ApplicationRecord
   STATUSES = %w[draft published].freeze
 
   belongs_to :subscription_plan
+  belongs_to :video_asset, class_name: "MediaAsset", optional: true
+  belongs_to :cover_asset, class_name: "MediaAsset", optional: true
+  belongs_to :audio_asset, class_name: "MediaAsset", optional: true
 
   has_rich_text :content
   has_one_attached :cover_image
@@ -54,11 +57,34 @@ class Episode < ApplicationRecord
   validate :audio_must_be_under_size_limit
   validate :attachments_must_be_pdf_or_image
   validate :attachments_must_be_under_size_limit
+  validate :video_asset_must_be_video
+  validate :cover_asset_must_be_image
+  validate :audio_asset_must_be_audio
 
   before_validation :assign_position, on: :create
 
   scope :published, -> { where(status: "published") }
   scope :ordered, -> { order(position: :asc) }
+
+  def effective_video_blob
+    video_asset&.file&.blob || video&.blob
+  end
+
+  def effective_cover_blob
+    cover_asset&.file&.blob || cover_image&.blob
+  end
+
+  def effective_audio_blob
+    audio_asset&.file&.blob || audio&.blob
+  end
+
+  def video_attached?
+    effective_video_blob.present?
+  end
+
+  def audio_attached?
+    effective_audio_blob.present?
+  end
 
   def move_up!
     neighbor = subscription_plan.episodes.where("position < ?", position).order(position: :desc).first
@@ -169,5 +195,26 @@ class Episode < ApplicationRecord
 
       errors.add(:attachments, "#{att.filename}: maximalne 10 MB na soubor")
     end
+  end
+
+  def video_asset_must_be_video
+    return if video_asset.blank?
+    return if video_asset.video?
+
+    errors.add(:video_asset, "musi byt video")
+  end
+
+  def cover_asset_must_be_image
+    return if cover_asset.blank?
+    return if cover_asset.image?
+
+    errors.add(:cover_asset, "musi byt obrazek")
+  end
+
+  def audio_asset_must_be_audio
+    return if audio_asset.blank?
+    return if audio_asset.audio?
+
+    errors.add(:audio_asset, "musi byt audio")
   end
 end

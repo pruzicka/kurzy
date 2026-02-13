@@ -2,6 +2,7 @@ module AdminArea
   class EpisodesController < BaseController
     before_action :set_subscription_plan
     before_action :set_episode, only: %i[edit update destroy move_up move_down destroy_cover_image destroy_media destroy_video destroy_audio destroy_attachment]
+    before_action :load_media_assets, only: %i[new edit create update]
 
     def new
       @episode = @subscription_plan.episodes.new
@@ -13,6 +14,7 @@ module AdminArea
       authorize @episode
       attach_files(@episode)
       if @episode.save
+        sync_media_library!(@episode)
         redirect_to admin_subscription_plan_path(@subscription_plan), notice: "Epizoda vytvořena."
       else
         render :new, status: :unprocessable_entity
@@ -29,6 +31,7 @@ module AdminArea
       attach_files(@episode)
 
       if @episode.save
+        sync_media_library!(@episode)
         redirect_to admin_subscription_plan_path(@subscription_plan), notice: "Epizoda upravena."
       else
         render :edit, status: :unprocessable_entity
@@ -95,12 +98,41 @@ module AdminArea
     end
 
     def episode_params
-      params.require(:episode).permit(:title, :status, :content, :cover_image, :media, :video, :audio, :published_at, attachments: [])
+      params.require(:episode).permit(:title, :status, :content, :cover_image, :media, :video, :audio, :video_asset_id, :cover_asset_id, :audio_asset_id, :published_at, attachments: [])
     end
 
     def attach_files(episode)
       new_files = Array(episode_params[:attachments]).reject(&:blank?)
       episode.attachments.attach(new_files) if new_files.any?
+    end
+
+    def load_media_assets
+      @video_assets = MediaAsset.where(media_type: "video").order(created_at: :desc)
+      @image_assets = MediaAsset.where(media_type: "image").order(created_at: :desc)
+      @audio_assets = MediaAsset.where(media_type: "audio").order(created_at: :desc)
+    end
+
+    def sync_media_library!(episode)
+      if episode.video.attached?
+        if episode.video_asset.blank? || episode.video_asset.file.blob_id != episode.video.blob_id
+          asset = MediaAsset.create!(title: episode.video.filename.to_s, media_type: "video", file: episode.video.blob)
+          episode.update_column(:video_asset_id, asset.id)
+        end
+      end
+
+      if episode.cover_image.attached?
+        if episode.cover_asset.blank? || episode.cover_asset.file.blob_id != episode.cover_image.blob_id
+          asset = MediaAsset.create!(title: episode.cover_image.filename.to_s, media_type: "image", file: episode.cover_image.blob)
+          episode.update_column(:cover_asset_id, asset.id)
+        end
+      end
+
+      if episode.audio.attached?
+        if episode.audio_asset.blank? || episode.audio_asset.file.blob_id != episode.audio.blob_id
+          asset = MediaAsset.create!(title: episode.audio.filename.to_s, media_type: "audio", file: episode.audio.blob)
+          episode.update_column(:audio_asset_id, asset.id)
+        end
+      end
     end
 
     def respond_to_reorder

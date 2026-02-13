@@ -10,9 +10,9 @@
     <p class="mt-1 text-sm text-gray-500"><%= l(@episode.published_at.to_date, format: :long) rescue @episode.published_at.strftime("%d.%m.%Y") %></p>
   <% end %>
 
-  <% if @episode.video.attached? %>
+  <% if @episode.video_attached? %>
     <div class="mt-6">
-      <%= video_tag rails_blob_path(@episode.video, disposition: "inline"), controls: true, playsinline: true, preload: "metadata", class: "w-full overflow-hidden rounded-2xl bg-black shadow-sm ring-1 ring-gray-200" %>
+      <%= video_tag rails_blob_path(@episode.effective_video_blob, disposition: "inline"), controls: true, playsinline: true, preload: "metadata", class: "w-full overflow-hidden rounded-2xl bg-black shadow-sm ring-1 ring-gray-200" %>
     </div>
   <% elsif @episode.media.attached? && @episode.media.content_type.start_with?("video/") %>
     <div class="mt-6">
@@ -20,13 +20,13 @@
     </div>
   <% end %>
 
-  <% if @episode.audio.attached? %>
+  <% if @episode.audio_attached? %>
     <div class="mt-6">
-      <%= audio_tag rails_blob_path(@episode.audio, disposition: "inline"), controls: true, class: "w-full" %>
+      <%= render "episodes/audio_player", audio_blob: @episode.effective_audio_blob %>
     </div>
   <% elsif @episode.media.attached? && @episode.media.content_type.start_with?("audio/") %>
     <div class="mt-6">
-      <%= audio_tag rails_blob_path(@episode.media, disposition: "inline"), controls: true, class: "w-full" %>
+      <%= render "episodes/audio_player", audio_blob: @episode.media %>
     </div>
   <% end %>
 

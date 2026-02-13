@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_12_141203) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_13_161759) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -215,6 +215,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_141203) do
   end
 
   create_table "episodes", force: :cascade do |t|
+    t.bigint "audio_asset_id"
+    t.bigint "cover_asset_id"
     t.datetime "created_at", null: false
     t.integer "position", null: false
     t.datetime "published_at"
@@ -222,8 +224,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_141203) do
     t.bigint "subscription_plan_id", null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
+    t.bigint "video_asset_id"
+    t.index ["audio_asset_id"], name: "index_episodes_on_audio_asset_id"
+    t.index ["cover_asset_id"], name: "index_episodes_on_cover_asset_id"
     t.index ["subscription_plan_id", "position"], name: "index_episodes_on_subscription_plan_id_and_position", unique: true
     t.index ["subscription_plan_id"], name: "index_episodes_on_subscription_plan_id"
+    t.index ["video_asset_id"], name: "index_episodes_on_video_asset_id"
   end
 
   create_table "good_job_batches", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -404,6 +410,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_141203) do
   end
 
   create_table "segments", force: :cascade do |t|
+    t.bigint "audio_asset_id"
     t.integer "chapter_id", null: false
     t.text "content"
     t.integer "cover_asset_id"
@@ -413,6 +420,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_141203) do
     t.string "title", null: false
     t.datetime "updated_at", null: false
     t.integer "video_asset_id"
+    t.index ["audio_asset_id"], name: "index_segments_on_audio_asset_id"
     t.index ["chapter_id", "position"], name: "index_segments_on_chapter_id_and_position", unique: true
     t.index ["chapter_id"], name: "index_segments_on_chapter_id"
     t.index ["cover_asset_id"], name: "index_segments_on_cover_asset_id"
@@ -518,6 +526,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_141203) do
   add_foreign_key "enrollments", "courses"
   add_foreign_key "enrollments", "orders"
   add_foreign_key "enrollments", "users"
+  add_foreign_key "episodes", "media_assets", column: "audio_asset_id"
   add_foreign_key "episodes", "subscription_plans"
   add_foreign_key "oauth_identities", "users"
   add_foreign_key "order_items", "courses"
@@ -529,6 +538,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_141203) do
   add_foreign_key "segment_completions", "segments"
   add_foreign_key "segment_completions", "users"
   add_foreign_key "segments", "chapters"
+  add_foreign_key "segments", "media_assets", column: "audio_asset_id"
   add_foreign_key "segments", "media_assets", column: "cover_asset_id"
   add_foreign_key "segments", "media_assets", column: "video_asset_id"
   add_foreign_key "subscription_plans", "authors"
