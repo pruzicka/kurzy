@@ -11,7 +11,7 @@ Rails.application.configure do
     policy.style_src   :self, :https, :unsafe_inline
     policy.frame_src   "https://checkout.stripe.com", "https://js.stripe.com"
     policy.connect_src :self, "https://api.stripe.com", :https
-    policy.form_action :self, "https://checkout.stripe.com"
+    policy.form_action :self, "https://checkout.stripe.com", "https://accounts.google.com"
     policy.frame_ancestors :none
     policy.base_uri    :self
   end
