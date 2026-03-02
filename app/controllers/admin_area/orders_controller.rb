@@ -28,7 +28,7 @@ module AdminArea
       end
 
       scope = scope.order("#{helpers.orders_sort_column} #{helpers.orders_sort_direction}")
-      @pagy, @orders = pagy(scope, items: 15)
+      @pagy, @orders = pagy(scope, limit: 15)
     end
 
     def show
