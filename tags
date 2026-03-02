@@ -5,6 +5,7 @@
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
 ActiveSupport	test/test_helper.rb	/^module ActiveSupport$/;"	m
+AddAudioAssetToSegmentsAndEpisodes	db/migrate/20260213160220_add_audio_asset_to_segments_and_episodes.rb	/^class AddAudioAssetToSegmentsAndEpisodes < ActiveRecord::Migration[8.1]$/;"	c
 AddAuthorToCourses	db/migrate/20260212135647_add_author_to_courses.rb	/^class AddAuthorToCourses < ActiveRecord::Migration[8.1]$/;"	c
 AddBillingFieldsToUsers	db/migrate/20260211102151_add_billing_fields_to_users.rb	/^class AddBillingFieldsToUsers < ActiveRecord::Migration[8.1]$/;"	c
 AddCouponsAndDiscounting	db/migrate/20260209162000_add_coupons_and_discounting.rb	/^class AddCouponsAndDiscounting < ActiveRecord::Migration[8.1]$/;"	c
@@ -24,6 +25,7 @@ AddTitleSnapshotToOrderItems	db/migrate/20260210180004_add_title_snapshot_to_ord
 AddTwoFactorToAdmins	db/migrate/20260211202250_add_two_factor_to_admins.rb	/^class AddTwoFactorToAdmins < ActiveRecord::Migration[8.1]$/;"	c
 AddUsernameToAdmins	db/migrate/20260208153221_add_username_to_admins.rb	/^class AddUsernameToAdmins < ActiveRecord::Migration[8.1]$/;"	c
 AddUsernameToUsers	db/migrate/20260209152236_add_username_to_users.rb	/^class AddUsernameToUsers < ActiveRecord::Migration[8.1]$/;"	c
+AddVideoAndCoverAssetToEpisodes	db/migrate/20260213161759_add_video_and_cover_asset_to_episodes.rb	/^class AddVideoAndCoverAssetToEpisodes < ActiveRecord::Migration[8.1]$/;"	c
 Admin	app/models/admin.rb	/^class Admin < ApplicationRecord$/;"	c
 AdminArea	app/controllers/admin_area/authors_controller.rb	/^module AdminArea$/;"	m
 AdminArea	app/controllers/admin_area/base_controller.rb	/^module AdminArea$/;"	m
@@ -264,6 +266,10 @@ attachments_must_be_pdf_or_image	app/models/episode.rb	/^  def attachments_must_
 attachments_must_be_pdf_or_image	app/models/segment.rb	/^  def attachments_must_be_pdf_or_image$/;"	f	class:Segment
 attachments_must_be_under_size_limit	app/models/episode.rb	/^  def attachments_must_be_under_size_limit$/;"	f	class:Episode
 attachments_must_be_under_size_limit	app/models/segment.rb	/^  def attachments_must_be_under_size_limit$/;"	f	class:Segment
+audio?	app/models/media_asset.rb	/^  def audio?$/;"	f	class:MediaAsset
+audio_asset_must_be_audio	app/models/episode.rb	/^  def audio_asset_must_be_audio$/;"	f	class:Episode
+audio_asset_must_be_audio	app/models/segment.rb	/^  def audio_asset_must_be_audio$/;"	f	class:Segment
+audio_attached?	app/models/episode.rb	/^  def audio_attached?$/;"	f	class:Episode
 audio_must_be_mp3	app/models/episode.rb	/^  def audio_must_be_mp3$/;"	f	class:Episode
 audio_must_be_mp3	app/models/segment.rb	/^  def audio_must_be_mp3$/;"	f	class:Segment
 audio_must_be_under_size_limit	app/models/episode.rb	/^  def audio_must_be_under_size_limit$/;"	f	class:Episode
@@ -343,6 +349,8 @@ change	db/migrate/20260212140108_create_episodes.rb	/^  def change$/;"	f	class:C
 change	db/migrate/20260212141131_create_subscriptions.rb	/^  def change$/;"	f	class:CreateSubscriptions
 change	db/migrate/20260212141151_add_subscription_fields_to_orders.rb	/^  def change$/;"	f	class:AddSubscriptionFieldsToOrders
 change	db/migrate/20260212141203_add_subscription_plan_to_order_items.rb	/^  def change$/;"	f	class:AddSubscriptionPlanToOrderItems
+change	db/migrate/20260213160220_add_audio_asset_to_segments_and_episodes.rb	/^  def change$/;"	f	class:AddAudioAssetToSegmentsAndEpisodes
+change	db/migrate/20260213161759_add_video_and_cover_asset_to_episodes.rb	/^  def change$/;"	f	class:AddVideoAndCoverAssetToEpisodes
 chapter_params	app/controllers/admin_area/chapters_controller.rb	/^    def chapter_params$/;"	f	class:AdminArea.ChaptersController
 clear_cart!	app/services/enrollment_service.rb	/^  def clear_cart!$/;"	f	class:EnrollmentService
 clear_otp_session!	app/controllers/admins/otp_challenges_controller.rb	/^    def clear_otp_session!$/;"	f	class:Admins.OtpChallengesController
@@ -355,6 +363,7 @@ course_show_path	app/helpers/preview_paths_helper.rb	/^  def course_show_path(co
 course_structured_data	app/helpers/seo_helper.rb	/^  def course_structured_data(course)$/;"	f	class:SeoHelper
 course_type_label	app/models/course.rb	/^  def course_type_label$/;"	f	class:Course
 courses_list_path	app/helpers/preview_paths_helper.rb	/^  def courses_list_path(**params)$/;"	f	class:PreviewPathsHelper
+cover_asset_must_be_image	app/models/episode.rb	/^  def cover_asset_must_be_image$/;"	f	class:Episode
 cover_asset_must_be_image	app/models/segment.rb	/^  def cover_asset_must_be_image$/;"	f	class:Segment
 cover_image	app/controllers/segment_media_controller.rb	/^  def cover_image$/;"	f	class:SegmentMediaController
 cover_image_attached?	app/models/segment.rb	/^  def cover_image_attached?$/;"	f	class:Segment
@@ -497,7 +506,10 @@ edit	app/controllers/admin_area/subscription_plans_controller.rb	/^    def edit$
 edit	app/controllers/admin_area/tags_controller.rb	/^    def edit$/;"	f	class:AdminArea.TagsController
 edit	app/controllers/user_area/settings_controller.rb	/^    def edit$/;"	f	class:UserArea.SettingsController
 edit?	app/policies/application_policy.rb	/^  def edit?$/;"	f	class:ApplicationPolicy
+effective_audio_blob	app/models/episode.rb	/^  def effective_audio_blob$/;"	f	class:Episode
+effective_cover_blob	app/models/episode.rb	/^  def effective_cover_blob$/;"	f	class:Episode
 effective_cover_blob	app/models/segment.rb	/^  def effective_cover_blob$/;"	f	class:Segment
+effective_video_blob	app/models/episode.rb	/^  def effective_video_blob$/;"	f	class:Episode
 effective_video_blob	app/models/segment.rb	/^  def effective_video_blob$/;"	f	class:Segment
 enable_two_factor!	test/integration/admin_two_factor_setup_test.rb	/^  def enable_two_factor!(admin)$/;"	f
 enable_two_factor!	test/integration/admin_two_factor_test.rb	/^  def enable_two_factor!(admin)$/;"	f
@@ -578,6 +590,7 @@ initialize	app/services/subscription_order_service.rb	/^  def initialize(subscri
 initialize	app/services/webhook_processor_service.rb	/^  def initialize(event)$/;"	f	class:WebhookProcessorService
 input_class_for	app/helpers/application_helper.rb	/^  def input_class_for(model, attribute)$/;"	f	class:ApplicationHelper
 invoice_ready	app/mailers/order_mailer.rb	/^  def invoice_ready(order)$/;"	f	class:OrderMailer
+load_media_assets	app/controllers/admin_area/episodes_controller.rb	/^    def load_media_assets$/;"	f	class:AdminArea.EpisodesController
 load_media_assets	app/controllers/admin_area/segments_controller.rb	/^    def load_media_assets$/;"	f	class:AdminArea.SegmentsController
 manage_services	bin/dev	/^manage_services() {$/;"	f
 mark_as_paid!	app/services/fakturoid_service.rb	/^  def mark_as_paid!(invoice)$/;"	f	class:FakturoidService
@@ -750,6 +763,7 @@ swap_positions!	app/models/chapter.rb	/^  def swap_positions!(other)$/;"	f	class
 swap_positions!	app/models/episode.rb	/^  def swap_positions!(other)$/;"	f	class:Episode
 swap_positions!	app/models/segment.rb	/^  def swap_positions!(other)$/;"	f	class:Segment
 sync!	app/services/stripe_subscription_plan_sync_service.rb	/^  def sync!$/;"	f	class:StripeSubscriptionPlanSyncService
+sync_media_library!	app/controllers/admin_area/episodes_controller.rb	/^    def sync_media_library!(episode)$/;"	f	class:AdminArea.EpisodesController
 sync_media_library!	app/controllers/admin_area/segments_controller.rb	/^    def sync_media_library!(segment)$/;"	f	class:AdminArea.SegmentsController
 sync_stripe_prices!	app/services/subscription_checkout_service.rb	/^  def sync_stripe_prices!$/;"	f	class:SubscriptionCheckoutService
 system!	bin/setup	/^def system!(*args)$/;"	f
@@ -792,6 +806,7 @@ update?	app/policies/user_policy.rb	/^  def update?$/;"	f	class:UserPolicy
 update_course_progress!	app/controllers/segments_controller.rb	/^  def update_course_progress!$/;"	f	class:SegmentsController
 update_from_omniauth	app/models/user.rb	/^  def self.update_from_omniauth!(user, info)$/;"	F	class:User
 usage_count	app/models/media_asset.rb	/^  def usage_count$/;"	f	class:MediaAsset
+usage_episodes	app/models/media_asset.rb	/^  def usage_episodes$/;"	f	class:MediaAsset
 usage_segments	app/models/media_asset.rb	/^  def usage_segments$/;"	f	class:MediaAsset
 user_not_authorized	app/controllers/application_controller.rb	/^  def user_not_authorized$/;"	f	class:ApplicationController
 user_params	app/controllers/user_area/settings_controller.rb	/^    def user_params$/;"	f	class:UserArea.SettingsController
@@ -803,7 +818,9 @@ verify_otp	app/models/admin.rb	/^  def verify_otp(code)$/;"	f	class:Admin
 verify_recovery_code	app/models/admin.rb	/^  def verify_recovery_code(code)$/;"	f	class:Admin
 video	app/controllers/segment_media_controller.rb	/^  def video$/;"	f	class:SegmentMediaController
 video?	app/models/media_asset.rb	/^  def video?$/;"	f	class:MediaAsset
+video_asset_must_be_video	app/models/episode.rb	/^  def video_asset_must_be_video$/;"	f	class:Episode
 video_asset_must_be_video	app/models/segment.rb	/^  def video_asset_must_be_video$/;"	f	class:Segment
+video_attached?	app/models/episode.rb	/^  def video_attached?$/;"	f	class:Episode
 video_attached?	app/models/segment.rb	/^  def video_attached?$/;"	f	class:Segment
 video_must_be_mp4	app/models/episode.rb	/^  def video_must_be_mp4$/;"	f	class:Episode
 video_must_be_mp4	app/models/segment.rb	/^  def video_must_be_mp4$/;"	f	class:Segment
