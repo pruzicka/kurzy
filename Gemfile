@@ -41,7 +41,7 @@ gem "sentry-rails"
 gem "lexxy", "~> 0.7.4.beta"
 
 # Active Storage S3 service (Cloudflare R2 is S3-compatible)
-gem "aws-sdk-s3", "~> 1.176"
+gem "aws-sdk-s3", "~> 1.215"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
