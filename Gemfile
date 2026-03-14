@@ -38,7 +38,7 @@ gem "sentry-ruby"
 gem "sentry-rails"
 
 # Rich text editor (Lexxy) + ActionText storage
-gem "lexxy", "~> 0.7.4.beta"
+gem "lexxy", "~> 0.8.0.beta"
 
 # Active Storage S3 service (Cloudflare R2 is S3-compatible)
 gem "aws-sdk-s3", "~> 1.176"
